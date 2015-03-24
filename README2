@@ -1,0 +1,370 @@
+http://azurestorage.azurewebsites.net/default.aspx?type=table&table=people
+package jp.ac.nct.hr;
+
+public interface HorseProperties {
+	public abstract String getNumberAsString();
+	public abstract double [] getTimeIndexArray();
+	public abstract double getY();
+	public abstract int getAvailableRaceCount();
+}
+package jp.ac.nct.hr;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.math3.stat.StatUtils;
+
+import com.opencsv.CSVWriter;
+
+public class HorseRaceAnalyzer {
+
+	public static void main(String[] args) throws Exception {
+		new HorseRaceAnalyzer().perform(args);
+	}
+
+	private void perform(String[] args) throws Exception {
+		File csvData = new File(args[0]);
+		CSVParser parser = CSVParser.parse(csvData, Charset.defaultCharset(),
+				CSVFormat.RFC4180);
+		CSVWriter writer = new CSVWriter(new PrintWriter(
+				new OutputStreamWriter(
+						new FileOutputStream(args[1]), "UTF-8")),
+				',', '"', "\r\n");
+		writer.writeNext(new String[] { "num", "y", "populationVariance_y",
+				"standard_deviation", "mean_y", "max_y", "min_y","y_plus_standard_deviation","y_minus_standard_deviation" });
+		for (CSVRecord record : parser) {
+			if (record.getRecordNumber() == 1) {
+				// CSV Header
+				continue;
+			}
+			HorseProperties hp = RaceUtils.createHorseProperties(record,
+					Integer.valueOf(args[2]));
+			System.out.println("num: " + hp.getNumberAsString()
+					+ ",available race count: " + hp.getAvailableRaceCount()
+					+ ",y: " + hp.getY());
+			System.out.println("num:" + hp.getNumberAsString() + " の母分散: "
+					+ StatUtils.populationVariance(hp.getTimeIndexArray()));
+			System.out.println("num:"
+					+ hp.getNumberAsString()
+					+ " の標準偏差: "
+					+ Math.sqrt(StatUtils.populationVariance(hp
+							.getTimeIndexArray())));
+			System.out.println("num:" + hp.getNumberAsString() + " の平均: "
+					+ StatUtils.mean(hp.getTimeIndexArray()));
+			System.out.println("num:" + hp.getNumberAsString() + " の最大: "
+					+ StatUtils.max(hp.getTimeIndexArray()));
+			System.out.println("num:" + hp.getNumberAsString() + " の最小: "
+					+ StatUtils.min(hp.getTimeIndexArray()));
+
+			
+			double standard_deviation = Math.sqrt(StatUtils.populationVariance(hp
+					.getTimeIndexArray()));
+			
+			writer.writeNext(new String[] {
+					hp.getNumberAsString(),
+					String.valueOf(hp.getY()),
+					String.valueOf(StatUtils.populationVariance(hp
+							.getTimeIndexArray())),
+							String.valueOf(standard_deviation),
+					String.valueOf(StatUtils.mean(hp.getTimeIndexArray())),
+					String.valueOf(StatUtils.max(hp.getTimeIndexArray())),
+					String.valueOf(StatUtils.min(hp.getTimeIndexArray())),
+					String.valueOf(hp.getY() + standard_deviation),
+					String.valueOf(hp.getY() - standard_deviation),
+					});
+
+		}
+		writer.close();
+		parser.close();
+	}
+}
+package jp.ac.nct.hr;
+
+import junit.framework.TestCase;
+
+public class HorseRaceAnalyzerTest extends TestCase {
+	public void testA () throws Exception{
+		try{
+			HorseRaceAnalyzer.main(new String[]{"./bin/12.csv.in","./bin/12.csv.out","5"});
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+	}
+}
+package jp.ac.nct.hr;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+
+
+
+import jp.ac.nct.math.MathUtils;
+import jp.ac.nct.math.SingleRegressionAnalysis;
+
+import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.math3.stat.StatUtils;
+
+/**
+ * 
+ *
+ */
+public final class RaceUtils {
+	
+	private static double[] toAvailablePrimitiveArray (double [] src,int available){
+		List<Double> doubleList = new ArrayList<Double>();
+		for (int i = src.length - available ; i < src.length ; i ++){
+			doubleList.add(new Double(src[i]));
+		}
+		Double[] doubleArray = (Double[]) doubleList.toArray(new Double[0]);
+		return ArrayUtils.toPrimitive(doubleArray);
+	}
+	private static boolean isInvalidToken (String token){
+		final String [] ILLEGAL_STRING_ARRAY = new String[]{"着","中止","除外","取消"};
+		return StringUtils.contains(token,ILLEGAL_STRING_ARRAY);
+	}
+	private static double toMean(CSVRecord record){
+		List<Double> raceList = new ArrayList<Double>();
+		final int RACE_INDEX = 1;
+		for (int i = RACE_INDEX; i < record.size() ; i++) {
+			if (record.get(i).isEmpty()){
+				continue;
+			}
+			if (isInvalidToken(record.get(i))){
+				continue;
+			}
+			raceList.add(new Double(record.get(i)));
+		}
+		if (raceList.isEmpty()){
+			return 0;
+		}
+		Double[] doubleArray = (Double[]) raceList.toArray(new Double[0]);
+		double[] primitiveDoubleArray = ArrayUtils.toPrimitive(doubleArray);
+		return StatUtils.mean(primitiveDoubleArray);
+	}
+	
+	public static HorseProperties createHorseProperties(CSVRecord record,int availableRaceCount) {
+		List<Double> ret = new ArrayList<Double>();
+		final int NUM_INDEX = 0;
+		String numberAsString = record.get(NUM_INDEX);
+		final int RACE_INDEX = 1;
+		for (int i = RACE_INDEX; i < record.size() ; i++) {
+			if (record.get(i).isEmpty()){
+				continue;
+			}
+			if (isInvalidToken(record.get(i))){
+				ret.add(new Double(toMean(record)));
+			}
+			else{
+				ret.add(new Double(record.get(i)));
+			}
+		}
+		System.err.println(ret);
+		Collections.reverse(ret);
+		Double[] doubleArray = (Double[]) ret.toArray(new Double[0]);
+		double[] primitiveDoubleArray = ArrayUtils.toPrimitive(doubleArray);
+		double[] target = toAvailablePrimitiveArray(primitiveDoubleArray,availableRaceCount);
+
+		System.err.println("variance:"
+				+ StatUtils.variance(target));
+		System.err.println("sigma:"
+				+ Math.sqrt(StatUtils.variance(target)));
+		SingleRegressionAnalysis sra = MathUtils
+				.createSingleRegressionAnalysis(target,
+						target.length);
+		return createHorseProperties(
+				MathUtils.computeSingleRegressionAnalysisY(sra,
+						target.length + 1), target,
+						numberAsString);
+	}
+
+	private static HorseProperties createHorseProperties(final double y,
+			final double[] timeIndexArray, final String numberAsString) {
+		return new HorseProperties() {
+
+			public double getY() {
+				return y;
+			}
+
+			public double[] getTimeIndexArray() {
+				return timeIndexArray;
+			}
+
+			public String getNumberAsString() {
+				return numberAsString;
+			}
+
+			public int getAvailableRaceCount() {
+				return timeIndexArray.length;
+			}
+		};
+	}
+}
+package jp.ac.nct.hr;
+
+public class StringUtils {
+	public static boolean contains (String src,String [] illegalArray){
+		for (String illegal : illegalArray){
+			if (src.indexOf(illegal) != -1){
+				return true;
+			}
+		}
+		return false;
+	}
+}
+package jp.ac.nct.hr;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+
+import com.opencsv.CSVWriter;
+
+public class TargetCleaner {
+	public static void main(String[] args) {
+		new TargetCleaner().perform(args);
+	}
+	private List<String> toList(CSVRecord rec){
+		System.err.println (rec);
+		System.err.println (rec.size());
+		List<String> list = new ArrayList<String>();
+		//list.add(rec.get(2)+":"+rec.get(7));
+		list.add(rec.get(2));
+		final int INDEX_ORIGIN = 24;
+		final int TOKEN_DISTANCE = 4;
+		for (int i = INDEX_ORIGIN ; i < rec.size() ; i += TOKEN_DISTANCE){
+			String token = rec.get(i);
+			if (token.isEmpty()){
+				break;
+			}
+			list.add(token.trim());
+		}
+		System.err.println(list);
+		return list;
+	}
+	private void perform(String [] args){
+		try{
+			File csvData = new File(args[0]);
+			CSVParser parser = CSVParser.parse(csvData, Charset.forName("MS932"),CSVFormat.RFC4180);
+			CSVWriter writer = new CSVWriter(new PrintWriter(
+					new OutputStreamWriter(
+							new FileOutputStream(args[1]), "UTF-8")),
+					',', '"', "\r\n");
+			//header
+			writer.writeNext(new String[] { "num", "ln" });
+			for (CSVRecord record : parser) {
+				if (record.getRecordNumber() == 1) {
+					// CSV Header
+					continue;
+				}
+				List<String> list = toList(record);
+				String[] stringArray = (String []) list.toArray(new String[0]);
+				writer.writeNext(stringArray);
+			}
+			parser.close();
+			writer.close();
+		}
+		catch(Exception e){
+		}
+		finally{
+		}
+	}
+}
+package jp.ac.nct.hr;
+
+import junit.framework.TestCase;
+
+public class TargetCleanerTest extends TestCase {
+	public void xtestA(){
+		try{	
+			TargetCleaner.main(new String[]{"../test3/12.csv","./bin/12.csv.in"});
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+	}
+	public void testB(){
+		try{	
+			TargetCleaner.main(new String[]{"../test3/11.csv","./bin/11.csv.in"});
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+	}
+}
+package jp.ac.nct.math;
+
+public final class MathUtils {
+	private static SingleRegressionAnalysis createSingleRegressionAnalysis(
+			final double a, final double b) {
+		return new SingleRegressionAnalysis() {
+
+			public double getA() {
+				// TODO Auto-generated method stub
+				return a;
+			}
+
+			public double getB() {
+				// TODO Auto-generated method stub
+				return b;
+			}
+
+		};
+	}
+
+	public static SingleRegressionAnalysis createSingleRegressionAnalysis(
+			double[] y, int n) {
+		double a = 0.0;
+		double b = 0.0;
+		double c = 0.0;
+		double d = 0.0;
+		double aa = 0.0;
+		double bb = 0.0;
+
+		for (int i = 0; i < n; i++) {
+//			System.err.println(y[i]);
+			a += ((i) * y[i]);
+			b += (i);
+			c += y[i];
+			d += ((i) * (i));
+		}
+		aa = (a - (b * c) / n) / (d - (b * b) / n);
+		bb = (c - aa * b) / n;
+//		System.err.println("a: " + aa);
+//		System.err.println("b: " + bb);
+		System.err.println("y=" + aa + "x+" + bb);
+		return createSingleRegressionAnalysis(aa, bb);
+	}
+
+	public static double computeSingleRegressionAnalysisY(
+			SingleRegressionAnalysis sra, double x) {
+		return sra.getA() * x + sra.getB();
+	}
+
+}
+package jp.ac.nct.math;
+
+public interface SingleRegressionAnalysis {
+	public abstract double getA ();
+	public abstract double getB ();
+}
