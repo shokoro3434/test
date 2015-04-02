@@ -18,7 +18,12 @@ public class HorseRaceAnalyzer {
 	public static void main(String[] args) throws Exception {
 		new HorseRaceAnalyzer().perform(args);
 	}
-
+	private String toAvailableFormat (double src){
+		if (Double.valueOf(src).isNaN()){
+			return String.valueOf(0);
+		}
+		return String.format("%.2f",src);
+	}
 	private void perform(String[] args) throws Exception {
 		File csvData = new File(args[0]);
 		CSVParser parser = CSVParser.parse(csvData, Charset.defaultCharset(),
@@ -59,20 +64,20 @@ public class HorseRaceAnalyzer {
 			
 			writer.writeNext(new String[] {
 					hp.getNumberAsString(),
-					String.valueOf(Double.valueOf(hp.getY()).isNaN() ? 0 : hp.getY()),
+					toAvailableFormat(hp.getY()),
 					String.valueOf(hp.getAvailableRaceCount()),
 					hp.getRegressionEquation(),
-					String.valueOf(hp.getLastY()),
-					String.valueOf(hp.getLast2y()),
-					String.valueOf(hp.getLast3y()),
+					toAvailableFormat(hp.getLastY()),
+					toAvailableFormat(hp.getLast2y()),
+					toAvailableFormat(hp.getLast3y()),
 //					String.valueOf(StatUtils.populationVariance(hp
 //							.getTimeIndexArray())),
 							String.valueOf(standard_deviation),
-					String.valueOf(StatUtils.mean(hp.getTimeIndexArray())),
-					String.valueOf(StatUtils.max(hp.getTimeIndexArray())),
-					String.valueOf(StatUtils.min(hp.getTimeIndexArray())),
-					String.valueOf(hp.getY() + standard_deviation),
-					String.valueOf(hp.getY() - standard_deviation),
+							toAvailableFormat(StatUtils.mean(hp.getTimeIndexArray())),
+							toAvailableFormat(StatUtils.max(hp.getTimeIndexArray())),
+							toAvailableFormat(StatUtils.min(hp.getTimeIndexArray())),
+							toAvailableFormat(hp.getY() + standard_deviation),
+							toAvailableFormat(hp.getY() - standard_deviation)
 					});
 
 		}
