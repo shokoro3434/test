@@ -131,4 +131,19 @@ public class TargetCleanerTest extends TestCase {
 			fail();
 		}
 	}
+	public void testnakayama(){
+		try{	
+			TargetCleaner.main(new String[]{"../test3/1.csv","./bin/1.csv.in"});
+			TargetCleaner.main(new String[]{"../test3/2.csv","./bin/2.csv.in"});
+			TargetCleaner.main(new String[]{"../test3/3.csv","./bin/3.csv.in"});
+			TargetCleaner.main(new String[]{"../test3/4.csv","./bin/4.csv.in"});
+			TargetCleaner.main(new String[]{"../test3/5.csv","./bin/5.csv.in"});
+			TargetCleaner.main(new String[]{"../test3/6.csv","./bin/6.csv.in"});
+			TargetCleaner.main(new String[]{"../test3/7.csv","./bin/7.csv.in"});
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+	}
 }

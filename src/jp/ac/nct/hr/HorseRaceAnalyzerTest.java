@@ -43,9 +43,9 @@ public class HorseRaceAnalyzerTest extends TestCase {
 //			HorseRaceAnalyzer.main(new String[]{"./bin/3.csv.in","./bin/3.csv.out","-1"});
 //			HorseRaceAnalyzer.main(new String[]{"./bin/4.csv.in","./bin/4.csv.out","-1"});
 //			HorseRaceAnalyzer.main(new String[]{"./bin/5.csv.in","./bin/5.csv.out","-1"});
-//			HorseRaceAnalyzer.main(new String[]{"./bin/6.csv.in","./bin/6.csv.out","-1"});
+			HorseRaceAnalyzer.main(new String[]{"./bin/6.csv.in","./bin/6.csv.out","-1"});
 //			HorseRaceAnalyzer.main(new String[]{"./bin/7.csv.in","./bin/7.csv.out","-1"});
-			HorseRaceAnalyzer.main(new String[]{"./bin/8.csv.in","./bin/8.csv.out","-1"});
+//			HorseRaceAnalyzer.main(new String[]{"./bin/8.csv.in","./bin/8.csv.out","-1"});
 //			HorseRaceAnalyzer.main(new String[]{"./bin/9.csv.in","./bin/9.csv.out","-1"});
 //			HorseRaceAnalyzer.main(new String[]{"./bin/10.csv.in","./bin/10.csv.out","-1"});
 //			HorseRaceAnalyzer.main(new String[]{"./bin/11.csv.in","./bin/11.csv.out","-1"});

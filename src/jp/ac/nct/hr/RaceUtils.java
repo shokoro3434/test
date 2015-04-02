@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
-
-
-
 import jp.ac.nct.math.MathUtils;
 import jp.ac.nct.math.SingleRegressionAnalysis;
 
@@ -78,8 +74,8 @@ public final class RaceUtils {
 		}
 		System.err.println(ret);
 		double lastY = ret.size() != 0 ? ret.get(0) : 0;
-		double last2Y = ret.size() >= 1 ? ret.get(1) : 0;
-		double last3Y = ret.size() >= 2 ? ret.get(2) : 0;
+		double last2Y = 1 < ret.size() ? ret.get(1) : 0;
+		double last3Y = 2 < ret.size() ? ret.get(2) : 0;
 		Collections.reverse(ret);
 		Double[] doubleArray = (Double[]) ret.toArray(new Double[0]);
 		double[] primitiveDoubleArray = ArrayUtils.toPrimitive(doubleArray);
