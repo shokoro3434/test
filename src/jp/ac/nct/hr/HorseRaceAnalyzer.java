@@ -72,7 +72,7 @@ public class HorseRaceAnalyzer {
 					toAvailableFormat(hp.getLast3y()),
 //					String.valueOf(StatUtils.populationVariance(hp
 //							.getTimeIndexArray())),
-							String.valueOf(standard_deviation),
+							toAvailableFormat(standard_deviation),
 							toAvailableFormat(StatUtils.mean(hp.getTimeIndexArray())),
 							toAvailableFormat(StatUtils.max(hp.getTimeIndexArray())),
 							toAvailableFormat(StatUtils.min(hp.getTimeIndexArray())),
