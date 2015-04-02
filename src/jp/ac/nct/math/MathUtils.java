@@ -1,5 +1,7 @@
 package jp.ac.nct.math;
 
+import jp.ac.nct.hr.StringUtils;
+
 public final class MathUtils {
 	private static SingleRegressionAnalysis createSingleRegressionAnalysis(
 			final double a, final double b) {
@@ -17,7 +19,7 @@ public final class MathUtils {
 
 			public String getRegressionEquation() {
 				// TODO Auto-generated method stub
-				return "y="+String.valueOf(getA())+"x+"+String.valueOf(getB());
+				return "y="+StringUtils.toAvailableFormat(getA())+"x+"+StringUtils.toAvailableFormat(getB());
 			}
 			
 		};
