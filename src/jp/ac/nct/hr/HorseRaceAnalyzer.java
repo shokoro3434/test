@@ -59,7 +59,7 @@ public class HorseRaceAnalyzer {
 			
 			writer.writeNext(new String[] {
 					hp.getNumberAsString(),
-					String.valueOf(hp.getY()),
+					String.valueOf(Double.valueOf(hp.getY()).isNaN() ? 0 : hp.getY()),
 					String.valueOf(hp.getAvailableRaceCount()),
 					hp.getRegressionEquation(),
 					String.valueOf(hp.getLastY()),
