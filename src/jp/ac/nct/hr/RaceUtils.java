@@ -90,7 +90,7 @@ public final class RaceUtils {
 						target.length);
 		return createHorseProperties(
 				MathUtils.computeSingleRegressionAnalysisY(sra,
-						target.length + 1), sra.getRegressionEquation(),lastY,last2Y,last3Y,target,
+						target.length), sra.getRegressionEquation(),lastY,last2Y,last3Y,target,
 						numberAsString);
 	}
 
