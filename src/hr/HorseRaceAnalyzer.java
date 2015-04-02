@@ -27,7 +27,7 @@ public class HorseRaceAnalyzer {
 				new OutputStreamWriter(
 						new FileOutputStream(args[1]), "UTF-8")),
 				',', '"', "\r\n");
-		writer.writeNext(new String[] { "num", "y", "regressionEquation","last_y","last2_y","last3_y",//"populationVariance_y",
+		writer.writeNext(new String[] { "num", "y", "available","regressionEquation","last_y","last2_y","last3_y",//"populationVariance_y",
 				"standard_deviation", "mean_y", "max_y", "min_y","y_plus_standard_deviation","y_minus_standard_deviation" });
 		for (CSVRecord record : parser) {
 			if (record.getRecordNumber() == 1) {
@@ -60,6 +60,7 @@ public class HorseRaceAnalyzer {
 			writer.writeNext(new String[] {
 					hp.getNumberAsString(),
 					String.valueOf(hp.getY()),
+					String.valueOf(hp.getAvailableRaceCount()),
 					hp.getRegressionEquation(),
 					String.valueOf(hp.getLastY()),
 					String.valueOf(hp.getLast2y()),

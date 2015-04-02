@@ -32,7 +32,13 @@ public final class RaceUtils {
 	}
 	private static boolean isInvalidToken (String token){
 		final String [] ILLEGAL_STRING_ARRAY = new String[]{"着","中止","除外","取消"};
-		return StringUtils.contains(token,ILLEGAL_STRING_ARRAY);
+		if (StringUtils.contains(token,ILLEGAL_STRING_ARRAY)){
+			return true;
+		}
+		if (Integer.valueOf(token) <= 30){
+			return true;
+		}
+		return false;
 	}
 	private static double toMean(CSVRecord record){
 		List<Double> raceList = new ArrayList<Double>();

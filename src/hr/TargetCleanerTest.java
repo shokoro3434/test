@@ -120,8 +120,10 @@ public class TargetCleanerTest extends TestCase {
 			fail();
 		}
 	}
-	public void testc12(){
+	public void testc(){
 		try{	
+			TargetCleaner.main(new String[]{"../test3/c10.csv","./bin/c10.csv.in"});
+			TargetCleaner.main(new String[]{"../test3/c11.csv","./bin/c11.csv.in"});
 			TargetCleaner.main(new String[]{"../test3/c12.csv","./bin/c12.csv.in"});
 		}
 		catch(Exception e){
