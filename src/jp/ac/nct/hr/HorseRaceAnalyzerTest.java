@@ -59,9 +59,9 @@ public class HorseRaceAnalyzerTest extends TestCase {
 
 	public void test () throws Exception{
 		try{
-			HorseRaceAnalyzer.main(new String[]{"./n1/10.csv.in","./n1/10.csv.out","3"});
-			HorseRaceAnalyzer.main(new String[]{"./n1/11.csv.in","./n1/11.csv.out","3"});
-			HorseRaceAnalyzer.main(new String[]{"./n1/12.csv.in","./n1/12.csv.out","3"});
+			HorseRaceAnalyzer.main(new String[]{"./n1/10.csv.in","./n1/10.csv.out","-1"});
+			HorseRaceAnalyzer.main(new String[]{"./n1/11.csv.in","./n1/11.csv.out","-1"});
+			HorseRaceAnalyzer.main(new String[]{"./n1/12.csv.in","./n1/12.csv.out","-1"});
 //			HorseRaceAnalyzer.main(new String[]{"./c5/10.csv.in","./c5/10.csv.out","-1"});
 //			HorseRaceAnalyzer.main(new String[]{"./c5/11.csv.in","./c5/11.csv.out","-1"});
 //			HorseRaceAnalyzer.main(new String[]{"./c5/12.csv.in","./c5/12.csv.out","-1"});
