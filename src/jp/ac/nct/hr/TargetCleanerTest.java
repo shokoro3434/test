@@ -153,6 +153,27 @@ public class TargetCleanerTest extends TestCase {
 			fail();
 		}
 	}
+	public void testhanshin3(){
+		try{	
+			TargetCleaner.main(new String[]{"./h3/12.csv","./h3/12.csv.in","20"});
+			TargetCleaner.main(new String[]{"./h3/11.csv","./h3/11.csv.in","20"});
+			TargetCleaner.main(new String[]{"./h3/10.csv","./h3/10.csv.in","20"});
+			TargetCleaner.main(new String[]{"./h3/5.csv","./h3/5.csv.in","20"});
+			TargetCleaner.main(new String[]{"./h3/6.csv","./h3/6.csv.in","20"});
+			TargetCleaner.main(new String[]{"./h3/7.csv","./h3/7.csv.in","20"});
+			TargetCleaner.main(new String[]{"./h3/9.csv","./h3/9.csv.in","20"});
+//			TargetCleaner.main(new String[]{"../test3/2.csv","./bin/2.csv.in"});
+//			TargetCleaner.main(new String[]{"../test3/3.csv","./bin/3.csv.in"});
+//			TargetCleaner.main(new String[]{"../test3/4.csv","./bin/4.csv.in"});
+//			TargetCleaner.main(new String[]{"../test3/5.csv","./bin/5.csv.in"});
+//			TargetCleaner.main(new String[]{"../test3/6.csv","./bin/6.csv.in"});
+//			TargetCleaner.main(new String[]{"../test3/7.csv","./bin/7.csv.in"});
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+	}
 
 	public void test(){
 		try{	
@@ -168,6 +189,17 @@ public class TargetCleanerTest extends TestCase {
 //			TargetCleaner.main(new String[]{"../test3/h1/10.csv","./h1/10.csv.in"});
 //			TargetCleaner.main(new String[]{"../test3/h1/11.csv","./h1/11.csv.in"});
 //			TargetCleaner.main(new String[]{"../test3/h1/12.csv","./h1/12.csv.in"});
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+	}
+	public void testChukyo5(){
+		try{	
+			TargetCleaner.main(new String[]{"../test3/c5/10.csv","./c5/10.csv.in","24"});
+			TargetCleaner.main(new String[]{"../test3/c5/11.csv","./c5/11.csv.in","24"});
+			TargetCleaner.main(new String[]{"../test3/c5/12.csv","./c5/12.csv.in","24"});
 		}
 		catch(Exception e){
 			e.printStackTrace();

@@ -96,5 +96,51 @@ public class HorseRaceAnalyzerTest extends TestCase {
 			fail();
 		}
 	}
+	public void testhanshin3 () throws Exception{
+		try{
+			HorseRaceAnalyzer.main(new String[]{"./h3/5.csv.in","./h3/5.csv.out","-1"});
+			HorseRaceAnalyzer.main(new String[]{"./h3/6.csv.in","./h3/6.csv.out","-1"});
+			HorseRaceAnalyzer.main(new String[]{"./h3/7.csv.in","./h3/7.csv.out","-1"});
+			HorseRaceAnalyzer.main(new String[]{"./h3/9.csv.in","./h3/9.csv.out","-1"});
+			HorseRaceAnalyzer.main(new String[]{"./h3/10.csv.in","./h3/10.csv.out","-1"});
+			HorseRaceAnalyzer.main(new String[]{"./h3/11.csv.in","./h3/11.csv.out","-1"});
+			HorseRaceAnalyzer.main(new String[]{"./h3/12.csv.in","./h3/12.csv.out","-1"});
+			//HorseRaceAnalyzer.main(new String[]{"./n3/11.csv.in","./n3/11.csv.out","-1"});
+			//HorseRaceAnalyzer.main(new String[]{"./n3/12.csv.in","./n3/12.csv.out","-1"});
+//			HorseRaceAnalyzer.main(new String[]{"./c5/10.csv.in","./c5/10.csv.out","-1"});
+//			HorseRaceAnalyzer.main(new String[]{"./c5/11.csv.in","./c5/11.csv.out","-1"});
+//			HorseRaceAnalyzer.main(new String[]{"./c5/12.csv.in","./c5/12.csv.out","-1"});
+//			HorseRaceAnalyzer.main(new String[]{"./h1/10.csv.in","./h1/10.csv.out","-1"});
+//			HorseRaceAnalyzer.main(new String[]{"./h1/11.csv.in","./h1/11.csv.out","-1"});
+//			HorseRaceAnalyzer.main(new String[]{"./h1/12.csv.in","./h1/12.csv.out","-1"});
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+	}
+	public void testchukyo5 () throws Exception{
+		try{
+//			HorseRaceAnalyzer.main(new String[]{"./h3/5.csv.in","./h3/5.csv.out","-1"});
+//			HorseRaceAnalyzer.main(new String[]{"./h3/6.csv.in","./h3/6.csv.out","-1"});
+//			HorseRaceAnalyzer.main(new String[]{"./h3/7.csv.in","./h3/7.csv.out","-1"});
+//			HorseRaceAnalyzer.main(new String[]{"./h3/9.csv.in","./h3/9.csv.out","-1"});
+//			HorseRaceAnalyzer.main(new String[]{"./h3/10.csv.in","./h3/10.csv.out","-1"});
+//			HorseRaceAnalyzer.main(new String[]{"./h3/11.csv.in","./h3/11.csv.out","-1"});
+//			HorseRaceAnalyzer.main(new String[]{"./h3/12.csv.in","./h3/12.csv.out","-1"});
+			//HorseRaceAnalyzer.main(new String[]{"./n3/11.csv.in","./n3/11.csv.out","-1"});
+			//HorseRaceAnalyzer.main(new String[]{"./n3/12.csv.in","./n3/12.csv.out","-1"});
+			HorseRaceAnalyzer.main(new String[]{"./c5/10.csv.in","./c5/10.csv.out","-1"});
+			HorseRaceAnalyzer.main(new String[]{"./c5/11.csv.in","./c5/11.csv.out","-1"});
+			HorseRaceAnalyzer.main(new String[]{"./c5/12.csv.in","./c5/12.csv.out","-1"});
+//			HorseRaceAnalyzer.main(new String[]{"./h1/10.csv.in","./h1/10.csv.out","-1"});
+//			HorseRaceAnalyzer.main(new String[]{"./h1/11.csv.in","./h1/11.csv.out","-1"});
+//			HorseRaceAnalyzer.main(new String[]{"./h1/12.csv.in","./h1/12.csv.out","-1"});
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+	}
 
 }

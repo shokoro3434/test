@@ -200,5 +200,25 @@ public class TargetResultCleanerTest extends TestCase {
 			fail();
 		}
 	}
+	public void testChukyo5(){
+		try{	
+			TargetResultCleaner.main(new String[]{"./c5/12r.csv","./c5/12r.csv.in"});
+			TargetResultCleaner.main(new String[]{"./c5/11r.csv","./c5/11r.csv.in"});
+			TargetResultCleaner.main(new String[]{"./c5/10r.csv","./c5/10r.csv.in"});
+			
+//			TargetCleaner.main(new String[]{"../test3/n1/11.csv","./n1/11.csv.in"});
+//			TargetCleaner.main(new String[]{"../test3/n1/12.csv","./n1/12.csv.in"});
+//			TargetCleaner.main(new String[]{"../test3/c5/10.csv","./c5/10.csv.in"});
+//			TargetCleaner.main(new String[]{"../test3/c5/11.csv","./c5/11.csv.in"});
+//			TargetCleaner.main(new String[]{"../test3/c5/12.csv","./c5/12.csv.in"});
+//			TargetCleaner.main(new String[]{"../test3/h1/10.csv","./h1/10.csv.in"});
+//			TargetCleaner.main(new String[]{"../test3/h1/11.csv","./h1/11.csv.in"});
+//			TargetCleaner.main(new String[]{"../test3/h1/12.csv","./h1/12.csv.in"});
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+	}
 
 }
