@@ -31,7 +31,7 @@ public final class RaceUtils {
 		if (StringUtils.contains(token,ILLEGAL_STRING_ARRAY)){
 			return true;
 		}
-		if (Integer.valueOf(token) <= 30){
+		if (Integer.valueOf(token) <= 50){
 			return true;
 		}
 		return false;
