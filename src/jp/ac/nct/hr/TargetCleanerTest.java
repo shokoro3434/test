@@ -135,12 +135,12 @@ public class TargetCleanerTest extends TestCase {
 	}
 	public void testnakayama(){
 		try{	
-			TargetCleaner.main(new String[]{"./n3/12.csv","./n3/12.csv.in"});
-			TargetCleaner.main(new String[]{"./n3/11.csv","./n3/11.csv.in"});
-			TargetCleaner.main(new String[]{"./n3/10.csv","./n3/10.csv.in"});
-			TargetCleaner.main(new String[]{"./n3/7.csv","./n3/7.csv.in"});
-			TargetCleaner.main(new String[]{"./n3/8.csv","./n3/8.csv.in"});
-			TargetCleaner.main(new String[]{"./n3/9.csv","./n3/9.csv.in"});
+			TargetCleaner.main(new String[]{"./n3/12.csv","./n3/12.csv.in","20"});
+			TargetCleaner.main(new String[]{"./n3/11.csv","./n3/11.csv.in","20"});
+			TargetCleaner.main(new String[]{"./n3/10.csv","./n3/10.csv.in","20"});
+			TargetCleaner.main(new String[]{"./n3/7.csv","./n3/7.csv.in","20"});
+			TargetCleaner.main(new String[]{"./n3/8.csv","./n3/8.csv.in","20"});
+			TargetCleaner.main(new String[]{"./n3/9.csv","./n3/9.csv.in","20"});
 //			TargetCleaner.main(new String[]{"../test3/2.csv","./bin/2.csv.in"});
 //			TargetCleaner.main(new String[]{"../test3/3.csv","./bin/3.csv.in"});
 //			TargetCleaner.main(new String[]{"../test3/4.csv","./bin/4.csv.in"});
@@ -156,15 +156,18 @@ public class TargetCleanerTest extends TestCase {
 
 	public void test(){
 		try{	
-			TargetCleaner.main(new String[]{"../test3/n1/10.csv","./n1/10.csv.in"});
-			TargetCleaner.main(new String[]{"../test3/n1/11.csv","./n1/11.csv.in"});
-			TargetCleaner.main(new String[]{"../test3/n1/12.csv","./n1/12.csv.in"});
-			TargetCleaner.main(new String[]{"../test3/c5/10.csv","./c5/10.csv.in"});
-			TargetCleaner.main(new String[]{"../test3/c5/11.csv","./c5/11.csv.in"});
-			TargetCleaner.main(new String[]{"../test3/c5/12.csv","./c5/12.csv.in"});
-			TargetCleaner.main(new String[]{"../test3/h1/10.csv","./h1/10.csv.in"});
-			TargetCleaner.main(new String[]{"../test3/h1/11.csv","./h1/11.csv.in"});
-			TargetCleaner.main(new String[]{"../test3/h1/12.csv","./h1/12.csv.in"});
+			TargetCleaner.main(new String[]{"../test3/n1/10.csv","./n1/10.csv.in","20"});
+			TargetCleaner.main(new String[]{"../test3/n1/11.csv","./n1/11.csv.in","20"});
+			TargetCleaner.main(new String[]{"../test3/n1/12.csv","./n1/12.csv.in","20"});
+			TargetCleaner.main(new String[]{"../test3/n1/10.csv","./n1/10.csv.in","20"});
+			TargetCleaner.main(new String[]{"../test3/n1/11.csv","./n1/11.csv.in","20"});
+			TargetCleaner.main(new String[]{"../test3/n1/12.csv","./n1/12.csv.in","20"});
+//			TargetCleaner.main(new String[]{"../test3/c5/10.csv","./c5/10.csv.in"});
+//			TargetCleaner.main(new String[]{"../test3/c5/11.csv","./c5/11.csv.in"});
+//			TargetCleaner.main(new String[]{"../test3/c5/12.csv","./c5/12.csv.in"});
+//			TargetCleaner.main(new String[]{"../test3/h1/10.csv","./h1/10.csv.in"});
+//			TargetCleaner.main(new String[]{"../test3/h1/11.csv","./h1/11.csv.in"});
+//			TargetCleaner.main(new String[]{"../test3/h1/12.csv","./h1/12.csv.in"});
 		}
 		catch(Exception e){
 			e.printStackTrace();
