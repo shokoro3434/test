@@ -19,13 +19,13 @@ public class TargetCleaner {
 	public static void main(String[] args) throws Exception{
 		new TargetCleaner().perform(args);
 	}
-	private List<String> toList(CSVRecord rec){
+	private List<String> toList(CSVRecord rec,int origin){
 		System.err.println (rec);
 		System.err.println (rec.size());
 		List<String> list = new ArrayList<String>();
 		//list.add(rec.get(2)+":"+rec.get(7));
 		list.add(rec.get(2));//num
-		final int INDEX_ORIGIN = 20;
+		final int INDEX_ORIGIN = origin;
 		final int TOKEN_DISTANCE = 4;
 		for (int i = INDEX_ORIGIN ; i < rec.size() ; i += TOKEN_DISTANCE){
 			String token = rec.get(i);
@@ -54,7 +54,7 @@ public class TargetCleaner {
 					// CSV Header
 					continue;
 				}
-				List<String> list = toList(record);
+				List<String> list = toList(record,Integer.valueOf(args[2]));
 				String[] stringArray = (String []) list.toArray(new String[0]);
 				writer.writeNext(stringArray);
 			}
