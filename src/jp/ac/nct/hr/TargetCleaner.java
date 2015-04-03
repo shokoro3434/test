@@ -2,6 +2,7 @@ package jp.ac.nct.hr;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
@@ -15,7 +16,7 @@ import org.apache.commons.csv.CSVRecord;
 import com.opencsv.CSVWriter;
 
 public class TargetCleaner {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{
 		new TargetCleaner().perform(args);
 	}
 	private List<String> toList(CSVRecord rec){
@@ -23,8 +24,8 @@ public class TargetCleaner {
 		System.err.println (rec.size());
 		List<String> list = new ArrayList<String>();
 		//list.add(rec.get(2)+":"+rec.get(7));
-		list.add(rec.get(2));
-		final int INDEX_ORIGIN = 24;
+		list.add(rec.get(2));//num
+		final int INDEX_ORIGIN = 20;
 		final int TOKEN_DISTANCE = 4;
 		for (int i = INDEX_ORIGIN ; i < rec.size() ; i += TOKEN_DISTANCE){
 			String token = rec.get(i);
@@ -36,14 +37,16 @@ public class TargetCleaner {
 		System.err.println(list);
 		return list;
 	}
-	private void perform(String [] args){
+	private void perform(String [] args) throws IOException{
+		CSVParser parser = null;
+		CSVWriter writer = null;
 		try{
 			File csvData = new File(args[0]);
-			CSVParser parser = CSVParser.parse(csvData, Charset.forName("MS932"),CSVFormat.RFC4180);
-			CSVWriter writer = new CSVWriter(new PrintWriter(
+			writer = new CSVWriter(new PrintWriter(
 					new OutputStreamWriter(
 							new FileOutputStream(args[1]), "UTF-8")),
 					',', '"', "\r\n");
+			parser = CSVParser.parse(csvData, Charset.forName("MS932"),CSVFormat.RFC4180);
 			//header
 			writer.writeNext(new String[] { "num", "ln" });
 			for (CSVRecord record : parser) {
@@ -55,12 +58,16 @@ public class TargetCleaner {
 				String[] stringArray = (String []) list.toArray(new String[0]);
 				writer.writeNext(stringArray);
 			}
-			parser.close();
-			writer.close();
 		}
 		catch(Exception e){
 		}
 		finally{
+			if (parser != null){
+				parser.close();
+			}
+			if (writer != null){
+				writer.close();
+			}
 		}
 	}
 }
