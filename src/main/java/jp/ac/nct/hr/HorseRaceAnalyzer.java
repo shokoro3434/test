@@ -85,24 +85,6 @@ public class HorseRaceAnalyzer {
 					StringUtils.toAvailableFormat(hp.getY() + standard_deviation),
 					StringUtils.toAvailableFormat(hp.getY() - standard_deviation)
 					});
-//			writer.writeNext(new String[] {
-//					hp.getNumberAsString(),
-//					StringUtils.toAvailableFormat(hp.getY()),
-//					String.valueOf(hp.getAvailableRaceCount()),
-//					hp.getRegressionEquation(),
-//					StringUtils.toAvailableFormat(hp.getLastY()),
-//					StringUtils.toAvailableFormat(hp.getLast2y()),
-//					StringUtils.toAvailableFormat(hp.getLast3y()),
-////					String.valueOf(StatUtils.populationVariance(hp
-////							.getTimeIndexArray())),
-//					StringUtils.toAvailableFormat(standard_deviation),
-//					StringUtils.toAvailableFormat(StatUtils.mean(hp.getTimeIndexArray())),
-//					StringUtils.toAvailableFormat(StatUtils.max(hp.getTimeIndexArray())),
-//					StringUtils.toAvailableFormat(StatUtils.min(hp.getTimeIndexArray())),
-//					StringUtils.toAvailableFormat(hp.getY() + standard_deviation),
-//					StringUtils.toAvailableFormat(hp.getY() - standard_deviation)
-//					});
-
 		}
 		printer.close();
 		parser.close();

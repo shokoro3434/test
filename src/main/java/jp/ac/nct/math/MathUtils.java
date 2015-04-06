@@ -53,5 +53,7 @@ public final class MathUtils {
 			SingleRegressionAnalysis sra, double x) {
 		return sra.getA() * x + sra.getB();
 	}
-
+	public static double toDeviation (double src,double avg,double stddev){
+		return 50+10*(src-avg)/stddev;
+	}
 }
