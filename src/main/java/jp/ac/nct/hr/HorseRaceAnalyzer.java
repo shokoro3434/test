@@ -8,10 +8,10 @@ import java.nio.charset.Charset;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.csv.QuoteMode;
 import org.apache.commons.math3.stat.StatUtils;
-
-import com.opencsv.CSVWriter;
 
 public class HorseRaceAnalyzer {
 
@@ -23,12 +23,23 @@ public class HorseRaceAnalyzer {
 		File csvData = new File(args[0]);
 		CSVParser parser = CSVParser.parse(csvData, Charset.defaultCharset(),
 				CSVFormat.RFC4180);
-		CSVWriter writer = new CSVWriter(new PrintWriter(
-				new OutputStreamWriter(
-						new FileOutputStream(args[1]), "UTF-8")),
-				',', '"', "\r\n");
-		writer.writeNext(new String[] { "num", "y", "available","regressionEquation","last_y","last2_y","last3_y",//"populationVariance_y",
-				"standard_deviation", "mean_y", "max_y", "min_y","y_plus_standard_deviation","y_minus_standard_deviation" });
+//		CSVWriter writer = new CSVWriter(new PrintWriter(
+//				new OutputStreamWriter(
+//						new FileOutputStream(args[1]), "UTF-8")),
+//				',', '"', "\r\n");
+//		writer.writeNext(new String[] { "num", "y", "available","regressionEquation","last_y","last2_y","last3_y",//"populationVariance_y",
+//				"standard_deviation", "mean_y", "max_y", "min_y","y_plus_standard_deviation","y_minus_standard_deviation" });
+
+        CSVPrinter printer = CSVFormat.RFC4180
+                .withQuoteMode(QuoteMode.ALL)
+                .withHeader("num", "y", "available","regressionEquation","last_y","last2_y","last3_y",//"populationVariance_y",
+        				"standard_deviation", "mean_y", "max_y", "min_y","y_plus_standard_deviation","y_minus_standard_deviation")
+                .withDelimiter(',')
+                .withQuote('\"')
+                .print(new PrintWriter(
+        				new OutputStreamWriter(
+        						new FileOutputStream(args[1]), "UTF-8")));		
+		
 		for (CSVRecord record : parser) {
 			if (record.getRecordNumber() == 1) {
 				// CSV Header
@@ -57,7 +68,7 @@ public class HorseRaceAnalyzer {
 			double standard_deviation = Math.sqrt(StatUtils.populationVariance(hp
 					.getTimeIndexArray()));
 			
-			writer.writeNext(new String[] {
+			printer.printRecord(new Object[] {
 					hp.getNumberAsString(),
 					StringUtils.toAvailableFormat(hp.getY()),
 					String.valueOf(hp.getAvailableRaceCount()),
@@ -74,9 +85,26 @@ public class HorseRaceAnalyzer {
 					StringUtils.toAvailableFormat(hp.getY() + standard_deviation),
 					StringUtils.toAvailableFormat(hp.getY() - standard_deviation)
 					});
+//			writer.writeNext(new String[] {
+//					hp.getNumberAsString(),
+//					StringUtils.toAvailableFormat(hp.getY()),
+//					String.valueOf(hp.getAvailableRaceCount()),
+//					hp.getRegressionEquation(),
+//					StringUtils.toAvailableFormat(hp.getLastY()),
+//					StringUtils.toAvailableFormat(hp.getLast2y()),
+//					StringUtils.toAvailableFormat(hp.getLast3y()),
+////					String.valueOf(StatUtils.populationVariance(hp
+////							.getTimeIndexArray())),
+//					StringUtils.toAvailableFormat(standard_deviation),
+//					StringUtils.toAvailableFormat(StatUtils.mean(hp.getTimeIndexArray())),
+//					StringUtils.toAvailableFormat(StatUtils.max(hp.getTimeIndexArray())),
+//					StringUtils.toAvailableFormat(StatUtils.min(hp.getTimeIndexArray())),
+//					StringUtils.toAvailableFormat(hp.getY() + standard_deviation),
+//					StringUtils.toAvailableFormat(hp.getY() - standard_deviation)
+//					});
 
 		}
-		writer.close();
+		printer.close();
 		parser.close();
 	}
 }
