@@ -4,6 +4,7 @@
   <artifactId>test6</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <build>
+<!-- 
     <sourceDirectory>src</sourceDirectory>
     <plugins>
       <plugin>
@@ -14,7 +15,32 @@
           <target/>
         </configuration>
       </plugin>
-    </plugins>
+-->      
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<author>true</author>
+					<source>1.7</source>
+					<target>1.7</target>
+					<showPackage>false</showPackage>
+					<showPrivate>false</showPrivate>
+					<encoding>utf-8</encoding>
+					<charset>utf-8</charset>
+					<docencoding>utf-8</docencoding>
+				</configuration>
+			</plugin>
+		</plugins>
   </build>
   <dependencies>
   	<dependency>
