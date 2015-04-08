@@ -197,9 +197,9 @@ public class TargetCleanerTest extends TestCase {
 	}
 	public void testChukyo5(){
 		try{	
-			TargetCleaner.main(new String[]{"../test3/c5/10.csv","./c5/10.csv.in","24"});
-			TargetCleaner.main(new String[]{"../test3/c5/11.csv","./c5/11.csv.in","24"});
-			TargetCleaner.main(new String[]{"../test3/c5/12.csv","./c5/12.csv.in","24"});
+			TargetCleaner.main(new String[]{"./src/main/resources/2015/c5/10.csv","./src/main/resources/2015/c5/10.csv.in","24"});
+			TargetCleaner.main(new String[]{"./src/main/resources/2015/c5/11.csv","./src/main/resources/2015/c5/11.csv.in","24"});
+			TargetCleaner.main(new String[]{"./src/main/resources/2015/c5/12.csv","./src/main/resources/2015/c5/12.csv.in","24"});
 		}
 		catch(Exception e){
 			e.printStackTrace();

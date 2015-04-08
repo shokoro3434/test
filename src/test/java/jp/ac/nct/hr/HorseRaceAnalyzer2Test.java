@@ -36,4 +36,17 @@ public class HorseRaceAnalyzer2Test extends TestCase {
 		SpearmansCorrelation cor = new SpearmansCorrelation();
 		System.out.println(cor.correlation(data1, data2));
 	}
+
+	public void testC5() {
+		try {
+			HorseRaceAnalyzer2.main(new String[] { "./src/main/resources/2015/c5/10.csv.out" });
+			HorseRaceAnalyzer2.main(new String[] { "./src/main/resources/2015/c5/11.csv.out" });
+			HorseRaceAnalyzer2.main(new String[] { "./src/main/resources/2015/c5/12.csv.out" });
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
 }

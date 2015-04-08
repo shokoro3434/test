@@ -130,9 +130,9 @@ public class HorseRaceAnalyzerTest extends TestCase {
 //			HorseRaceAnalyzer.main(new String[]{"./h3/12.csv.in","./h3/12.csv.out","-1"});
 			//HorseRaceAnalyzer.main(new String[]{"./n3/11.csv.in","./n3/11.csv.out","-1"});
 			//HorseRaceAnalyzer.main(new String[]{"./n3/12.csv.in","./n3/12.csv.out","-1"});
-			HorseRaceAnalyzer.main(new String[]{"./c5/10.csv.in","./c5/10.csv.out","-1"});
-			HorseRaceAnalyzer.main(new String[]{"./c5/11.csv.in","./c5/11.csv.out","-1"});
-			HorseRaceAnalyzer.main(new String[]{"./c5/12.csv.in","./c5/12.csv.out","-1"});
+			HorseRaceAnalyzer.main(new String[]{"./src/main/resources/2015/c5/10.csv.in","./src/main/resources/2015/c5/10.csv.out","-1"});
+			HorseRaceAnalyzer.main(new String[]{"./src/main/resources/2015/c5/11.csv.in","./src/main/resources/2015/c5/11.csv.out","-1"});
+			HorseRaceAnalyzer.main(new String[]{"./src/main/resources/2015/c5/12.csv.in","./src/main/resources/2015/c5/12.csv.out","-1"});
 //			HorseRaceAnalyzer.main(new String[]{"./h1/10.csv.in","./h1/10.csv.out","-1"});
 //			HorseRaceAnalyzer.main(new String[]{"./h1/11.csv.in","./h1/11.csv.out","-1"});
 //			HorseRaceAnalyzer.main(new String[]{"./h1/12.csv.in","./h1/12.csv.out","-1"});
