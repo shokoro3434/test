@@ -70,7 +70,7 @@ public class HorseRaceAnalyzer {
 			
 			printer.printRecord(new Object[] {
 					hp.getNumberAsString(),
-					StringUtils.toAvailableFormat(hp.getY()),
+					hp.getAvailableRaceCount() == 1 ? StringUtils.toAvailableFormat(hp.getTimeIndexArray()[0]) : StringUtils.toAvailableFormat(hp.getY()),
 					String.valueOf(hp.getAvailableRaceCount()),
 					hp.getRegressionEquation(),
 					StringUtils.toAvailableFormat(hp.getLastY()),
