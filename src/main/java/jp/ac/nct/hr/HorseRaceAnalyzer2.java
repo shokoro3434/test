@@ -62,8 +62,8 @@ public class HorseRaceAnalyzer2 {
 		if (recList == null) {
 			return;
 		}
-		System.out.println(recList);
 		List<Double> yList = toDoubleList(recList);
+		System.out.println(yList);
 		Double[] doubleArray = (Double[]) yList.toArray(new Double[0]);
 		double[] primitiveDoubleArray = ArrayUtils.toPrimitive(doubleArray);
 		Arrays.sort(primitiveDoubleArray);

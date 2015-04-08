@@ -142,5 +142,27 @@ public class HorseRaceAnalyzerTest extends TestCase {
 			fail();
 		}
 	}
+	public void testN1 () throws Exception{
+		try{
+			HorseRaceAnalyzer.main(new String[]{"./src/main/resources/2015/n1/10.csv.in","./src/main/resources/2015/n1/10.csv.out","-1"});
+			HorseRaceAnalyzer.main(new String[]{"./src/main/resources/2015/n1/11.csv.in","./src/main/resources/2015/n1/11.csv.out","-1"});
+			HorseRaceAnalyzer.main(new String[]{"./src/main/resources/2015/n1/12.csv.in","./src/main/resources/2015/n1/12.csv.out","-1"});
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+	}
+	public void testH1 () throws Exception{
+		try{
+			HorseRaceAnalyzer.main(new String[]{"./src/main/resources/2015/h1/10.csv.in","./src/main/resources/2015/h1/10.csv.out","-1"});
+			HorseRaceAnalyzer.main(new String[]{"./src/main/resources/2015/h1/11.csv.in","./src/main/resources/2015/h1/11.csv.out","-1"});
+			HorseRaceAnalyzer.main(new String[]{"./src/main/resources/2015/h1/12.csv.in","./src/main/resources/2015/h1/12.csv.out","-1"});
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+	}
 
 }

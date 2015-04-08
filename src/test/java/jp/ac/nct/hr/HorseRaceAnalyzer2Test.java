@@ -47,6 +47,26 @@ public class HorseRaceAnalyzer2Test extends TestCase {
 			e.printStackTrace();
 		}
 	}
+	public void testN1() {
+		try {
+			HorseRaceAnalyzer2.main(new String[] { "./src/main/resources/2015/n1/10.csv.out" });
+			HorseRaceAnalyzer2.main(new String[] { "./src/main/resources/2015/n1/11.csv.out" });
+			HorseRaceAnalyzer2.main(new String[] { "./src/main/resources/2015/n1/12.csv.out" });
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void testH1() {
+		try {
+			HorseRaceAnalyzer2.main(new String[] { "./src/main/resources/2015/h1/10.csv.out" });
+			HorseRaceAnalyzer2.main(new String[] { "./src/main/resources/2015/h1/11.csv.out" });
+			HorseRaceAnalyzer2.main(new String[] { "./src/main/resources/2015/h1/12.csv.out" });
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 
 }

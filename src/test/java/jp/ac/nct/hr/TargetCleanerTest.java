@@ -206,5 +206,27 @@ public class TargetCleanerTest extends TestCase {
 			fail();
 		}
 	}
+	public void testN1(){
+		try{	
+			TargetCleaner.main(new String[]{"./src/main/resources/2015/n1/10.csv","./src/main/resources/2015/n1/10.csv.in","24"});
+			TargetCleaner.main(new String[]{"./src/main/resources/2015/n1/11.csv","./src/main/resources/2015/n1/11.csv.in","24"});
+			TargetCleaner.main(new String[]{"./src/main/resources/2015/n1/12.csv","./src/main/resources/2015/n1/12.csv.in","24"});
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+	}
+	public void testH1(){
+		try{	
+			TargetCleaner.main(new String[]{"./src/main/resources/2015/h1/10.csv","./src/main/resources/2015/h1/10.csv.in","24"});
+			TargetCleaner.main(new String[]{"./src/main/resources/2015/h1/11.csv","./src/main/resources/2015/h1/11.csv.in","24"});
+			TargetCleaner.main(new String[]{"./src/main/resources/2015/h1/12.csv","./src/main/resources/2015/h1/12.csv.in","24"});
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			fail();
+		}
+	}
 
 }
