@@ -43,7 +43,7 @@ public class Application {
 			@Override
 			public boolean accept(File dir, String name) {
 				// TODO Auto-generated method stub
-				return name.endsWith(".csv");
+				return name.endsWith(".csv") && !name.endsWith("r.csv");
 			}
 		});
 		for (File csv : csvFiles) {
