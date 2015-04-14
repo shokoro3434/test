@@ -14,10 +14,10 @@ public class Application {
 			"./src/main/resources/2015/h/2/6", }, tokenOrigin = "21")
 	private void method() throws Exception {
 		Method m = Application.class.getDeclaredMethod("method", new Class[] {});
-		TargetDirectories root = m.getAnnotation(TargetDirectories.class);
-		System.out.println(root.targetDirectories());
+		TargetDirectories td = m.getAnnotation(TargetDirectories.class);
+		System.out.println(td.targetDirectories());
 
-		for (String r : root.targetDirectories()) {
+		for (String r : td.targetDirectories()) {
 			File rootPath = new File(r);
 			File[] directories = rootPath.listFiles(new FilenameFilter() {
 				@Override
@@ -29,10 +29,10 @@ public class Application {
 			});
 			if (directories.length != 0) {
 				for (File directory : directories) {
-					invoke(directory, root.tokenOrigin());
+					invoke(directory, td.tokenOrigin());
 				}
 			} else {
-				invoke(rootPath, root.tokenOrigin());
+				invoke(rootPath, td.tokenOrigin());
 			}
 
 		}
