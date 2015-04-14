@@ -15,7 +15,6 @@ public class Application {
 	private void method() throws Exception {
 		Method m = Application.class.getDeclaredMethod("method", new Class[] {});
 		TargetDirectories td = m.getAnnotation(TargetDirectories.class);
-		System.out.println(td.targetDirectories());
 
 		for (String r : td.targetDirectories()) {
 			File rootPath = new File(r);
@@ -44,7 +43,6 @@ public class Application {
 			@Override
 			public boolean accept(File dir, String name) {
 				// TODO Auto-generated method stub
-				System.out.println(name);
 				return name.endsWith(".csv");
 			}
 		});

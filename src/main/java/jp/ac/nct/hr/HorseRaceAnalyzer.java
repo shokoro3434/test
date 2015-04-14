@@ -47,22 +47,22 @@ public class HorseRaceAnalyzer {
 			}
 			HorseProperties hp = RaceUtils.createHorseProperties(record,
 					Integer.valueOf(args[2]));
-			System.out.println("num: " + hp.getNumberAsString()
-					+ ",available race count: " + hp.getAvailableRaceCount()
-					+ ",y: " + hp.getY());
-			System.out.println("num:" + hp.getNumberAsString() + " の母分散: "
-					+ StatUtils.populationVariance(hp.getTimeIndexArray()));
-			System.out.println("num:"
-					+ hp.getNumberAsString()
-					+ " の標準偏差: "
-					+ Math.sqrt(StatUtils.populationVariance(hp
-							.getTimeIndexArray())));
-			System.out.println("num:" + hp.getNumberAsString() + " の平均: "
-					+ StatUtils.mean(hp.getTimeIndexArray()));
-			System.out.println("num:" + hp.getNumberAsString() + " の最大: "
-					+ StatUtils.max(hp.getTimeIndexArray()));
-			System.out.println("num:" + hp.getNumberAsString() + " の最小: "
-					+ StatUtils.min(hp.getTimeIndexArray()));
+//			System.out.println("num: " + hp.getNumberAsString()
+//					+ ",available race count: " + hp.getAvailableRaceCount()
+//					+ ",y: " + hp.getY());
+//			System.out.println("num:" + hp.getNumberAsString() + " の母分散: "
+//					+ StatUtils.populationVariance(hp.getTimeIndexArray()));
+//			System.out.println("num:"
+//					+ hp.getNumberAsString()
+//					+ " の標準偏差: "
+//					+ Math.sqrt(StatUtils.populationVariance(hp
+//							.getTimeIndexArray())));
+//			System.out.println("num:" + hp.getNumberAsString() + " の平均: "
+//					+ StatUtils.mean(hp.getTimeIndexArray()));
+//			System.out.println("num:" + hp.getNumberAsString() + " の最大: "
+//					+ StatUtils.max(hp.getTimeIndexArray()));
+//			System.out.println("num:" + hp.getNumberAsString() + " の最小: "
+//					+ StatUtils.min(hp.getTimeIndexArray()));
 
 			
 			double standard_deviation = Math.sqrt(StatUtils.populationVariance(hp
@@ -70,7 +70,7 @@ public class HorseRaceAnalyzer {
 			
 			printer.printRecord(new Object[] {
 					hp.getNumberAsString(),
-					hp.getAvailableRaceCount() == 1 ? StringUtils.toAvailableFormat(hp.getTimeIndexArray()[0]) : StringUtils.toAvailableFormat(hp.getY()),
+					hp.getAvailableRaceCount() == 1 ? StringUtils.toAvailableFormat(hp.getTimeIndexArray()[0]) : hp.getTimeIndexArray()[0] == 0 ? 60 : StringUtils.toAvailableFormat(hp.getY()),
 					String.valueOf(hp.getAvailableRaceCount()),
 					hp.getRegressionEquation(),
 					StringUtils.toAvailableFormat(hp.getLastY()),
