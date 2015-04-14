@@ -1,0 +1,76 @@
+package jp.ac.nct.hr;
+
+import java.io.File;
+import java.io.FilenameFilter;
+import java.lang.reflect.Method;
+
+public class Application {
+	public static void main(String[] args) throws Exception {
+		new Application().method();
+	}
+
+	@TargetDirectories(targetDirectories = { "./src/main/resources/2015/f/1/1", "./src/main/resources/2015/f/1/2",
+			"./src/main/resources/2015/n/3/5", "./src/main/resources/2015/n/3/6", "./src/main/resources/2015/h/2/5",
+			"./src/main/resources/2015/h/2/6", }, tokenOrigin = "21")
+	private void method() throws Exception {
+		Method m = Application.class.getDeclaredMethod("method", new Class[] {});
+		TargetDirectories root = m.getAnnotation(TargetDirectories.class);
+		System.out.println(root.targetDirectories());
+
+		for (String r : root.targetDirectories()) {
+			File rootPath = new File(r);
+			File[] directories = rootPath.listFiles(new FilenameFilter() {
+				@Override
+				public boolean accept(File dir, String name) {
+					// TODO Auto-generated method stub
+					return new File(dir.getAbsolutePath() + "/" + name).isDirectory();
+				}
+
+			});
+			if (directories.length != 0) {
+				for (File directory : directories) {
+					invoke(directory, root.tokenOrigin());
+				}
+			} else {
+				invoke(rootPath, root.tokenOrigin());
+			}
+
+		}
+
+	}
+
+	private void invoke(File rootPath, String tokenOrigin) throws Exception {
+		File[] csvFiles = rootPath.listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				// TODO Auto-generated method stub
+				System.out.println(name);
+				return name.endsWith(".csv");
+			}
+		});
+		for (File csv : csvFiles) {
+			TargetCleaner.main(new String[] { csv.getAbsolutePath(), csv.getAbsolutePath() + ".in", tokenOrigin });
+		}
+		File[] inFiles = rootPath.listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				// TODO Auto-generated method stub
+				return name.endsWith(".in");
+			}
+		});
+		for (File in : inFiles) {
+			HorseRaceAnalyzer.main(new String[] { in.getAbsolutePath(), in.getAbsolutePath() + ".out", "-1" });
+		}
+		File[] outFiles = rootPath.listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				// TODO Auto-generated method stub
+				return name.endsWith(".out");
+			}
+		});
+		for (File out : outFiles) {
+			HorseRaceAnalyzer2.main(new String[] { out.getAbsolutePath() });
+		}
+
+	}
+}

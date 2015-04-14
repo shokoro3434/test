@@ -4,7 +4,6 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import jp.ac.nct.math.MathUtils;
@@ -63,6 +62,8 @@ public class HorseRaceAnalyzer2 {
 			return;
 		}
 		List<Double> yList = toDoubleList(recList);
+		
+		System.out.println(args[0]);
 		System.out.println(yList);
 		Double[] doubleArray = (Double[]) yList.toArray(new Double[0]);
 		double[] primitiveDoubleArray = ArrayUtils.toPrimitive(doubleArray);
