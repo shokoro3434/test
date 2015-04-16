@@ -10,8 +10,12 @@ public class Application {
 		new Application().method();
 	}
 
-	@TargetDirectories(targetDirectories = { "./src/main/resources/2015/f/1/1", "./src/main/resources/2015/f/1/2",
-			"./src/main/resources/2015/n/3/5", "./src/main/resources/2015/n/3/6", "./src/main/resources/2015/h/2/5",
+	@TargetDirectories(targetDirectories = { 
+			"./src/main/resources/2015/f/1/1", 
+			"./src/main/resources/2015/f/1/2",
+			"./src/main/resources/2015/n/3/5", 
+			"./src/main/resources/2015/n/3/6", 
+			"./src/main/resources/2015/h/2/5",
 			"./src/main/resources/2015/h/2/6", }, tokenOrigin = "21")
 	private void method() throws Exception {
 		Method m = Application.class.getDeclaredMethod("method", new Class[] {});
