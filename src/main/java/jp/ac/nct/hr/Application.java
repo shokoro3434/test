@@ -23,7 +23,7 @@ public class Application {
 				@Override
 				public boolean accept(File dir, String name) {
 					// TODO Auto-generated method stub
-					return new File(dir.getAbsolutePath() + "/" + name).isDirectory();
+					return new File(dir.getPath() + "/" + name).isDirectory();
 				}
 
 			});
