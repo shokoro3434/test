@@ -47,7 +47,7 @@ public class Application {
 			}
 		});
 		for (File csv : csvFiles) {
-			TargetCleaner.main(new String[] { csv.getAbsolutePath(), csv.getAbsolutePath() + ".in", tokenOrigin });
+			TargetCleaner.main(new String[] { csv.getPath(), csv.getPath() + ".in", tokenOrigin });
 		}
 		File[] inFiles = rootPath.listFiles(new FilenameFilter() {
 			@Override
@@ -57,7 +57,7 @@ public class Application {
 			}
 		});
 		for (File in : inFiles) {
-			HorseRaceAnalyzer.main(new String[] { in.getAbsolutePath(), in.getAbsolutePath() + ".out", "-1" });
+			HorseRaceAnalyzer.main(new String[] { in.getPath(), in.getPath() + ".out", "-1" });
 		}
 		File[] outFiles = rootPath.listFiles(new FilenameFilter() {
 			@Override
