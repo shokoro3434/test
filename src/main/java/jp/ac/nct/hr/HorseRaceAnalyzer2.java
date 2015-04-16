@@ -16,52 +16,14 @@ import org.apache.commons.math3.stat.StatUtils;
 
 public class HorseRaceAnalyzer2 {
 
-	private interface RecordProperties {
-		public abstract Double getY();
 
-		public abstract int getNum();
-	}
-
-	@SuppressWarnings("unused")
-	private RecordProperties createRecordProperties(final Double y, final int num) {
-		return new RecordProperties() {
-
-			@Override
-			public Double getY() {
-				// TODO Auto-generated method stub
-				return y;
-			}
-
-			@Override
-			public int getNum() {
-				// TODO Auto-generated method stub
-				return num;
-			}
-
-		};
-	}
-	private static List<Double> toDoubleList(List<RecordProperties> recList){
-		List<Double> dst = new ArrayList<Double> ();
-		for (RecordProperties rec : recList){
-			dst.add(rec.getY());
-		}
-		return dst;
-	}
-	private static int toNum (Double token,List<RecordProperties> recList){
-		for (RecordProperties rec : recList){
-			if (token.compareTo(rec.getY()) == 0){
-				return rec.getNum();
-			}
-		}
-		return 0;
-	}
 	public static void main(String[] args) throws Exception {
 		HorseRaceAnalyzer2 ana = new HorseRaceAnalyzer2();
 		List<RecordProperties> recList = ana.retrieveY(args[0]);
 		if (recList == null) {
 			return;
 		}
-		List<Double> yList = toDoubleList(recList);
+		List<Double> yList = RaceUtils.toDoubleList(recList);
 		
 		System.out.println(args[0]);
 		System.out.println(yList);
@@ -76,7 +38,7 @@ public class HorseRaceAnalyzer2 {
 		for (double token : primitiveDoubleArray) {
 			System.out.print(token + ": ");
 			double deviation = MathUtils.toDeviation(token, mean, stddev);
-			System.out.print("["+toNum(token,recList)+"]: ");
+			System.out.print("["+RaceUtils.toNum(token,recList)+"]: ");
 			System.out.println(deviation);
 		}
 	}
@@ -93,7 +55,7 @@ public class HorseRaceAnalyzer2 {
 					continue;
 				}
 				// System.out.println (record);
-				dst.add(createRecordProperties(Double.valueOf(record.get(1)), Integer.parseInt(record.get(0))));
+				dst.add(RaceUtils.createRecordProperties(Double.valueOf(record.get(1)), Integer.parseInt(record.get(0))));
 			}
 			return dst;
 		} catch (Exception e) {

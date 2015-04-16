@@ -135,4 +135,38 @@ public final class RaceUtils {
 			
 		};
 	}
+	@SuppressWarnings("unused")
+	public static RecordProperties createRecordProperties(final Double y, final int num) {
+		return new RecordProperties() {
+
+			@Override
+			public Double getY() {
+				// TODO Auto-generated method stub
+				return y;
+			}
+
+			@Override
+			public int getNum() {
+				// TODO Auto-generated method stub
+				return num;
+			}
+
+		};
+	}
+	public static List<Double> toDoubleList(List<RecordProperties> recList){
+		List<Double> dst = new ArrayList<Double> ();
+		for (RecordProperties rec : recList){
+			dst.add(rec.getY());
+		}
+		return dst;
+	}
+	public static int toNum (Double token,List<RecordProperties> recList){
+		for (RecordProperties rec : recList){
+			if (token.compareTo(rec.getY()) == 0){
+				return rec.getNum();
+			}
+		}
+		return 0;
+	}
+
 }
