@@ -2,7 +2,14 @@ package jp.ac.nct.hr;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.lang.reflect.Method;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 public class Application {
 	public static void main(String[] args) throws Exception {
@@ -35,7 +42,35 @@ public class Application {
 			}
 
 		}
+		String series1 = "First";
+		String series2 = "Second";
+		String series3 = "Third";
+		// カテゴリーの設定
+		String category1 = "Category 1";
+		String category2 = "Category 2";
+		String category3 = "Category 3";
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		dataset.addValue(1.0, series1, category1);
+		dataset.addValue(4.0, series1, category2);
+		dataset.addValue(5.0, series1, category3);
 
+		dataset.addValue(5.0, series2, category1);
+		dataset.addValue(7.0, series2, category2);
+		dataset.addValue(7.0, series2, category3);
+
+		dataset.addValue(6.0, series3, category1);
+		dataset.addValue(8.0, series3, category2);
+		dataset.addValue(8.0, series3, category3);
+
+		JFreeChart chart = ChartFactory.createBarChart("Sample Bar Chart",
+				"Category", "Value", dataset, PlotOrientation.VERTICAL, true,
+				true, false);
+		File outputFile = new File("./target/SampleBarChart.png");
+		try {
+				ChartUtilities.saveChartAsPNG(outputFile, chart, 500, 500);
+			} catch (IOException ioEx) {
+			ioEx.printStackTrace();
+		}
 	}
 
 	private void invoke(File rootPath, String tokenOrigin) throws Exception {
