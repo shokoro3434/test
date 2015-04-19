@@ -67,10 +67,10 @@ public class HorseRaceAnalyzer {
 			
 			double standard_deviation = Math.sqrt(StatUtils.populationVariance(hp
 					.getTimeIndexArray()));
-			
+			System.out.println(args[0]);
 			printer.printRecord(new Object[] {
 					hp.getNumberAsString(),
-					hp.getAvailableRaceCount() == 1 ? StringUtils.toAvailableFormat(hp.getTimeIndexArray()[0]) : hp.getTimeIndexArray()[0] == 0 ? 60 : StringUtils.toAvailableFormat(hp.getY()),
+					hp.getTimeIndexArray().length == 0 ? 60 : hp.getAvailableRaceCount() == 1 ? StringUtils.toAvailableFormat(hp.getTimeIndexArray()[0]) : hp.getTimeIndexArray()[0] == 0 ? 60 : StringUtils.toAvailableFormat(hp.getY()),
 					String.valueOf(hp.getAvailableRaceCount()),
 					hp.getRegressionEquation(),
 					StringUtils.toAvailableFormat(hp.getLastY()),

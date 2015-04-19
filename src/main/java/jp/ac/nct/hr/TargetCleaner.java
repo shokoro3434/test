@@ -50,7 +50,7 @@ public class TargetCleaner {
 			//header
 			writer.writeNext(new String[] { "num", "ln" });
 			for (CSVRecord record : parser) {
-				if (record.getRecordNumber() == 1) {
+				if (record.getRecordNumber() == 0) {
 					// CSV Header
 					continue;
 				}
