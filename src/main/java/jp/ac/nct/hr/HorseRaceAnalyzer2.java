@@ -23,7 +23,8 @@ public class HorseRaceAnalyzer2 {
 		if (recList == null) {
 			return;
 		}
-		List<Double> yList = RaceUtils.toDoubleList(recList);
+		List<Double> yList = RaceUtils.toYList(recList);
+		List<Double> maxList = RaceUtils.toMaxList(recList);
 		
 		System.out.println(args[0]);
 		System.out.println(yList);
@@ -39,7 +40,8 @@ public class HorseRaceAnalyzer2 {
 			System.out.print(token + ": ");
 			double deviation = MathUtils.toDeviation(token, mean, stddev);
 			System.out.print("["+RaceUtils.toNum(token,recList)+"]: ");
-			System.out.println(deviation);
+			System.out.print(deviation);
+			System.out.println(" "+token+" max: "+RaceUtils.toMax(token,recList));
 		}
 	}
 
@@ -55,7 +57,7 @@ public class HorseRaceAnalyzer2 {
 					continue;
 				}
 				// System.out.println (record);
-				dst.add(RaceUtils.createRecordProperties(Double.valueOf(record.get(1)), Integer.parseInt(record.get(0))));
+				dst.add(RaceUtils.createRecordProperties(Double.valueOf(record.get(1)), Integer.parseInt(record.get(0)),Double.valueOf(record.get(9))));
 			}
 			return dst;
 		} catch (Exception e) {

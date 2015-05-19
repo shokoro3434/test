@@ -7,7 +7,36 @@ import java.lang.reflect.Method;
 
 public class Application {
 	public static void main(String[] args) throws Exception {
-		new Application().method3();
+		new Application().methodx();
+	}
+	@TargetDirectories(targetDirectories = { 
+			"./src/main/resources/2015/niigata/1/6" ,
+			"./src/main/resources/2015/tokyo/2/8" ,
+			"./src/main/resources/2015/kyoto/3/8" ,
+			}, tokenOrigin = "23")
+	private void methodx() throws Exception {
+		Method m = Application.class.getDeclaredMethod("methodx", new Class[] {});
+		TargetDirectories td = m.getAnnotation(TargetDirectories.class);
+
+		for (String r : td.targetDirectories()) {
+			File rootPath = new File(r);
+			File[] directories = rootPath.listFiles(new FilenameFilter() {
+				@Override
+				public boolean accept(File dir, String name) {
+					// TODO Auto-generated method stub
+					return new File(dir.getPath() + "/" + name).isDirectory();
+				}
+
+			});
+			if (directories.length != 0) {
+				for (File directory : directories) {
+					invoke(directory, td.tokenOrigin());
+				}
+			} else {
+				invoke(rootPath, td.tokenOrigin());
+			}
+
+		}
 	}
 	@TargetDirectories(targetDirectories = { 
 			"./src/main/resources/2015/n/3/8/" ,

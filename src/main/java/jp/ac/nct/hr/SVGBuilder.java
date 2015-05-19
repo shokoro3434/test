@@ -32,7 +32,7 @@ public class SVGBuilder {
 		if (recList == null) {
 			return;
 		}
-		List<Double> yList = RaceUtils.toDoubleList(recList);
+		List<Double> yList = RaceUtils.toYList(recList);
 		Double[] doubleArray = (Double[]) yList.toArray(new Double[0]);
 		double[] primitiveDoubleArray = ArrayUtils.toPrimitive(doubleArray);
 		Arrays.sort(primitiveDoubleArray);
@@ -44,10 +44,10 @@ public class SVGBuilder {
 		String category1 = "";
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (double token : primitiveDoubleArray) {
-			System.out.print(token + ": ");
+			//System.out.print(token + ": ");
 			double deviation = MathUtils.toDeviation(token, mean, stddev);
-			System.out.print("[" + RaceUtils.toNum(token, recList) + "]: ");
-			System.out.println(deviation);
+			//System.out.print("[" + RaceUtils.toNum(token, recList) + "]: ");
+			//System.out.println(deviation);
 			dataset.addValue(deviation, String.valueOf(RaceUtils.toNum(token, recList)), category1);
 		}
 		JFreeChart chart = ChartFactory.createBarChart(src, "stddev: "+String.valueOf(stddev), "deviation", dataset,
@@ -72,7 +72,7 @@ public class SVGBuilder {
 					continue;
 				}
 				// System.out.println (record);
-				dst.add(RaceUtils.createRecordProperties(Double.valueOf(record.get(1)), Integer.parseInt(record.get(0))));
+				dst.add(RaceUtils.createRecordProperties(Double.valueOf(record.get(1)), Integer.parseInt(record.get(0)),Double.valueOf(record.get(9))));
 			}
 			return dst;
 		} catch (Exception e) {

@@ -136,8 +136,14 @@ public final class RaceUtils {
 		};
 	}
 	@SuppressWarnings("unused")
-	public static RecordProperties createRecordProperties(final Double y, final int num) {
+	public static RecordProperties createRecordProperties(final Double y, final int num,final Double max) {
 		return new RecordProperties() {
+
+			@Override
+			public Double getMax() {
+				// TODO Auto-generated method stub
+				return max;
+			}
 
 			@Override
 			public Double getY() {
@@ -153,10 +159,17 @@ public final class RaceUtils {
 
 		};
 	}
-	public static List<Double> toDoubleList(List<RecordProperties> recList){
+	public static List<Double> toYList(List<RecordProperties> recList){
 		List<Double> dst = new ArrayList<Double> ();
 		for (RecordProperties rec : recList){
 			dst.add(rec.getY());
+		}
+		return dst;
+	}
+	public static List<Double> toMaxList(List<RecordProperties> recList){
+		List<Double> dst = new ArrayList<Double> ();
+		for (RecordProperties rec : recList){
+			dst.add(rec.getMax());
 		}
 		return dst;
 	}
@@ -167,6 +180,14 @@ public final class RaceUtils {
 			}
 		}
 		return 0;
+	}
+	public static Double toMax (Double token,List<RecordProperties> recList){
+		for (RecordProperties rec : recList){
+			if (token.compareTo(rec.getY()) == 0){
+				return rec.getMax();
+			}
+		}
+		return Double.valueOf(0);
 	}
 
 }
