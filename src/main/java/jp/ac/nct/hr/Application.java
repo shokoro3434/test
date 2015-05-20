@@ -13,6 +13,9 @@ public class Application {
 			"./src/main/resources/2015/niigata/1/6" ,
 			"./src/main/resources/2015/tokyo/2/8" ,
 			"./src/main/resources/2015/kyoto/3/8" ,
+//			"./src/main/resources/2015/niigata/1/5" ,
+//			"./src/main/resources/2015/tokyo/2/7" ,
+//			"./src/main/resources/2015/kyoto/3/7" ,
 			}, tokenOrigin = "23")
 	private void methodx() throws Exception {
 		Method m = Application.class.getDeclaredMethod("methodx", new Class[] {});

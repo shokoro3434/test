@@ -25,26 +25,42 @@ public class HorseRaceAnalyzer2 {
 		}
 		List<Double> yList = RaceUtils.toYList(recList);
 		List<Double> maxList = RaceUtils.toMaxList(recList);
+		Double[] maxArray = (Double[]) maxList.toArray(new Double[0]);
+		double[] primitiveMaxArray = ArrayUtils.toPrimitive(maxArray);
+		Arrays.sort(primitiveMaxArray);
+		ArrayUtils.reverse(primitiveMaxArray);
 		
 		System.out.println(args[0]);
-		System.out.println(yList);
+//		System.out.println(yList);
 		Double[] doubleArray = (Double[]) yList.toArray(new Double[0]);
 		double[] primitiveDoubleArray = ArrayUtils.toPrimitive(doubleArray);
 		Arrays.sort(primitiveDoubleArray);
 		ArrayUtils.reverse(primitiveDoubleArray);
 
 		double mean = StatUtils.mean(primitiveDoubleArray);
-		System.out.println("mean:" + mean);
+//		System.out.println("mean:" + mean);
 		double stddev = Math.sqrt(StatUtils.populationVariance(primitiveDoubleArray));
 		for (double token : primitiveDoubleArray) {
 			System.out.print(token + ": ");
 			double deviation = MathUtils.toDeviation(token, mean, stddev);
 			System.out.print("["+RaceUtils.toNum(token,recList)+"]: ");
 			System.out.print(deviation);
-			System.out.println(" "+token+" max: "+RaceUtils.toMax(token,recList));
+			double max = RaceUtils.toMax(token,recList);
+			System.out.print(" <<"+token+">> max: "+max);
+			int maxNum = toMaxNum(max,primitiveMaxArray);
+			System.out.println(" ["+maxNum+"位]");
 		}
 	}
-
+	private static int toMaxNum(double max,double [] primitiveMaxArray){
+		int i = 0;
+		for (double token : primitiveMaxArray){
+			++i;
+			if (max == token){
+				return i;
+			}
+		}
+		return i;
+	}
 	private List<RecordProperties> retrieveY(String src) throws Exception {
 		File csvData = new File(src);
 		CSVParser parser = null;

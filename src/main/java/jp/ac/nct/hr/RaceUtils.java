@@ -189,5 +189,13 @@ public final class RaceUtils {
 		}
 		return Double.valueOf(0);
 	}
+	public static String toMaxAsString (Double token,List<RecordProperties> recList){
+		for (RecordProperties rec : recList){
+			if (token.compareTo(rec.getY()) == 0){
+				return rec.getMax()+" ["+rec.getNum()+"]";
+			}
+		}
+		return "N/A";
+	}
 
 }
