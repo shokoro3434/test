@@ -21,7 +21,7 @@ public class HorseRaceAnalyzer {
 
 	private void perform(String[] args) throws Exception {
 		File csvData = new File(args[0]);
-		CSVParser parser = CSVParser.parse(csvData, Charset.defaultCharset(), CSVFormat.RFC4180);
+		CSVParser parser = CSVParser.parse(csvData, Charset.forName("UTF-8"), CSVFormat.RFC4180);
 		// CSVWriter writer = new CSVWriter(new PrintWriter(
 		// new OutputStreamWriter(
 		// new FileOutputStream(args[1]), "UTF-8")),
@@ -40,7 +40,7 @@ public class HorseRaceAnalyzer {
 				.print(new PrintWriter(new OutputStreamWriter(new FileOutputStream(args[1]), "UTF-8")));
 
 		int sequence = 0;
-
+System.out.println(args[0]);
 		for (CSVRecord record : parser) {
 			if (record.getRecordNumber() == 1) {
 				// CSV Header
@@ -50,18 +50,18 @@ public class HorseRaceAnalyzer {
 			// System.out.println("num: " + hp.getNumberAsString()
 			// + ",available race count: " + hp.getAvailableRaceCount()
 			// + ",y: " + hp.getY());
-			// System.out.println("num:" + hp.getNumberAsString() + " の母分散: "
+			// System.out.println("num:" + hp.getNumberAsString() + " 縺ｮ豈榊�謨｣: "
 			// + StatUtils.populationVariance(hp.getTimeIndexArray()));
 			// System.out.println("num:"
 			// + hp.getNumberAsString()
-			// + " の標準偏差: "
+			// + " 縺ｮ讓呎ｺ門￥蟾ｮ: "
 			// + Math.sqrt(StatUtils.populationVariance(hp
 			// .getTimeIndexArray())));
-			// System.out.println("num:" + hp.getNumberAsString() + " の平均: "
+			// System.out.println("num:" + hp.getNumberAsString() + " 縺ｮ蟷ｳ蝮� "
 			// + StatUtils.mean(hp.getTimeIndexArray()));
-			// System.out.println("num:" + hp.getNumberAsString() + " の最大: "
+			// System.out.println("num:" + hp.getNumberAsString() + " 縺ｮ譛�､ｧ: "
 			// + StatUtils.max(hp.getTimeIndexArray()));
-			// System.out.println("num:" + hp.getNumberAsString() + " の最小: "
+			// System.out.println("num:" + hp.getNumberAsString() + " 縺ｮ譛�ｰ� "
 			// + StatUtils.min(hp.getTimeIndexArray()));
 
 			double standard_deviation = Math.sqrt(StatUtils.populationVariance(hp.getTimeIndexArray()));

@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 
 public class Application {
 	public static void main(String[] args) throws Exception {
-		new Application().methodx();
+		new Application().method();
 	}
 	@TargetDirectories(targetDirectories = { 
 			"./src/main/resources/2015/niigata/1/6" ,
@@ -100,12 +100,14 @@ public class Application {
 	}
 
 	@TargetDirectories(targetDirectories = { 
-			"./src/main/resources/2015/f/1/1", 
-			"./src/main/resources/2015/f/1/2",
-			"./src/main/resources/2015/n/3/5", 
-			"./src/main/resources/2015/n/3/6", 
+//			"./src/main/resources/2015/f/1/1", 
+//			"./src/main/resources/2015/f/1/2",
+//			"./src/main/resources/2015/n/3/5", 
+//			"./src/main/resources/2015/n/3/6", 
 			"./src/main/resources/2015/h/2/5",
-			"./src/main/resources/2015/h/2/6", }, tokenOrigin = "21")
+			"./src/main/resources/2015/h/2/6", 
+			}
+	, tokenOrigin = "21")
 	private void method() throws Exception {
 		Method m = Application.class.getDeclaredMethod("method", new Class[] {});
 		TargetDirectories td = m.getAnnotation(TargetDirectories.class);
