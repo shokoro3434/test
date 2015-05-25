@@ -14,7 +14,7 @@ public class Application {
 //			"./src/main/resources/2015/kyoto/3/1" ,
 //			"./src/main/resources/2015/niigata/1/6" ,
 //			"./src/main/resources/2015/tokyo/2/10" ,
-			"./src/main/resources/2015/kyoto/3/5" ,
+			"./src/main/resources/2015/kyoto/3/1" ,
 //			"./src/main/resources/2015/niigata/1/5" ,
 //			"./src/main/resources/2015/tokyo/2/7" ,
 //			"./src/main/resources/2015/kyoto/3/7" ,
