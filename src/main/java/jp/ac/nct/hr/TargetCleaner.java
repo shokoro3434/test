@@ -25,6 +25,7 @@ public class TargetCleaner {
 		List<String> list = new ArrayList<String>();
 		//list.add(rec.get(2)+":"+rec.get(7));
 		list.add(rec.get(2));//num
+		list.add(rec.get(15));//odds
 		final int INDEX_ORIGIN = origin;
 		final int TOKEN_DISTANCE = 4;
 		for (int i = INDEX_ORIGIN ; i < rec.size() ; i += TOKEN_DISTANCE){

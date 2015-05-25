@@ -1,6 +1,7 @@
 package jp.ac.nct.hr;
 
 public interface HorseProperties {
+	public abstract String getOdds();
 	public abstract String getNumberAsString();
 	public abstract double [] getTimeIndexArray();
 	public abstract double getY();

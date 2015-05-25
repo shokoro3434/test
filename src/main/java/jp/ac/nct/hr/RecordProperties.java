@@ -5,4 +5,5 @@ interface RecordProperties {
 	public abstract Double getY();
 
 	public abstract int getNum();
+	public abstract String getOdds();
 }
