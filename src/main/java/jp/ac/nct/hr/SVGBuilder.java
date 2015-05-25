@@ -72,7 +72,8 @@ public class SVGBuilder {
 					continue;
 				}
 				// System.out.println (record);
-				dst.add(RaceUtils.createRecordProperties(Double.valueOf(record.get(1)), Integer.parseInt(record.get(0)),Double.valueOf(record.get(9))));
+				dst.add(RaceUtils.createRecordProperties(Double.valueOf(record.get(1)), Integer.parseInt(record.get(0)),Double.valueOf(record.get(9)),record.get(13)));
+//				dst.add(RaceUtils.createRecordProperties(Double.valueOf(record.get(1)), Integer.parseInt(record.get(0)),Double.valueOf(record.get(9))));
 			}
 			return dst;
 		} catch (Exception e) {

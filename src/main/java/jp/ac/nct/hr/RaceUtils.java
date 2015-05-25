@@ -38,7 +38,7 @@ public final class RaceUtils {
 	}
 	private static double toMean(CSVRecord record){
 		List<Double> raceList = new ArrayList<Double>();
-		final int RACE_INDEX = 1;
+		final int RACE_INDEX = 2;
 		for (int i = RACE_INDEX; i < record.size() ; i++) {
 			if (record.get(i).isEmpty()){
 				continue;
@@ -60,7 +60,9 @@ public final class RaceUtils {
 		List<Double> ret = new ArrayList<Double>();
 		final int NUM_INDEX = 0;
 		String numberAsString = record.get(NUM_INDEX);
-		final int RACE_INDEX = 1;
+		final int ODDS_INDEX = 1;
+		String odds = record.get(ODDS_INDEX);
+		final int RACE_INDEX = 2;
 		for (int i = RACE_INDEX; i < record.size() ; i++) {
 			if (record.get(i).isEmpty()){
 				continue;
@@ -91,11 +93,11 @@ public final class RaceUtils {
 		return createHorseProperties(
 				MathUtils.computeSingleRegressionAnalysisY(sra,
 						target.length), sra.getRegressionEquation(),lastY,last2Y,last3Y,target,
-						numberAsString);
+						numberAsString,odds);
 	}
 
 	private static HorseProperties createHorseProperties(final double y,final String regressionEquation,final double lastY,final double last2y,final double last3y,
-			final double[] timeIndexArray, final String numberAsString) {
+			final double[] timeIndexArray, final String numberAsString,final String odds) {
 		return new HorseProperties() {
 
 			public double getLast2y() {
@@ -132,11 +134,18 @@ public final class RaceUtils {
 				// TODO Auto-generated method stub
 				return regressionEquation;
 			}
+
+			@Override
+			public String getOdds() {
+				// TODO Auto-generated method stub
+				return odds;
+			}
+			
 			
 		};
 	}
 	@SuppressWarnings("unused")
-	public static RecordProperties createRecordProperties(final Double y, final int num,final Double max) {
+	public static RecordProperties createRecordProperties(final Double y, final int num,final Double max,final String odds) {
 		return new RecordProperties() {
 
 			@Override
@@ -155,6 +164,11 @@ public final class RaceUtils {
 			public int getNum() {
 				// TODO Auto-generated method stub
 				return num;
+			}
+			@Override
+			public String getOdds() {
+				// TODO Auto-generated method stub
+				return odds;
 			}
 
 		};
@@ -180,6 +194,14 @@ public final class RaceUtils {
 			}
 		}
 		return 0;
+	}
+	public static String toOdds (int num,List<RecordProperties> recList){
+		for (RecordProperties rec : recList){
+			if (num == rec.getNum()){
+				return rec.getOdds();
+			}
+		}
+		return "";
 	}
 	public static Double toMax (Double token,List<RecordProperties> recList){
 		for (RecordProperties rec : recList){

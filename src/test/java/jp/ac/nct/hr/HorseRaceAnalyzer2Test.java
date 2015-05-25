@@ -13,7 +13,20 @@ public class HorseRaceAnalyzer2Test extends TestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
-
+	private int x(int jiku,int himo){
+		if (jiku == 1){
+			return himo*2;
+		}
+		else{
+			return (himo+jiku-1)*jiku+himo*jiku;
+		}
+		
+	}
+	public void testx(){
+		assertEquals(8,x(1,4));
+		assertEquals(14,x(2,3));
+		assertEquals(24,x(3,3));
+	}
 	public void testA() {
 		try {
 			HorseRaceAnalyzer2.main(new String[] { "./c5/12.csv.out" });

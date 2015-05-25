@@ -43,12 +43,14 @@ public class HorseRaceAnalyzer2 {
 		for (double token : primitiveDoubleArray) {
 			System.out.print(token + ": ");
 			double deviation = MathUtils.toDeviation(token, mean, stddev);
-			System.out.print("["+RaceUtils.toNum(token,recList)+"]: ");
+			int num = RaceUtils.toNum(token,recList);
+			System.out.print("["+num+"]: ");
 			System.out.print(deviation);
 			double max = RaceUtils.toMax(token,recList);
 			System.out.print(" <<"+token+">> max: "+max);
 			int maxNum = toMaxNum(max,primitiveMaxArray);
-			System.out.println(" ["+maxNum+"位]");
+			System.out.print(" ["+maxNum+"位]");
+			System.out.println(" <<"+RaceUtils.toOdds(num, recList)+">>");
 		}
 	}
 	private static int toMaxNum(double max,double [] primitiveMaxArray){
@@ -72,8 +74,9 @@ public class HorseRaceAnalyzer2 {
 					// CSV Header
 					continue;
 				}
+				//System.err.println("odds :"+record.get(13));
 				// System.out.println (record);
-				dst.add(RaceUtils.createRecordProperties(Double.valueOf(record.get(1)), Integer.parseInt(record.get(0)),Double.valueOf(record.get(9))));
+				dst.add(RaceUtils.createRecordProperties(Double.valueOf(record.get(1)), Integer.parseInt(record.get(0)),Double.valueOf(record.get(9)),record.get(13)));
 			}
 			return dst;
 		} catch (Exception e) {

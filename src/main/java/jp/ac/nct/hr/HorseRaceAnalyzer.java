@@ -36,7 +36,7 @@ public class HorseRaceAnalyzer {
 				.withHeader("num", "y", "available", "regressionEquation", "last_y", "last2_y",
 						"last3_y",// "populationVariance_y",
 						"standard_deviation", "mean_y", "max_y", "min_y", "y_plus_standard_deviation",
-						"y_minus_standard_deviation").withDelimiter(',').withQuote('\"')
+						"y_minus_standard_deviation","odds").withDelimiter(',').withQuote('\"')
 				.print(new PrintWriter(new OutputStreamWriter(new FileOutputStream(args[1]), "UTF-8")));
 
 		int sequence = 0;
@@ -84,7 +84,9 @@ System.out.println(args[0]);
 					StringUtils.toAvailableFormat(StatUtils.max(hp.getTimeIndexArray())),
 					StringUtils.toAvailableFormat(StatUtils.min(hp.getTimeIndexArray())),
 					StringUtils.toAvailableFormat(hp.getY() + standard_deviation),
-					StringUtils.toAvailableFormat(hp.getY() - standard_deviation) });
+					StringUtils.toAvailableFormat(hp.getY() - standard_deviation),
+					hp.getOdds()
+					});
 		}
 		printer.close();
 		parser.close();
