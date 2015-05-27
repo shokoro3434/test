@@ -13,6 +13,6 @@ public final class StringUtils {
 		if (Double.valueOf(src).isNaN()){
 			return String.valueOf(0);
 		}
-		return String.format("%.2f",src);
+		return String.format("%.3f",src);
 	}
 }

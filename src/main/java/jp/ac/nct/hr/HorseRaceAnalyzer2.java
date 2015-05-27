@@ -45,7 +45,7 @@ public class HorseRaceAnalyzer2 {
 			double deviation = MathUtils.toDeviation(token, mean, stddev);
 			int num = RaceUtils.toNum(token,recList);
 			System.out.print("["+num+"]: ");
-			System.out.print(deviation);
+			System.out.print(deviation+":"+(deviation>=65?"S" : deviation>=60 ? "A" : deviation>=55 ? "B" :"F"));
 			double max = RaceUtils.toMax(token,recList);
 			System.out.print(" <<"+token+">> max: "+max);
 			int maxNum = toMaxNum(max,primitiveMaxArray);
