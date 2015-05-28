@@ -27,7 +27,7 @@ public final class RaceUtils {
 		return ArrayUtils.toPrimitive(doubleArray);
 	}
 	private static boolean isInvalidToken (String token){
-		final String [] ILLEGAL_STRING_ARRAY = new String[]{"着","中止","除外","取消"};
+		final String [] ILLEGAL_STRING_ARRAY = new String[]{"着","中止","除外","取消","失格"};
 		if (StringUtils.contains(token,ILLEGAL_STRING_ARRAY)){
 			return true;
 		}
