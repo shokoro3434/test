@@ -42,8 +42,12 @@ public class HorseRaceAnalyzer2 {
 		double stddev = Math.sqrt(StatUtils.populationVariance(primitiveDoubleArray));
 		for (double token : primitiveDoubleArray) {
 			System.out.print(token + ": ");
-			double deviation = MathUtils.toDeviation(token, mean, stddev);
 			int num = RaceUtils.toNum(token,recList);
+			double deviation = MathUtils.toDeviation(token, mean, stddev);
+			if(deviation <= 30){
+				System.out.println ("num : "+num);
+				throw new Exception("num : "+num);
+			}
 			System.out.print("["+num+"]: ");
 			System.out.print(deviation+":"+(deviation>=65?"S" : deviation>=60 ? "A" : deviation>=55 ? "B" : deviation >= 50 ?"C" : "F"));
 			double max = RaceUtils.toMax(token,recList);
