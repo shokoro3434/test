@@ -32,6 +32,52 @@ public class YahooApiSearchClient {
 	private YahooApiSearchClient(){
 		
 	}
+	
+	public static String invoke (String query) throws Exception{
+		try {
+			YahooApiSearchClient client = new YahooApiSearchClient();
+			StringBuffer sb = new StringBuffer ();
+			sb.append("http://auctions.yahooapis.jp/AuctionWebService/V2/search");
+			sb.append("?");
+			sb.append("appid=dj0zaiZpPWlwa2VqOGRqQVFmbSZzPWNvbnN1bWVyc2VjcmV0Jng9Yjc-");
+			sb.append("&");
+			sb.append("output=json");
+			sb.append("&");
+			sb.append("category=23336");
+			sb.append("&");
+			sb.append("query=");
+			sb.append(query);
+			sb.append("&");
+			sb.append("sort=end");
+			sb.append("&");
+			sb.append("order=a");
+			System.out.println(sb.toString());
+			String resp = client.perform(sb.toString(), 500);
+			return resp;
+//			if (!client.validate(RequierdProperty.values(), System.getProperties())){
+//				throw new IllegalArgumentException();
+//			}
+			// connection phase
+//			List<byte []> binaryList = client.retrieveConsumers(
+//			createURLAsString(vmob.getAzureEndpoint(), vmob.getAzureSV(), vmob.getAzureTN(),
+//					vmob.getAzureSIG(), vmob.getAzureSE(), vmob.getAzureSP(), vmob.getAzureFilter(),
+//					vmob.getAzureTop()), Integer.valueOf(vmob.getTimeout()));
+//			
+//			JSONArray value = (JSONArray)CRMUtils.uncompress(binaryList.get(0));
+//			if (value.size() <= 0) {
+//				logger.warn("no data found");
+//			}
+//
+//			logger.info( "HTTPS connection phase has been successfully.");
+//			// output phase
+//			int wc = client.createTSVFile(binaryList, tsv);
+//			LogMF.info(logger, "TSV output phase has been successfully.<<wc: {0}>>", String.valueOf(wc));
+		} catch (Exception e) {
+//			logger.error( "critical error occurred.", e);
+			throw e;
+		}
+		
+	}
 	/**
 	 * 新CRM連携APL主処理
 	 * 
@@ -60,7 +106,7 @@ public class YahooApiSearchClient {
 			sb.append("&");
 			sb.append("sort=end");
 			System.out.println(sb.toString());
-			client.perform(sb.toString(), 500);
+			String resp = client.perform(sb.toString(), 500);
 //			if (!client.validate(RequierdProperty.values(), System.getProperties())){
 //				throw new IllegalArgumentException();
 //			}
@@ -84,7 +130,7 @@ public class YahooApiSearchClient {
 			throw e;
 		}
 	}
-	private void perform(String urlAsString, int timeout) throws IOException {
+	private String perform(String urlAsString, int timeout) throws IOException {
 		HttpURLConnection con = null;
 		BufferedReader br = null;
 		try {
@@ -133,6 +179,7 @@ public class YahooApiSearchClient {
 				System.out.println(json.toString());
 //				LogMF.info(logger, "json: {0}",json.toString());
 //				return createAzureStorageResponse(nextPartitionKeyToken, nextRowKeyToken, json.toString());
+				return json.toString();
 			}
 		} catch (IOException e) {
 			logger.error( "IOException occurred: " ,e);
