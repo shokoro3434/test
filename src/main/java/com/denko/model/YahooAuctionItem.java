@@ -34,8 +34,16 @@ public class YahooAuctionItem {
     private String auctionItemUrl;
     @Column(name = "recall_id")
     private Long recallId;
+    @Column(name = "store_flag")
+    private Long storeFlag;
 
-    public Long getRecallId() {
+    public Long getStoreFlag() {
+		return storeFlag;
+	}
+	public void setStoreFlag(Long storeFlag) {
+		this.storeFlag = storeFlag;
+	}
+	public Long getRecallId() {
 		return recallId;
 	}
 	public void setRecallId(Long recallId) {

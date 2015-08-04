@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
+import com.denko.api.YahooApiItemSearchClient;
 import com.denko.api.YahooApiSearchClient;
 import com.denko.dao.RecallService;
 import com.denko.dao.YahooAuctionItemService;
@@ -63,10 +64,9 @@ public class Application {
         for (Recall recall : recalls) {
 //        	System.out.println (recall.getRecallId());
         	System.out.println (recall.getRecallName());
-        	String jsonp = YahooApiSearchClient.invoke(recall.getRecallName());
-        	System.out.println (jsonp);
-        	JSONObject json = JSONObject.fromObject(RecallUtils.toJson(jsonp));
-        	JSONObject resultSet = json.getJSONObject("ResultSet");
+        	String json = YahooApiSearchClient.invoke(recall.getRecallName());
+        	JSONObject root = JSONObject.fromObject(json);
+        	JSONObject resultSet = root.getJSONObject("ResultSet");
         	JSONObject attributes = resultSet.getJSONObject("@attributes");
         	Long available = attributes.getLong("totalResultsAvailable");
         	if (available <= 0){
@@ -79,7 +79,13 @@ public class Application {
         		if (yai2 != null){
         			continue;
         		}
-        		YahooAuctionItem yai = new YahooAuctionItem ();
+            	String itemJson = YahooApiItemSearchClient.invoke(auctionId);
+            	System.err.println(itemJson);
+            	JSONObject itemRoot = JSONObject.fromObject(itemJson);
+            	long storeFlag = itemRoot.getJSONObject("ResultSet").getJSONObject("Result").getJSONObject("Option").has("StoreIcon") ? 1 : 0;
+            	
+
+            	YahooAuctionItem yai = new YahooAuctionItem ();
         		yai.setTitle(item.getString("Title"));
         		yai.setEndTime(item.getString("EndTime"));
         		yai.setCurrentPrice(item.getLong("CurrentPrice"));
@@ -89,6 +95,7 @@ public class Application {
         		yai.setSellerId(item.getJSONObject("Seller").getString("Id"));
         		yai.setAuctionItemUrl(item.getString("AuctionItemUrl"));
         		yai.setRecallId(recall.getRecallId());
+        		yai.setStoreFlag(storeFlag);
         		yahooAuctionItemService.save(yai);
         		System.out.println(item);
         		continue;
@@ -104,6 +111,9 @@ public class Application {
 	        		if (yai2 != null){
 	        			continue;
 	        		}
+	            	String itemJson = YahooApiItemSearchClient.invoke(auctionId);
+	            	JSONObject itemRoot = JSONObject.fromObject(itemJson);
+	            	long storeFlag = itemRoot.getJSONObject("ResultSet").getJSONObject("Result").getJSONObject("Option").has("StoreIcon") ? 1 : 0;
 	        		YahooAuctionItem yai = new YahooAuctionItem ();
 	        		yai.setTitle(item.getString("Title"));
 	        		yai.setEndTime(item.getString("EndTime"));
@@ -114,6 +124,7 @@ public class Application {
 	        		yai.setSellerId(item.getJSONObject("Seller").getString("Id"));
 	        		yai.setAuctionItemUrl(item.getString("AuctionItemUrl"));
 	        		yai.setRecallId(recall.getRecallId());
+	        		yai.setStoreFlag(storeFlag);
 	        		yahooAuctionItemService.save(yai);
 	        		System.out.println(item);
 	        		System.out.println(i);
