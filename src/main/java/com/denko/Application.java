@@ -68,14 +68,17 @@ public class Application {
         	JSONObject json = JSONObject.fromObject(RecallUtils.toJson(jsonp));
         	JSONObject resultSet = json.getJSONObject("ResultSet");
         	JSONObject attributes = resultSet.getJSONObject("@attributes");
-        	if (attributes.getLong("totalResultsAvailable") <= 1){
+        	Long available = attributes.getLong("totalResultsAvailable");
+        	if (available <= 0){
         		continue;
         	}
-        	System.out.println (json);
-        	JSONArray itemArray = resultSet.getJSONObject("Result").getJSONArray("Item");
-        	
-        	for (int i = 0 ; i < itemArray.size() ; i ++){
-        		JSONObject item = itemArray.getJSONObject(i);
+        	else if (available <= 1){
+        		JSONObject item = resultSet.getJSONObject("Result").getJSONObject("Item");
+        		String auctionId = item.getString("AuctionID");
+        		YahooAuctionItem yai2 = yahooAuctionItemService.findByAuctionId(auctionId);
+        		if (yai2 != null){
+        			continue;
+        		}
         		YahooAuctionItem yai = new YahooAuctionItem ();
         		yai.setTitle(item.getString("Title"));
         		yai.setEndTime(item.getString("EndTime"));
@@ -88,9 +91,35 @@ public class Application {
         		yai.setRecallId(recall.getRecallId());
         		yahooAuctionItemService.save(yai);
         		System.out.println(item);
-        		System.out.println(i);
+        		continue;
         	}
+        	else{
+	        	System.out.println (json);
+	        	JSONArray itemArray = resultSet.getJSONObject("Result").getJSONArray("Item");
+	        	
+	        	for (int i = 0 ; i < itemArray.size() ; i ++){
+	        		JSONObject item = itemArray.getJSONObject(i);
+	        		String auctionId = item.getString("AuctionID");
+	        		YahooAuctionItem yai2 = yahooAuctionItemService.findByAuctionId(auctionId);
+	        		if (yai2 != null){
+	        			continue;
+	        		}
+	        		YahooAuctionItem yai = new YahooAuctionItem ();
+	        		yai.setTitle(item.getString("Title"));
+	        		yai.setEndTime(item.getString("EndTime"));
+	        		yai.setCurrentPrice(item.getLong("CurrentPrice"));
+	        		yai.setAuctionId(item.getString("AuctionID"));
+	        		yai.setCategoryId(item.getString("CategoryId"));
+	        		yai.setBidOrBuy(item.has("BidOrBuy") ? item.getLong("BidOrBuy") : 0);
+	        		yai.setSellerId(item.getJSONObject("Seller").getString("Id"));
+	        		yai.setAuctionItemUrl(item.getString("AuctionItemUrl"));
+	        		yai.setRecallId(recall.getRecallId());
+	        		yahooAuctionItemService.save(yai);
+	        		System.out.println(item);
+	        		System.out.println(i);
+	        	}
 //            System.out.println(recall.getName() + " = " + config.getValue());
+        	}
         }
         System.out.println("[END  ] データベースに接続してデータを取得します。");
     	

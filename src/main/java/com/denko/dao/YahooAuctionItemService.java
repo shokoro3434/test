@@ -21,6 +21,9 @@ public class YahooAuctionItemService {
 	public YahooAuctionItem save (YahooAuctionItem yai){
 		return yahooAuctionItemRepository.save(yai);
 	}
+	public YahooAuctionItem findByAuctionId (String auctionId){
+		return yahooAuctionItemRepository.findByAuctionId(auctionId);
+	}
 	
 //	@Autowired
 //	WhiskyRepository whiskyRepository;
