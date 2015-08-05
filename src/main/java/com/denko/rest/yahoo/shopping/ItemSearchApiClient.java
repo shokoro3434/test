@@ -1,4 +1,4 @@
-package com.denko.api;
+package com.denko.rest.yahoo.shopping;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -27,27 +28,27 @@ import net.sf.json.JSONArray;
 //import com.mcdonalds.bdh.CRMApiClient.RequierdProperty;
 //import com.mcdonalds.bdh.CRMApiClient.VMobAPIProperties;
 
-public class YahooApiItemSearchClient {
-	private static final Logger logger = LogManager.getLogger(YahooApiItemSearchClient.class);
+public class ItemSearchApiClient {
+	private static final Logger logger = LogManager.getLogger(ItemSearchApiClient.class);
 
-	private YahooApiItemSearchClient(){
+	private ItemSearchApiClient(){
 		
 	}
 	
-	public static String invoke (String auctionID) throws Exception{
+	public static String invoke (String query) throws Exception{
 		try {
-			YahooApiItemSearchClient client = new YahooApiItemSearchClient();
+			ItemSearchApiClient client = new ItemSearchApiClient();
 			StringBuffer sb = new StringBuffer ();
-			sb.append("http://auctions.yahooapis.jp/AuctionWebService/V2/auctionItem");
+			sb.append("http://shopping.yahooapis.jp/ShoppingWebService/V1/json/itemSearch");
 			sb.append("?");
 			sb.append("appid=dj0zaiZpPWlwa2VqOGRqQVFmbSZzPWNvbnN1bWVyc2VjcmV0Jng9Yjc-");
 			sb.append("&");
-			sb.append("output=json");
+			sb.append("query=");
+			sb.append(URLEncoder.encode(query,"utf-8"));
 			sb.append("&");
-			sb.append("auctionID=");
-			sb.append(auctionID);
+			sb.append("hits=50");
 			System.out.println(sb.toString());
-			String resp = client.perform(sb.toString(), 500);
+			String resp = client.perform(sb.toString(), 1000);
 			return RecallUtils.toJson(resp);
 //			if (!client.validate(RequierdProperty.values(), System.getProperties())){
 //				throw new IllegalArgumentException();
@@ -87,7 +88,7 @@ public class YahooApiItemSearchClient {
 //		final String tsv = System.getProperty("TSV_PATH");
 
 		try {
-			YahooApiItemSearchClient client = new YahooApiItemSearchClient();
+			ItemSearchApiClient client = new ItemSearchApiClient();
 			StringBuffer sb = new StringBuffer ();
 			sb.append("http://auctions.yahooapis.jp/AuctionWebService/V2/search");
 			sb.append("?");
@@ -165,7 +166,7 @@ public class YahooApiItemSearchClient {
 				json.append(line);
 			}
 			if (responseCode != HttpURLConnection.HTTP_OK) {
-				LogMF.error(logger, "HTTPS response code failed: {0},response-json: {1}",new Object[]{String.valueOf(responseCode),json.toString()});
+				System.err.println(json);
 				throw new IOException("HTTPS response code failed: " + String.valueOf(responseCode));
 			} else {
 				// no error found

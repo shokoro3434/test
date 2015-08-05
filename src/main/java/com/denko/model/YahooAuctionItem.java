@@ -36,8 +36,16 @@ public class YahooAuctionItem {
     private Long recallId;
     @Column(name = "store_flag")
     private Long storeFlag;
+    @Column(name = "bids")
+    private Long bids;
 
-    public Long getStoreFlag() {
+	public Long getBids() {
+		return bids;
+	}
+	public void setBids(Long bids) {
+		this.bids = bids;
+	}
+	public Long getStoreFlag() {
 		return storeFlag;
 	}
 	public void setStoreFlag(Long storeFlag) {

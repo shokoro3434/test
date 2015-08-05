@@ -1,4 +1,4 @@
-package com.denko.api;
+package com.denko.rest.yahoo.auction;
 
 import java.io.BufferedReader;
 import java.io.IOException;

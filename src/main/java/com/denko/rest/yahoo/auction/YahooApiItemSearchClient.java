@@ -1,4 +1,4 @@
-package com.denko.api;
+package com.denko.rest.yahoo.auction;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,33 +27,27 @@ import net.sf.json.JSONArray;
 //import com.mcdonalds.bdh.CRMApiClient.RequierdProperty;
 //import com.mcdonalds.bdh.CRMApiClient.VMobAPIProperties;
 
-public class YahooApiSearchClient {
-	private static final Logger logger = LogManager.getLogger(YahooApiSearchClient.class);
+public class YahooApiItemSearchClient {
+	private static final Logger logger = LogManager.getLogger(YahooApiItemSearchClient.class);
 
-	private YahooApiSearchClient(){
+	private YahooApiItemSearchClient(){
 		
 	}
 	
-	public static String invoke (String query) throws Exception{
+	public static String invoke (String auctionID) throws Exception{
 		try {
-			YahooApiSearchClient client = new YahooApiSearchClient();
+			YahooApiItemSearchClient client = new YahooApiItemSearchClient();
 			StringBuffer sb = new StringBuffer ();
-			sb.append("http://auctions.yahooapis.jp/AuctionWebService/V2/search");
+			sb.append("http://auctions.yahooapis.jp/AuctionWebService/V2/auctionItem");
 			sb.append("?");
 			sb.append("appid=dj0zaiZpPWlwa2VqOGRqQVFmbSZzPWNvbnN1bWVyc2VjcmV0Jng9Yjc-");
 			sb.append("&");
 			sb.append("output=json");
 			sb.append("&");
-			sb.append("category=23336");
-			sb.append("&");
-			sb.append("query=");
-			sb.append(query);
-			sb.append("&");
-			sb.append("sort=end");
-			sb.append("&");
-			sb.append("order=a");
+			sb.append("auctionID=");
+			sb.append(auctionID);
 			System.out.println(sb.toString());
-			String resp = client.perform(sb.toString(), 500);
+			String resp = client.perform(sb.toString(), 3000);
 			return RecallUtils.toJson(resp);
 //			if (!client.validate(RequierdProperty.values(), System.getProperties())){
 //				throw new IllegalArgumentException();
@@ -93,7 +87,7 @@ public class YahooApiSearchClient {
 //		final String tsv = System.getProperty("TSV_PATH");
 
 		try {
-			YahooApiSearchClient client = new YahooApiSearchClient();
+			YahooApiItemSearchClient client = new YahooApiItemSearchClient();
 			StringBuffer sb = new StringBuffer ();
 			sb.append("http://auctions.yahooapis.jp/AuctionWebService/V2/search");
 			sb.append("?");

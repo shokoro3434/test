@@ -12,12 +12,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
-import com.denko.api.YahooApiItemSearchClient;
-import com.denko.api.YahooApiSearchClient;
 import com.denko.dao.RecallService;
 import com.denko.dao.YahooAuctionItemService;
 import com.denko.model.Recall;
 import com.denko.model.YahooAuctionItem;
+import com.denko.rest.yahoo.auction.YahooApiItemSearchClient;
+import com.denko.rest.yahoo.auction.YahooApiSearchClient;
+import com.denko.rest.yahoo.shopping.ItemSearchApiClient;
 import com.denko.util.RecallUtils;
 
 import net.sf.json.JSONArray;
@@ -60,9 +61,11 @@ public class Application {
     private YahooAuctionItemService yahooAuctionItemService;
 
     public void sayHello () throws Exception{
-        Page<Recall> recalls = recallService.findAll(new PageRequest(0, 10));
+        Page<Recall> recalls = recallService.findAll(new PageRequest(0, 100));
         for (Recall recall : recalls) {
 //        	System.out.println (recall.getRecallId());
+        	String shopping = ItemSearchApiClient.invoke(recall.getRecallName());
+        	System.out.println ("#########"+shopping);
         	System.out.println (recall.getRecallName());
         	String json = YahooApiSearchClient.invoke(recall.getRecallName());
         	JSONObject root = JSONObject.fromObject(json);
@@ -96,6 +99,7 @@ public class Application {
         		yai.setAuctionItemUrl(item.getString("AuctionItemUrl"));
         		yai.setRecallId(recall.getRecallId());
         		yai.setStoreFlag(storeFlag);
+        		yai.setBids(item.getLong("Bids"));
         		yahooAuctionItemService.save(yai);
         		System.out.println(item);
         		continue;
@@ -125,6 +129,7 @@ public class Application {
 	        		yai.setAuctionItemUrl(item.getString("AuctionItemUrl"));
 	        		yai.setRecallId(recall.getRecallId());
 	        		yai.setStoreFlag(storeFlag);
+	        		yai.setBids(item.getLong("Bids"));
 	        		yahooAuctionItemService.save(yai);
 	        		System.out.println(item);
 	        		System.out.println(i);
