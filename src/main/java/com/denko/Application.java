@@ -61,7 +61,7 @@ public class Application {
     private YahooAuctionItemService yahooAuctionItemService;
 
     public void sayHello () throws Exception{
-        Page<Recall> recalls = recallService.findAll(new PageRequest(0, 100));
+        Page<Recall> recalls = recallService.findByDelFlag((long)0, new PageRequest(0, 100));
         for (Recall recall : recalls) {
 //        	System.out.println (recall.getRecallId());
         	//String shopping = ItemSearchApiClient.invoke(recall.getRecallName());

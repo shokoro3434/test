@@ -19,5 +19,8 @@ public class RecallService {
     	return recallRepository.findAll(pageable);
     }
 
+    public  Page<Recall> findByDelFlag(Long delFlag,Pageable pageable){
+    	return recallRepository.findByDelFlag(delFlag, pageable);
+    }
     
 }

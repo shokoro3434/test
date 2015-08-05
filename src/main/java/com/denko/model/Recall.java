@@ -8,6 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @Table(name = "t_recall", schema="recall")
 public class Recall {
@@ -25,6 +28,8 @@ public class Recall {
     @Column(name = "countermeasures_id")
 	private Long countermeasuresId;
     @Column(name = "del_flag")
+    @Getter
+    @Setter
 	private Long delFlag;
 
 	public Long getRecallId() {
@@ -56,12 +61,6 @@ public class Recall {
 	}
 	public void setCountermeasuresId(Long countermeasuresId) {
 		this.countermeasuresId = countermeasuresId;
-	}
-	public Long getDelFlag() {
-		return delFlag;
-	}
-	public void setDelFlag(Long delFlag) {
-		this.delFlag = delFlag;
 	}
 
     

@@ -9,6 +9,7 @@ import com.denko.model.Recall;
 public interface RecallRepository extends Repository<Recall, String> {
 
     public  Page<Recall> findAll(Pageable pageable);
+    public  Page<Recall> findByDelFlag(Long delFlag,Pageable pageable);
 
 
 }
