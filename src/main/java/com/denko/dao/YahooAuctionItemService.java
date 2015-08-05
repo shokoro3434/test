@@ -24,7 +24,10 @@ public class YahooAuctionItemService {
 	public YahooAuctionItem findByAuctionId (String auctionId){
 		return yahooAuctionItemRepository.findByAuctionId(auctionId);
 	}
-	
+	public void removeByAuctionId(String auctionId){
+		yahooAuctionItemRepository.deleteByAuctionId(auctionId);
+	}
+
 //	@Autowired
 //	WhiskyRepository whiskyRepository;
 //

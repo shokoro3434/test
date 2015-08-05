@@ -64,8 +64,8 @@ public class Application {
         Page<Recall> recalls = recallService.findAll(new PageRequest(0, 100));
         for (Recall recall : recalls) {
 //        	System.out.println (recall.getRecallId());
-        	String shopping = ItemSearchApiClient.invoke(recall.getRecallName());
-        	System.out.println ("#########"+shopping);
+        	//String shopping = ItemSearchApiClient.invoke(recall.getRecallName());
+        	//System.out.println ("#########"+shopping);
         	System.out.println (recall.getRecallName());
         	String json = YahooApiSearchClient.invoke(recall.getRecallName());
         	JSONObject root = JSONObject.fromObject(json);
@@ -78,10 +78,7 @@ public class Application {
         	else if (available <= 1){
         		JSONObject item = resultSet.getJSONObject("Result").getJSONObject("Item");
         		String auctionId = item.getString("AuctionID");
-        		YahooAuctionItem yai2 = yahooAuctionItemService.findByAuctionId(auctionId);
-        		if (yai2 != null){
-        			continue;
-        		}
+        		yahooAuctionItemService.removeByAuctionId(auctionId);
             	String itemJson = YahooApiItemSearchClient.invoke(auctionId);
             	System.err.println(itemJson);
             	JSONObject itemRoot = JSONObject.fromObject(itemJson);
@@ -111,10 +108,7 @@ public class Application {
 	        	for (int i = 0 ; i < itemArray.size() ; i ++){
 	        		JSONObject item = itemArray.getJSONObject(i);
 	        		String auctionId = item.getString("AuctionID");
-	        		YahooAuctionItem yai2 = yahooAuctionItemService.findByAuctionId(auctionId);
-	        		if (yai2 != null){
-	        			continue;
-	        		}
+	        		yahooAuctionItemService.removeByAuctionId(auctionId);
 	            	String itemJson = YahooApiItemSearchClient.invoke(auctionId);
 	            	JSONObject itemRoot = JSONObject.fromObject(itemJson);
 	            	long storeFlag = itemRoot.getJSONObject("ResultSet").getJSONObject("Result").getJSONObject("Option").has("StoreIcon") ? 1 : 0;

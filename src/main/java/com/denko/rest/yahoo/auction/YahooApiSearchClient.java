@@ -45,8 +45,6 @@ public class YahooApiSearchClient {
 			sb.append("&");
 			sb.append("output=json");
 			sb.append("&");
-			sb.append("category=23336");
-			sb.append("&");
 			sb.append("query=");
 			sb.append(URLEncoder.encode(query,"utf-8"));
 			sb.append("&");
