@@ -92,6 +92,8 @@ public class Application {
 	
 	            	ysi.setStoreId(store.getString("Id"));
 	            	ysi.setStoreName(store.getString("Name"));
+	        		ysi.setRecallId(recall.getRecallId());
+
 	            	yahooShoppingItemService.save(ysi);
 	//            	break;
 	//        		

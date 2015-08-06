@@ -36,7 +36,7 @@ public class YahooShoppingItem {
     @Column(name = "url")
     private String url;
     @Column(name = "recall_id")
-    private String recallId;
+    private Long recallId;
     @Column(name = "price")
     private Long price;
 
