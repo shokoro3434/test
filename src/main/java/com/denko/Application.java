@@ -12,13 +12,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
-import com.denko.dao.RecallService;
-import com.denko.dao.YahooAuctionItemService;
 import com.denko.model.Recall;
 import com.denko.model.YahooAuctionItem;
+import com.denko.model.YahooShoppingItem;
 import com.denko.rest.yahoo.auction.YahooApiItemSearchClient;
 import com.denko.rest.yahoo.auction.YahooApiSearchClient;
 import com.denko.rest.yahoo.shopping.ItemSearchApiClient;
+import com.denko.service.RecallService;
+import com.denko.service.YahooAuctionItemService;
+import com.denko.service.YahooShoppingItemService;
 import com.denko.util.RecallUtils;
 
 import net.sf.json.JSONArray;
@@ -59,14 +61,46 @@ public class Application {
     private RecallService recallService;
     @Autowired
     private YahooAuctionItemService yahooAuctionItemService;
+    @Autowired
+    private YahooShoppingItemService yahooShoppingItemService;
 
     public void sayHello () throws Exception{
         Page<Recall> recalls = recallService.findByDelFlag((long)0, new PageRequest(0, 100));
-        for (Recall recall : recalls) {
+        for (Recall recall : recalls) { 
 //        	System.out.println (recall.getRecallId());
-        	//String shopping = ItemSearchApiClient.invoke(recall.getRecallName());
-        	//System.out.println ("#########"+shopping);
-        	System.out.println (recall.getRecallName());
+        	String shopping = ItemSearchApiClient.invoke(recall.getRecallName());
+        	System.err.println(shopping);
+        	JSONObject shoppingRoot = JSONObject.fromObject(shopping);
+        	JSONObject shoppingResultSet = shoppingRoot.getJSONObject("ResultSet");
+        	Long totalResultsAvailable = shoppingResultSet.getLong("totalResultsAvailable");
+        	if (0 < totalResultsAvailable){
+	        	JSONObject result = shoppingRoot.getJSONObject("ResultSet").getJSONObject("0").getJSONObject("Result");
+	//        	JSONArray hits = result.getJSONArray("hits");
+	        	JSONObject hit = result.getJSONObject("0");
+	//        	for (int i = 0 ; i < hits.size() ; i ++){
+	//            	JSONObject hit = hits.getJSONObject(i);
+	            	YahooShoppingItem ysi = new YahooShoppingItem ();
+	            	ysi.setItemName(hit.getString("Name"));
+	            	ysi.setDescription(hit.getString("Description"));
+	            	ysi.setUrl(hit.getString("Url"));
+	            	JSONObject price = hit.getJSONObject("Price");
+	            	ysi.setPrice(price.getLong("_value"));
+	            	ysi.setJan(hit.getString("JanCode"));
+	            	ysi.setModel(hit.getString("Model"));
+	            	ysi.setIsbn(hit.getString("IsbnCode"));
+	            	JSONObject store = hit.getJSONObject("Store");
+	
+	            	ysi.setStoreId(store.getString("Id"));
+	            	ysi.setStoreName(store.getString("Name"));
+	            	yahooShoppingItemService.save(ysi);
+	//            	break;
+	//        		
+	//        	}
+        	}
+        	
+//        	System.out.println ("#########"+shopping);
+//        	System.err.println (recall.getRecallName());
+//        	if (true)return;
         	String json = YahooApiSearchClient.invoke(recall.getRecallName());
         	JSONObject root = JSONObject.fromObject(json);
         	JSONObject resultSet = root.getJSONObject("ResultSet");

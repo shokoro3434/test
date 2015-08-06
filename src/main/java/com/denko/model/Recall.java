@@ -10,7 +10,9 @@ import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString
 @Entity
 @Table(name = "t_recall", schema="recall")
 public class Recall {
@@ -18,50 +20,27 @@ public class Recall {
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="t_RECALL_SEQ")
     @SequenceGenerator(name="t_RECALL_SEQ", allocationSize=25)
     @Column(name = "recall_id")
+    @Getter
+    @Setter
     private Long recallId;
     @Column(name = "recall_name")
+    @Getter
+    @Setter
 	private String recallName;
     @Column(name = "opened")
+    @Getter
+    @Setter
 	private String opemed;
     @Column(name = "maker_id")
+    @Getter
+    @Setter
 	private Long makerId;
     @Column(name = "countermeasures_id")
+    @Getter
+    @Setter
 	private Long countermeasuresId;
     @Column(name = "del_flag")
     @Getter
     @Setter
 	private Long delFlag;
-
-	public Long getRecallId() {
-		return recallId;
-	}
-	public void setRecallId(Long recallId) {
-		this.recallId = recallId;
-	}
-	public String getRecallName() {
-		return recallName;
-	}
-	public void setRecallName(String recallName) {
-		this.recallName = recallName;
-	}
-	public String getOpemed() {
-		return opemed;
-	}
-	public void setOpemed(String opemed) {
-		this.opemed = opemed;
-	}
-	public Long getMakerId() {
-		return makerId;
-	}
-	public void setMakerId(Long makerId) {
-		this.makerId = makerId;
-	}
-	public Long getCountermeasuresId() {
-		return countermeasuresId;
-	}
-	public void setCountermeasuresId(Long countermeasuresId) {
-		this.countermeasuresId = countermeasuresId;
-	}
-
-    
 }

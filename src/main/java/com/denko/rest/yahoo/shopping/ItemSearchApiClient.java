@@ -46,10 +46,11 @@ public class ItemSearchApiClient {
 			sb.append("query=");
 			sb.append(URLEncoder.encode(query,"utf-8"));
 			sb.append("&");
-			sb.append("hits=50");
+			sb.append("hits=1");
 			System.out.println(sb.toString());
 			String resp = client.perform(sb.toString(), 1000);
-			return RecallUtils.toJson(resp);
+			return resp;
+//			return RecallUtils.toJson(resp);
 //			if (!client.validate(RequierdProperty.values(), System.getProperties())){
 //				throw new IllegalArgumentException();
 //			}
