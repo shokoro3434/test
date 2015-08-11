@@ -40,7 +40,8 @@ public class YahooApiItemSearchClient {
 			StringBuffer sb = new StringBuffer ();
 			sb.append("http://auctions.yahooapis.jp/AuctionWebService/V2/auctionItem");
 			sb.append("?");
-			sb.append("appid=dj0zaiZpPWlwa2VqOGRqQVFmbSZzPWNvbnN1bWVyc2VjcmV0Jng9Yjc-");
+			sb.append("appid=");
+			sb.append(System.getProperty("appid"));
 			sb.append("&");
 			sb.append("output=json");
 			sb.append("&");
