@@ -47,7 +47,7 @@ public class YahooApiItemSearchClient {
 			sb.append("auctionID=");
 			sb.append(auctionID);
 			System.out.println(sb.toString());
-			String resp = client.perform(sb.toString(), 3000);
+			String resp = client.perform(sb.toString(), 30000);
 			return RecallUtils.toJson(resp);
 //			if (!client.validate(RequierdProperty.values(), System.getProperties())){
 //				throw new IllegalArgumentException();

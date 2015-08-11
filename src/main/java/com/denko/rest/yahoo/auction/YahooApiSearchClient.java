@@ -52,7 +52,7 @@ public class YahooApiSearchClient {
 			sb.append("&");
 			sb.append("order=a");
 			System.out.println(sb.toString());
-			String resp = client.perform(sb.toString(), 1000);
+			String resp = client.perform(sb.toString(), 30000);
 			return RecallUtils.toJson(resp);
 //			if (!client.validate(RequierdProperty.values(), System.getProperties())){
 //				throw new IllegalArgumentException();

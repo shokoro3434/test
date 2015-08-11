@@ -14,7 +14,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Data
-@ToString
 @Entity
 @Table(name = "t_recall", schema="recall")
 public class Recall {
