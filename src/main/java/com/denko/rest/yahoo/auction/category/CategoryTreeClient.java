@@ -35,25 +35,73 @@ public class CategoryTreeClient {
 //        SpringApplication.run(CategoryTreeClient.class);
     } 
 
-    public void invoke() throws Exception {
-        RestTemplate restTemplate = new RestTemplate();
-        ResultSet resultSet = restTemplate.getForObject("http://auctions.yahooapis.jp/AuctionWebService/V2/categoryTree?appid="+System.getProperty("appid"), ResultSet.class);
+    private void register(Integer categoryId){
+    	StringBuffer sb = new StringBuffer();
+    	sb.append("http://auctions.yahooapis.jp/AuctionWebService/V2/categoryTree");
+    	sb.append("?");
+    	sb.append("appid=");
+    	sb.append(System.getProperty("appid"));
+    	sb.append("&");
+    	sb.append("adf=1");
+    	sb.append("&");
+    	sb.append("category=");
+    	sb.append(categoryId);
+    	RestTemplate restTemplate = new RestTemplate();
+        ResultSet resultSet = restTemplate.getForObject(sb.toString(), ResultSet.class);
         Result result = resultSet.getResult();
-        for (ChildCategory childCategory : result.getChildCategory()){
-        	Integer yCategoryId = childCategory.getCategoryId();
-        	System.out.println(yCategoryId);
-        	yahooCategoryService.deleteByYCategoryId(yCategoryId);
-        	Category category = new Category();
-        	category.setCategoryName(childCategory.getCategoryName());
-        	category.setCategoryPath(childCategory.getCategoryPath());
-        	category.setNumOfAuctions(childCategory.getNumOfAuctions());
-        	category.setParentCategoryId(childCategory.getParentCategoryId());
-        	category.setYCategoryId(yCategoryId);
-        	yahooCategoryService.save(category);
+        if (!result.getIsLeaf()){
+        	for (ChildCategory child : result.getChildCategory()){
+	        	Integer yCategoryId = child.getCategoryId();
+	        	Boolean isLeaf = child.getIsLeaf();
+	        	if (isLeaf){
+		        	yahooCategoryService.deleteByYCategoryId(yCategoryId);
+		        	Category category = new Category();
+		        	category.setCategoryName(child.getCategoryName());
+		        	category.setCategoryPath(child.getCategoryPath());
+		        	category.setNumOfAuctions(child.getNumOfAuctions());
+		        	category.setParentCategoryId(child.getParentCategoryId());
+		        	category.setYCategoryId(yCategoryId);
+		        	yahooCategoryService.save(category);
+	        	}
+	        	else{
+	        		register(yCategoryId);
+	        	}
+	        }
         }
+    }
+    
+    public void invoke() throws Exception {
+    	register(0);
+//        for (child childCategory : rootResult.getChildCategory()){
+//        	Integer yCategoryId = childCategory.getCategoryId();
+//        	System.out.println(yCategoryId);
+//        	yahooCategoryService.deleteByYCategoryId(yCategoryId);
+//        	Category category = new Category();
+//        	category.setCategoryName(childCategory.getCategoryName());
+//        	category.setCategoryPath(childCategory.getCategoryPath());
+//        	category.setNumOfAuctions(childCategory.getNumOfAuctions());
+//        	category.setParentCategoryId(childCategory.getParentCategoryId());
+//        	category.setYCategoryId(yCategoryId);
+//        	yahooCategoryService.save(category);
+//        	StringBuffer sb = new StringBuffer();
+//        	sb.append("http://auctions.yahooapis.jp/AuctionWebService/V2/categoryTree");
+//        	sb.append("?");
+//        	sb.append("appid=");
+//        	sb.append(System.getProperty("appid"));
+//        	sb.append("&");
+//        	sb.append("adf=1");
+//        	sb.append("&");
+//        	sb.append("category=");
+//        	sb.append(yCategoryId);
+//            ResultSet resultSet = restTemplate.getForObject(sb.toString(), ResultSet.class);
+//            Result result = resultSet.getResult();
+//            for (ChildCategory childCategory : result.getChildCategory()){
+//            	
+//            }
+//        }
         
-        log.info(resultSet.toString());
-        System.out.println("########");
+//        log.info(rootResultSet.toString());
+//        System.out.println("########");
     }
 }
 
