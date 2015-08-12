@@ -18,7 +18,7 @@ import java.util.List;
 @Component
 public class YahooShoppingItemService {
 	@Autowired
-	YahooShoppingItemRepository yahooShoppingItemRepository;
+	private YahooShoppingItemRepository yahooShoppingItemRepository;
 	
 	public YahooShoppingItem save (YahooShoppingItem yai){
 		return yahooShoppingItemRepository.save(yai);

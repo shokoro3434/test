@@ -13,7 +13,7 @@ import com.denko.repository.RecallRepository;
 public class RecallService {
     @Autowired
 //  @Qualifier("recallRepository")
-    RecallRepository recallRepository;
+    private RecallRepository recallRepository;
     
     public  Page<Recall> findAll(Pageable pageable){
     	return recallRepository.findAll(pageable);
