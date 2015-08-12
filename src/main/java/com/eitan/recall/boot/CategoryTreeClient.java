@@ -1,4 +1,4 @@
-package com.eitan.recall.rest.yahoo.auction.category;
+package com.eitan.recall.boot;
 
 import java.io.IOException;
 
@@ -20,13 +20,16 @@ import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import com.eitan.recall.model.Category;
+import com.eitan.recall.rest.yahoo.auction.category.ChildCategory;
+import com.eitan.recall.rest.yahoo.auction.category.Result;
+import com.eitan.recall.rest.yahoo.auction.category.ResultSet;
 import com.eitan.recall.service.RecallService;
 import com.eitan.recall.service.YahooCategoryService;
 
 @SpringBootApplication
-@ComponentScan(basePackages="com.denko.service")
-@EnableJpaRepositories(basePackages="com.denko.repository")
-@EntityScan(basePackages="com.denko.model")
+@ComponentScan(basePackages="com.eitan.recall.service")
+@EnableJpaRepositories(basePackages="com.eitan.recall.repository")
+@EntityScan(basePackages="com.eitan.recall.model")
 public class CategoryTreeClient {
     @Autowired
     private YahooCategoryService yahooCategoryService;
