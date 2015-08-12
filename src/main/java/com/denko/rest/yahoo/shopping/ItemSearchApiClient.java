@@ -40,8 +40,8 @@ public class ItemSearchApiClient {
 			ItemSearchApiClient client = new ItemSearchApiClient();
 			StringBuffer sb = new StringBuffer ();
 			sb.append("http://shopping.yahooapis.jp/ShoppingWebService/V1/json/itemSearch");
-			sb.append("?");
-			sb.append("appid=dj0zaiZpPWlwa2VqOGRqQVFmbSZzPWNvbnN1bWVyc2VjcmV0Jng9Yjc-");
+			sb.append("appid=");
+			sb.append(System.getProperty("appid"));
 			sb.append("&");
 			sb.append("query=");
 			sb.append(URLEncoder.encode(query,"utf-8"));
