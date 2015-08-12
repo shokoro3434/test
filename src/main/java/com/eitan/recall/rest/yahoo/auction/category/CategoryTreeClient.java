@@ -19,9 +19,9 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
-import com.denko.service.YahooCategoryService;
 import com.eitan.recall.model.Category;
 import com.eitan.recall.service.RecallService;
+import com.eitan.recall.service.YahooCategoryService;
 
 @SpringBootApplication
 @ComponentScan(basePackages="com.denko.service")
