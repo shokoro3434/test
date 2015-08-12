@@ -1,35 +1,34 @@
-package com.denko.service;
+package com.eitan.recall.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.eitan.recall.model.Category;
-import com.eitan.recall.repository.YahooCategoryRepository;
+import com.eitan.recall.model.YahooAuctionItem;
+import com.eitan.recall.repository.YahooAuctionItemRepository;
 
 import java.util.List;
 
 //@Service
 @Transactional
 @Component
-public class YahooCategoryService {
+public class YahooAuctionItemService {
 	@Autowired
-	private YahooCategoryRepository yahooCategoryRepository;
+	private YahooAuctionItemRepository yahooAuctionItemRepository;
 	
-	public Category save (Category category){
-		return yahooCategoryRepository.save(category);
+	public YahooAuctionItem save (YahooAuctionItem yai){
+		return yahooAuctionItemRepository.save(yai);
 	}
-	public void deleteByYCategoryId(Integer yCategoryId) {
-		yahooCategoryRepository.deleteByYCategoryId(yCategoryId);
+	public YahooAuctionItem findByAuctionId (String auctionId){
+		return yahooAuctionItemRepository.findByAuctionId(auctionId);
 	}
-//	public YahooAuctionItem findByAuctionId (String auctionId){
-//		return yahooAuctionItemRepository.findByAuctionId(auctionId);
-//	}
-//	public void removeByAuctionId(String auctionId){
-//		yahooAuctionItemRepository.deleteByAuctionId(auctionId);
-//	}
+	public void removeByAuctionId(String auctionId){
+		yahooAuctionItemRepository.deleteByAuctionId(auctionId);
+	}
 
 //	@Autowired
 //	WhiskyRepository whiskyRepository;
