@@ -13,6 +13,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.HttpServerErrorException;
@@ -26,6 +27,7 @@ import com.eitan.recall.rest.yahoo.auction.category.ResultSet;
 import com.eitan.recall.service.RecallService;
 import com.eitan.recall.service.YahooCategoryService;
 
+@EnableScheduling
 @SpringBootApplication
 @ComponentScan(basePackages="com.eitan.recall.service")
 @EnableJpaRepositories(basePackages="com.eitan.recall.repository")
