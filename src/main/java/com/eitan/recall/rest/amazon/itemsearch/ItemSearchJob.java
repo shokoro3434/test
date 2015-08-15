@@ -8,13 +8,9 @@ import java.io.PrintStream;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.TimeZone;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -27,15 +23,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.eitan.recall.boot.AmazonAPICallHelper;
 import com.eitan.recall.model.AmazonItem;
 import com.eitan.recall.model.Recall;
+import com.eitan.recall.rest.amazon.util.AmazonAPICallHelper;
 import com.eitan.recall.rest.amazon.xsd.Item;
 import com.eitan.recall.rest.amazon.xsd.ItemSearchResponse;
-import com.eitan.recall.rest.amazon.xsd.Items;
 import com.eitan.recall.service.AmazonItemService;
 import com.eitan.recall.service.RecallService;
-import com.eitan.recall.service.YahooAuctionItemService;
 
 
 @Component
@@ -44,25 +38,6 @@ public class ItemSearchJob {
     private RecallService recallService;
     @Autowired
     private AmazonItemService amazonItemService;
-
-	private static String toDatetime(String value, String srcFormat, String dstFormat, TimeZone dstTz)
-			throws ParseException {
-		// DateTimeFormatter dtf =
-		// DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSS'Z'");
-		// DateTime dt =
-
-		final SimpleDateFormat UTC = new SimpleDateFormat(srcFormat, Locale.US);
-		// final SimpleDateFormat UTC = new
-		// SimpleDateFormat("dd/MM/yyyy hh:mm:ss aaa", Locale.US);
-		UTC.setTimeZone(TimeZone.getTimeZone("UTC"));
-		final SimpleDateFormat JST = new SimpleDateFormat(dstFormat, Locale.JAPAN);
-		JST.setTimeZone(dstTz);
-		// final String VMOB_AM = "a.m.";
-		// final String VMOB_PM = "p.m.";
-		return JST.format(UTC.parse(value));
-		// return JST.format(UTC.parse(value.replaceAll(VMOB_PM,
-		// "PM").replaceAll(VMOB_AM, "AM")));
-	}
 
 	private InputStream retrieveInputStream(HttpURLConnection con) throws IOException {
 		try {
@@ -96,6 +71,7 @@ public class ItemSearchJob {
 				ai.setManufacturer(item.getItemAttributes().getManufacturer());
 				ai.setTITLE(item.getItemAttributes().getTitle());
 				ai.setIsbn(item.getItemAttributes().getISBN());
+				ai.setRecallId(recall.getRecallId());
 				amazonItemService.save(ai);
 			}
         }
@@ -110,8 +86,8 @@ public class ItemSearchJob {
 
 		parameters.put("Version", "2009-11-01");
 		parameters.put("Operation", "ItemSearch");
-		parameters.put("SearchIndex", "Books");
-		parameters.put("Keywords", "Java");
+		parameters.put("SearchIndex", "All");
+		parameters.put("Keywords", keyword);
 		// parameters.put("AssociateTag", "xxx"); // TODO アソシエイトタグを設定ください.
 		AmazonAPICallHelper aach = new AmazonAPICallHelper(System.getProperty("AWSSecretKey"));
 		parameters.put("Timestamp", aach.getCurrentTimestamp());
