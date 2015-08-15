@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "AMAZON_ITEM_ID", schema="recall")
+@Table(name = "T_AMAZON_ITEM", schema="recall")
 public class AmazonItem {
 
     @Id
@@ -30,5 +30,7 @@ public class AmazonItem {
 	private String TITLE;
     @Column(name = "ISBN")
 	private String isbn;
+    @Column(name = "RECALL_ID")
+    private Integer recallId;
 
 }
