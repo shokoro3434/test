@@ -82,7 +82,7 @@ public class ItemSearchJob {
 
 		parameters.put("Service", "AWSECommerceService");
 		parameters.put("AWSAccessKeyId", System.getProperty("AWSAccessKeyId"));
-		parameters.put("AssociateTag", "shokoro-22");
+		parameters.put("AssociateTag", System.getProperty("AssociateTag"));
 
 		parameters.put("Version", "2009-11-01");
 		parameters.put("Operation", "ItemSearch");
@@ -214,81 +214,142 @@ public class ItemSearchJob {
 			}
 		}
 	}
+    private String invokeItemLookup (String keyword) throws Exception{
+		Map<String, String> parameters = new HashMap<String, String>();
+
+		parameters.put("Service", "AWSECommerceService");
+		parameters.put("AWSAccessKeyId", System.getProperty("AWSAccessKeyId"));
+		parameters.put("AssociateTag", System.getProperty("AssociateTag"));
+
+		parameters.put("Version", "2009-11-01");
+		parameters.put("Operation", "ItemSearch");
+		parameters.put("SearchIndex", "All");
+		parameters.put("Keywords", keyword);
+		// parameters.put("AssociateTag", "xxx"); // TODO アソシエイトタグを設定ください.
+		AmazonAPICallHelper aach = new AmazonAPICallHelper(System.getProperty("AWSSecretKey"));
+		parameters.put("Timestamp", aach.getCurrentTimestamp());
+		String urlx = aach.buildRequestWithSignature(parameters);
+		System.out.println(urlx);
+
+		// RestTemplate restTemplate = new RestTemplate();
+		// restTemplate.setInterceptors(Collections.singletonList(new
+		// XUserAgentInterceptor()));
+		// String resp = restTemplate.getForObject(url, String.class);
+		// System.out.println(resp);
+		HttpURLConnection con = null;
+		PrintStream ps = null;
+		BufferedReader br = null;
+		StringBuffer json = new StringBuffer();
+		try {
+			final int timeout = 3000;
+			URL url = new URL(urlx);
+			con = (HttpURLConnection) url.openConnection();
+
+			if (con instanceof HttpsURLConnection) {
+				HttpsURLConnection httpsCon = (HttpsURLConnection) con;
+				httpsCon.setHostnameVerifier(new HostnameVerifier() {
+					public boolean verify(String hostname, SSLSession session) {
+						return true;
+					}
+				});
+				// KeyManager[] km = null;
+				// TrustManager[] tm = { new X509TrustManager() {
+				// public void checkClientTrusted(X509Certificate[] arg0, String
+				// arg1) throws CertificateException {
+				// }
+				// public void checkServerTrusted(X509Certificate[] arg0, String
+				// arg1) throws CertificateException {
+				// }
+				// public java.security.cert.X509Certificate[]
+				// getAcceptedIssuers() {
+				// return null;
+				// }
+				// }
+				// };
+				// SSLContext sslcontext= SSLContext.getInstance("SSL");
+				// sslcontext.init(km, tm, new SecureRandom());
+				// httpsCon.setSSLSocketFactory(sslcontext.getSocketFactory());
+
+			}
+			con.setDoInput(true);
+			con.setDoOutput(true);
+			con.setConnectTimeout(timeout);
+			con.setReadTimeout(timeout);
+			con.setRequestMethod("GET");
+			con.setUseCaches(false);
+			con.setRequestProperty("Accept", "application/xml");
+			con.setRequestProperty("Accept-Language", "ja");
+			con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+			// con.setRequestProperty("Content-Length",
+			// String.valueOf(postData.getBytes().length));
+			// con.setFixedLengthStreamingMode(postData.getBytes().length);
+			// con.setInstanceFollowRedirects(false);
+			// con.setRequestProperty("Host", "akindo.wup.shop.nintendo.net");
+
+			// con.setRequestProperty("Accept", "application/xml");
+			// con.setRequestProperty("Connection", "Keep-Alive");
+			// con.setRequestProperty(
+			// "Authorization",
+			// toBasicAuthorizationValue(
+			// args.get(ExecIOArgs.TITLE_CODE.getName()),
+			// System.getProperty(Constants.VM_ARGS_TIN.getName())));
+			try {
+				// unsent sction
+				// ps = new PrintStream(con.getOutputStream());
+				// ps.print(postData.toString());
+				// ps.flush();
+				// ps.close();
+				br = new BufferedReader(new InputStreamReader(this.retrieveInputStream(con)));
+			} catch (IOException ioe) {
+				// unsent
+				// handshake failed or TCP error
+				// System.out.println
+				// (CISECashUtil.createECUnsentErrorJson(ioe.getMessage()));
+				// System.out.flush();
+				ioe.printStackTrace();
+				return null;
+			}
+			// httppost is done
+			final int responseCode = con.getResponseCode();
+			for (;;) {
+				String line = br.readLine();
+				if (line == null) {
+					break;
+				}
+				json.append(line);
+			}
+			if (responseCode < HttpURLConnection.HTTP_BAD_REQUEST) {
+				System.out.println(json.toString());
+				return json.toString();
+			} else {
+				// if (json.indexOf("\"error\"") == -1){
+				// //todo refactor
+				// //unknown error
+				// System.out.println
+				// (CISECashUtil.createECTimeoutErrorJson(responseCode));
+				// System.out.flush();
+				// }
+				// else {
+				// System.out.println(json.toString());
+				// System.out.flush();
+				// }
+			}
+			return null;
+		} catch (Exception e) {
+			System.err.println("ERR(JSON):" + json);
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (ps != null) {
+				ps.close();
+			}
+			if (br != null) {
+				br.close();
+			}
+			if (con != null) {
+				con.disconnect();
+			}
+		}
+	}
+
 }
-
-// DateTime now = DateTime.now();
-// System.err.println(now);
-//// if (true)return;
-//// String a = toDatetime(now, srcFormat, dstFormat, dstTz)
-//
-//
-// StringBuffer sb = new StringBuffer();
-// sb.append("http://webservices.amazon.com/onca/xml");
-// sb.append("?");
-// sb.append("Service=AWSECommerceService");
-// sb.append("&");
-// sb.append("AWSAccessKeyId=");
-// sb.append(System.getProperty("AWSAccessKeyId"));
-// sb.append("&");
-// sb.append("Version=2009-07-01");
-// sb.append("&");
-// sb.append("Operation=ItemSearch");
-// sb.append("&");
-// sb.append("Keywords=Rocket");
-// sb.append("&");
-// sb.append("SearchIndex=Books");
-//// sb.append("&");
-//// sb.append("Timestamp=");
-//// sb.append("TODO");
-//// sb.append("&");
-//// sb.append("Signature=");
-//// sb.append("TODO");
-// RestTemplate restTemplate = new RestTemplate();
-// restTemplate.setErrorHandler(new ResponseErrorHandler(){
-//
-// @Override
-// public boolean hasError(ClientHttpResponse response) throws
-// IOException {
-// // TODO Auto-generated method stub
-// Thread.sleep(10000);
-// return false;
-// }
-//
-// @Override
-// public void handleError(ClientHttpResponse response) throws
-// IOException {
-// // TODO Auto-generated method stub
-//
-// }
-// });
-// for (child childCategory : rootResult.getChildCategory()){
-// Integer yCategoryId = childCategory.getCategoryId();
-// System.out.println(yCategoryId);
-// yahooCategoryService.deleteByYCategoryId(yCategoryId);
-// Category category = new Category();
-// category.setCategoryName(childCategory.getCategoryName());
-// category.setCategoryPath(childCategory.getCategoryPath());
-// category.setNumOfAuctions(childCategory.getNumOfAuctions());
-// category.setParentCategoryId(childCategory.getParentCategoryId());
-// category.setYCategoryId(yCategoryId);
-// yahooCategoryService.save(category);
-// StringBuffer sb = new StringBuffer();
-// sb.append("http://auctions.yahooapis.jp/AuctionWebService/V2/categoryTree");
-// sb.append("?");
-// sb.append("appid=");
-// sb.append(System.getProperty("appid"));
-// sb.append("&");
-// sb.append("adf=1");
-// sb.append("&");
-// sb.append("category=");
-// sb.append(yCategoryId);
-// ResultSet resultSet = restTemplate.getForObject(sb.toString(),
-// ResultSet.class);
-// Result result = resultSet.getResult();
-// for (ChildCategory childCategory : result.getChildCategory()){
-//
-// }
-// }
-
-// log.info(rootResultSet.toString());
-// System.out.println("########");
