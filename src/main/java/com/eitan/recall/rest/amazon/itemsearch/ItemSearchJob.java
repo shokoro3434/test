@@ -17,6 +17,8 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 import javax.xml.bind.JAXB;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,13 +26,17 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.eitan.recall.model.AmazonItem;
+import com.eitan.recall.model.AmazonItemDetail;
 import com.eitan.recall.model.Recall;
 import com.eitan.recall.rest.amazon.util.AmazonAPICallHelper;
 import com.eitan.recall.rest.amazon.xsd.Item;
+import com.eitan.recall.rest.amazon.xsd.ItemLookupResponse;
 import com.eitan.recall.rest.amazon.xsd.ItemSearchResponse;
+import com.eitan.recall.rest.amazon.xsd.OfferSummary;
+import com.eitan.recall.rest.amazon.xsd.Price;
+import com.eitan.recall.service.AmazonItemDetailService;
 import com.eitan.recall.service.AmazonItemService;
 import com.eitan.recall.service.RecallService;
-
 
 @Component
 public class ItemSearchJob {
@@ -38,6 +44,10 @@ public class ItemSearchJob {
     private RecallService recallService;
     @Autowired
     private AmazonItemService amazonItemService;
+    @Autowired
+    private AmazonItemDetailService amazonItemDetailService;
+
+    private static final Logger log = LoggerFactory.getLogger(ItemSearchJob.class);
 
 	private InputStream retrieveInputStream(HttpURLConnection con) throws IOException {
 		try {
@@ -51,40 +61,82 @@ public class ItemSearchJob {
 			throw ioe;
 		}
 	}
-    @Scheduled(fixedRate = 600000)
-	public void invoke() throws Exception {
-        Page<Recall> recalls = recallService.findByDelFlag(0, new PageRequest(0, 100));
-        for (Recall recall : recalls) {
-        	Thread.sleep(500);
-        	System.out.println ("########"+recall.getRecallName());
-        	String xml = perform(recall.getRecallName());
-			StringReader sr = new StringReader(xml.toString());
-			ItemSearchResponse isr = JAXB.unmarshal(sr, ItemSearchResponse.class);
-			List<Item> itemList = isr.getItems().get(0).getItem();
-			if (itemList.size() <= 0){
-				continue;
-			}
-			for (Item item : itemList){
-				AmazonItem ai = new AmazonItem();
-				ai.setAsin(item.getASIN());
-				ai.setDetailPageUrl(item.getDetailPageURL());
-				ai.setManufacturer(item.getItemAttributes().getManufacturer());
-				ai.setTITLE(item.getItemAttributes().getTitle());
-				ai.setIsbn(item.getItemAttributes().getISBN());
-				ai.setRecallId(recall.getRecallId());
-				amazonItemService.save(ai);
-			}
-        }
+    @Scheduled(fixedRate = 6000000)
+	public void invoke() {
+    	try{
+	        Page<Recall> recalls = recallService.findByDelFlag(0, new PageRequest(0, 100));
+	        for (Recall recall : recalls) {
+	        	String xml = invokeItemSearch(recall.getRecallName());
+	        	if (xml == null){
+	        		System.out.println("###########2"+xml);
+	        		return;
+	        	}
+				StringReader sr = new StringReader(xml.toString());
+				ItemSearchResponse isr = JAXB.unmarshal(sr, ItemSearchResponse.class);
+				sr.close();
+				
+				if (isr.getItems().size() <= 0){
+	        		return;
+					
+				}
+				List<Item> itemList = isr.getItems().get(0).getItem();
+				if (itemList.size() <= 0){
+					continue;
+				}
+				for (Item item : itemList){
+					Thread.sleep(1000);
+					AmazonItem ai = new AmazonItem();
+					ai.setAsin(item.getASIN());
+					ai.setDetailPageUrl(item.getDetailPageURL());
+					ai.setManufacturer(item.getItemAttributes().getManufacturer());
+					ai.setTITLE(item.getItemAttributes().getTitle());
+					ai.setIsbn(item.getItemAttributes().getISBN());
+					ai.setRecallId(recall.getRecallId());
+					AmazonItem ret = amazonItemService.save(ai);
+					if (item == null || item.getASIN() == null){
+						throw new RuntimeException("ERR");
+					}
+					else{
+					}
+					String lookupXML = this.invokeItemLookup(item.getASIN());
+					StringReader sr2 = new StringReader(lookupXML.toString());
+					ItemLookupResponse ilr = JAXB.unmarshal(sr2, ItemLookupResponse.class);
+					sr2.close();
+
+					AmazonItemDetail aid = new AmazonItemDetail ();
+					aid.setAmazonItemId(ret.getAmazonItemId());
+					
+					OfferSummary os = ilr.getItems().get(0).getItem().get(0).getOfferSummary();
+					if (os != null){
+						Price lnp = os.getLowestNewPrice();
+						if (lnp != null){
+							aid.setNewAmount(lnp.getAmount().intValue());
+						}
+						Price lup = os.getLowestUsedPrice();
+						if (lup != null){
+							aid.setUsedAmount(lup.getAmount().intValue());
+						}
+						aid.setTotalNew(Integer.valueOf(os.getTotalNew()));
+						aid.setTotalNew(Integer.valueOf(os.getTotalUsed()));
+					}
+					amazonItemDetailService.save(aid);
+				}
+	        }
+    	}
+    	catch(Exception e){
+    		log.error(e.toString());
+    		e.printStackTrace();
+    	}
     }
     
-    private String perform (String keyword) throws Exception{
+    private String invokeItemSearch (String keyword) throws Exception{
 		Map<String, String> parameters = new HashMap<String, String>();
 
 		parameters.put("Service", "AWSECommerceService");
 		parameters.put("AWSAccessKeyId", System.getProperty("AWSAccessKeyId"));
 		parameters.put("AssociateTag", System.getProperty("AssociateTag"));
-
 		parameters.put("Version", "2009-11-01");
+
 		parameters.put("Operation", "ItemSearch");
 		parameters.put("SearchIndex", "All");
 		parameters.put("Keywords", keyword);
@@ -193,11 +245,11 @@ public class ItemSearchJob {
 				// System.out.flush();
 				// }
 				// else {
-				// System.out.println(json.toString());
-				// System.out.flush();
+				System.out.println(json.toString());
+				System.out.flush();
+				return json.toString();
 				// }
 			}
-			return null;
 		} catch (Exception e) {
 			System.err.println("ERR(JSON):" + json);
 			e.printStackTrace();
@@ -214,7 +266,7 @@ public class ItemSearchJob {
 			}
 		}
 	}
-    private String invokeItemLookup (String keyword) throws Exception{
+    private String invokeItemLookup (String itemId) throws Exception{
 		Map<String, String> parameters = new HashMap<String, String>();
 
 		parameters.put("Service", "AWSECommerceService");
@@ -222,10 +274,12 @@ public class ItemSearchJob {
 		parameters.put("AssociateTag", System.getProperty("AssociateTag"));
 
 		parameters.put("Version", "2009-11-01");
-		parameters.put("Operation", "ItemSearch");
-		parameters.put("SearchIndex", "All");
-		parameters.put("Keywords", keyword);
-		// parameters.put("AssociateTag", "xxx"); // TODO アソシエイトタグを設定ください.
+		parameters.put("Operation", "ItemLookup");
+		parameters.put("Condition", "All");
+		parameters.put("IdType", "ASIN");
+		parameters.put("ItemId", itemId);
+		parameters.put("ResponseGroup", "OfferSummary");
+
 		AmazonAPICallHelper aach = new AmazonAPICallHelper(System.getProperty("AWSSecretKey"));
 		parameters.put("Timestamp", aach.getCurrentTimestamp());
 		String urlx = aach.buildRequestWithSignature(parameters);
