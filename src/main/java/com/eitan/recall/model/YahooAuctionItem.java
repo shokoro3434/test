@@ -45,6 +45,8 @@ public class YahooAuctionItem {
     private Integer storeFlag;
     @Column(name = "bids")
     private Integer bids;
+    @Column(name = "start_time")
+    private String startTime;
 
     
 }
