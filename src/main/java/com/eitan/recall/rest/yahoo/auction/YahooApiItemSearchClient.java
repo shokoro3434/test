@@ -166,6 +166,15 @@ public class YahooApiItemSearchClient {
 				json.append(line);
 			}
 			if (responseCode != HttpURLConnection.HTTP_OK) {
+				if (responseCode == 503){
+					try {
+						Thread.sleep(10000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					perform(urlAsString,timeout);
+				}
 				LogMF.error(logger, "HTTPS response code failed: {0},response-json: {1}",new Object[]{String.valueOf(responseCode),json.toString()});
 				throw new IOException("HTTPS response code failed: " + String.valueOf(responseCode));
 			} else {

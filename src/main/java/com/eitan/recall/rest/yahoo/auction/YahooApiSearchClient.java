@@ -35,7 +35,7 @@ public class YahooApiSearchClient {
 		
 	}
 	
-	public static String invoke (String query) throws Exception{
+	public static String invoke (String query,int page) throws Exception{
 		try {
 			YahooApiSearchClient client = new YahooApiSearchClient();
 			StringBuffer sb = new StringBuffer ();
@@ -52,6 +52,16 @@ public class YahooApiSearchClient {
 			sb.append("sort=end");
 			sb.append("&");
 			sb.append("order=a");
+			sb.append("&");
+			sb.append("page=");
+			sb.append(page);
+			sb.append("&");
+			sb.append("store=");
+			sb.append(2);
+			sb.append("&");
+			sb.append("ranking=");
+			sb.append("popular");
+			
 			System.out.println(sb.toString());
 			String resp = client.perform(sb.toString(), 30000);
 			return RecallUtils.toJson(resp);
