@@ -35,14 +35,14 @@ public class ItemSearchApiClient {
 		
 	}
 	
-	public static String invoke (String query) throws Exception{
+	public static String invoke (String appid,String query) throws Exception{
 		try {
 			ItemSearchApiClient client = new ItemSearchApiClient();
 			StringBuffer sb = new StringBuffer ();
 			sb.append("http://shopping.yahooapis.jp/ShoppingWebService/V1/json/itemSearch");
 			sb.append("?");
 			sb.append("appid=");
-			sb.append(System.getProperty("appid"));
+			sb.append(appid);
 			sb.append("&");
 			sb.append("query=");
 			sb.append(URLEncoder.encode(query,"utf-8"));

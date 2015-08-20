@@ -35,14 +35,14 @@ public class YahooApiSearchClient {
 		
 	}
 	
-	public static String invoke (String query,int page) throws Exception{
+	public static String invoke (String appid,String query,int page) throws Exception{
 		try {
 			YahooApiSearchClient client = new YahooApiSearchClient();
 			StringBuffer sb = new StringBuffer ();
 			sb.append("http://auctions.yahooapis.jp/AuctionWebService/V2/search");
 			sb.append("?");
 			sb.append("appid=");
-			sb.append(System.getProperty("appid"));
+			sb.append(appid);
 			sb.append("&");
 			sb.append("output=json");
 			sb.append("&");
