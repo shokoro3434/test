@@ -22,7 +22,7 @@ public class YahooApiCallService {
 	public List<YahooApiCall> findByCallYyyymmdd(String callYyyymmdd){
 		return yahooApiCallRepository.findByCallYyyymmdd(callYyyymmdd);
 	}
-	public void update(String yyyymmdd,Integer yahooApiId,Integer cnt){
-		yahooApiCallRepository.update(yyyymmdd, yahooApiId, cnt);
+	public void update(Integer yahooApiCallId,Integer cnt){
+		yahooApiCallRepository.update(yahooApiCallId, cnt);
 	}
 }	

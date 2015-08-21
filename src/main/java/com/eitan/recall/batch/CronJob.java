@@ -184,10 +184,8 @@ public class CronJob {
 		        	}
 	        	}
 	        }
-	        log.info(yyyyMMdd);
-	        log.info(String.valueOf(apc.getYahooApi().getYahooApiId()));
 	        log.info(String.valueOf(call));
-	        yahooApiCallService.update(yyyyMMdd, apc.getYahooApi().getYahooApiId(), call);
+	        yahooApiCallService.update(apc.getYahooApiCallId(), call);
 	        
     	}
     	catch(Exception e){
