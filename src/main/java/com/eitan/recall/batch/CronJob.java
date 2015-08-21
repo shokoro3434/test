@@ -159,6 +159,7 @@ public class CronJob {
 							Thread.sleep(1000);
 							JSONObject item = itemArray.getJSONObject(j);
 							String auctionId = item.getString("AuctionID");
+							YahooAuctionItem tmp = yahooAuctionItemService.findByAuctionId(auctionId);
 							yahooAuctionItemService.removeByAuctionId(auctionId);
 							String itemJson = YahooApiItemSearchClient.invoke(appid, auctionId);
 							JSONObject itemRoot = JSONObject.fromObject(itemJson);
@@ -178,6 +179,7 @@ public class CronJob {
 							yai.setRecallId(recall.getRecallId());
 							yai.setStoreFlag(storeFlag);
 							yai.setBids(item.getInt("Bids"));
+							yai.setMarkId(tmp.getMarkId());
 							yahooAuctionItemService.save(yai);
 						}
 					}
