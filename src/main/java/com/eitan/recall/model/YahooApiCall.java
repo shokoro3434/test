@@ -37,6 +37,6 @@ public class YahooApiCall {
 	private Integer delFlag;
 //    @Column(name = "CREATED")
 //    private String created;
-//    @Column(name = "UPDATED")
-//    private String updated;
+    @Column(name = "UPDATED")
+    private String updated;
 }
