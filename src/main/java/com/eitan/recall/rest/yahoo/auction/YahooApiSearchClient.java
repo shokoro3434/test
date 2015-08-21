@@ -60,7 +60,7 @@ public class YahooApiSearchClient {
 			sb.append(2);
 			sb.append("&");
 			sb.append("ranking=");
-			sb.append("popular");
+			sb.append("current");
 			
 			System.out.println(sb.toString());
 			String resp = client.perform(sb.toString(), 30000);
