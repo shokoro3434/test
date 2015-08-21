@@ -47,6 +47,8 @@ public class YahooAuctionItem {
     private Integer bids;
     @Column(name = "start_time")
     private String startTime;
+    @Column(name = "mark_id")
+    private Integer markId;
 
     
 }
