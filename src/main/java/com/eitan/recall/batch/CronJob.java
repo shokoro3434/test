@@ -115,7 +115,7 @@ public class CronJob {
 	        	
 	        	
 	        	for (int i = 0 ; i < page ; i ++){
-	        		if (3 <= i){
+	        		if (5 <= i){
 	        			break;
 	        		}
 		        	json = YahooApiSearchClient.invoke(appid,recall.getRecallName(),i+1);

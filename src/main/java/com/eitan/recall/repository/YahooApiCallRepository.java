@@ -11,7 +11,7 @@ import com.eitan.recall.model.YahooApiCall;
 
 public interface YahooApiCallRepository extends JpaRepository<YahooApiCall, Integer>{
 	
-	@Query("select a from YahooApiCall a where a.yyyymmdd = :yyyymmdd order by a.cnt asc")
+	@Query("select a from YahooApiCall a where a.yyyymmdd = :yyyymmdd and delFlag = 0 order by a.cnt asc")
 	public List<YahooApiCall> findByCallYyyymmdd(@Param("yyyymmdd")String yyyymmdd);
     @Modifying
     @Query("update YahooApiCall a set a.updated = sysdate,a.cnt = a.cnt + :cnt where a.yahooApiCallId = :yahooApiCallId")
