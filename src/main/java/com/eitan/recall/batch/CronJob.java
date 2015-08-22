@@ -162,6 +162,7 @@ public class CronJob {
 							YahooAuctionItem tmp = yahooAuctionItemService.findByAuctionId(auctionId);
 							yahooAuctionItemService.removeByAuctionId(auctionId);
 							String itemJson = YahooApiItemSearchClient.invoke(appid, auctionId);
+							++call;
 							JSONObject itemRoot = JSONObject.fromObject(itemJson);
 							int storeFlag = itemRoot.getJSONObject("ResultSet").getJSONObject("Result")
 									.getJSONObject("Option").has("StoreIcon") ? 1 : 0;
