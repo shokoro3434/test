@@ -148,7 +148,7 @@ public class CronJob {
 						yai.setRecallId(recall.getRecallId());
 						yai.setStoreFlag(storeFlag);
 						yai.setBids(item.getInt("Bids"));
-						yai.setMarkId(tmp.getMarkId());
+						yai.setMarkId(tmp != null ? tmp.getMarkId() : 2);
 						yahooAuctionItemService.save(yai);
 						continue;
 					} else {
@@ -179,7 +179,7 @@ public class CronJob {
 							yai.setRecallId(recall.getRecallId());
 							yai.setStoreFlag(storeFlag);
 							yai.setBids(item.getInt("Bids"));
-							yai.setMarkId(tmp.getMarkId());
+							yai.setMarkId(tmp != null ? tmp.getMarkId() : 2);
 							yahooAuctionItemService.save(yai);
 						}
 					}
