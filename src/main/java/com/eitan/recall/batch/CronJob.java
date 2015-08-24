@@ -112,7 +112,7 @@ public class CronJob {
 				int page = (int) Long.divideUnsigned(available, 20);
 
 				for (int i = 0; i < page; i++) {
-					if (5 <= i) {
+					if (6 <= i) {
 						break;
 					}
 					json = YahooApiSearchClient.invoke(appid, recall.getRecallName(), i + 1);
