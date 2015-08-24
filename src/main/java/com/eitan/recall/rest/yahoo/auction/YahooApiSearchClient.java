@@ -56,8 +56,8 @@ public class YahooApiSearchClient {
 			sb.append("page=");
 			sb.append(page);
 			sb.append("&");
-			sb.append("store=");
-			sb.append(2);
+//			sb.append("store=");
+//			sb.append(2);
 			sb.append("&");
 			sb.append("ranking=");
 			sb.append("current");
