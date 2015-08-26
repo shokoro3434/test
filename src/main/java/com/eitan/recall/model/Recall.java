@@ -29,4 +29,6 @@ public class Recall {
 	private Integer countermeasuresId;
     @Column(name = "del_flag")
 	private Integer delFlag;
+    @Column(name = "ebay_flag")
+	private Integer ebayFlag;
 }

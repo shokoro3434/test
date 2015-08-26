@@ -23,5 +23,8 @@ public class RecallService {
     public  Page<Recall> findByDelFlag(Integer delFlag,Pageable pageable){
     	return recallRepository.findByDelFlag(delFlag, pageable);
     }
+    public  Page<Recall> findByEbayFlag(Integer ebayFlag,Pageable pageable){
+    	return recallRepository.findByEbayFlag(ebayFlag, pageable);
+    }
     
 }

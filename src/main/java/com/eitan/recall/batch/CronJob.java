@@ -1,7 +1,5 @@
 package com.eitan.recall.batch;
 
-import java.math.BigDecimal;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -20,7 +18,6 @@ import com.eitan.recall.model.YahooApi;
 import com.eitan.recall.model.YahooApiCall;
 import com.eitan.recall.model.YahooAuctionItem;
 import com.eitan.recall.model.YahooShoppingItem;
-import com.eitan.recall.rest.amazon.itemsearch.ItemSearchJob;
 import com.eitan.recall.rest.yahoo.auction.YahooApiItemSearchClient;
 import com.eitan.recall.rest.yahoo.auction.YahooApiSearchClient;
 import com.eitan.recall.rest.yahoo.shopping.ItemSearchApiClient;
@@ -73,7 +70,6 @@ public class CronJob {
 			// if (true)return;
 
 			int call = 0;
-			int ret = 0;
 			Page<Recall> recalls = recallService.findByDelFlag(0, new PageRequest(0, 100));
 			for (Recall recall : recalls) {
 				Thread.sleep(500);

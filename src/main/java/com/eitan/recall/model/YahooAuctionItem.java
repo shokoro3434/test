@@ -9,12 +9,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 @Data
-@ToString
 @Entity
 @Table(name = "t_yahoo_auction_item", schema="recall")
 public class YahooAuctionItem {
