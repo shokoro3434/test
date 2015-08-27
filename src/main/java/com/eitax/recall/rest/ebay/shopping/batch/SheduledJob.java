@@ -1,8 +1,10 @@
 package com.eitax.recall.rest.ebay.shopping.batch;
 
 import java.util.List;
+import java.util.TimeZone;
 
-
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,10 @@ import com.eitan.recall.batch.CronJob;
 import com.eitan.recall.model.Recall;
 import com.eitan.recall.service.RecallService;
 import com.eitax.recall.ebay.model.EbayApi;
+import com.eitax.recall.ebay.model.EbayApiCall;
 import com.eitax.recall.ebay.model.EbayItem;
 import com.eitax.recall.ebay.model.EbaySite;
+import com.eitax.recall.ebay.shopping.service.EbayApiCallService;
 import com.eitax.recall.ebay.shopping.service.EbayApiService;
 import com.eitax.recall.ebay.shopping.service.EbayItemService;
 import com.eitax.recall.ebay.shopping.service.EbaySiteService;
@@ -39,20 +43,34 @@ public class SheduledJob {
 	@Autowired
 	private EbayItemService ebayItemService;
 	@Autowired
+	private EbayApiCallService ebayApiCallService;
+	@Autowired
 	private RecallService recallService;
 
 	@Scheduled(fixedRate = 900000)
 	public void invoke() {
 		try{
-			int call = 0;
-			System.err.println("ready");
-			List<EbayApi> ebayApiList = ebayApiService.findAll();
-			String appid = null;
-			for (EbayApi ea : ebayApiList) {
-				System.err.println(ea);
-				appid = ea.getAppid();
+			DateTime now = DateTime.now().withZone(DateTimeZone.forTimeZone(TimeZone.getTimeZone("JST")))
+					.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0);
+			String yyyyMMdd = now.toString("yyyyMMdd");
+			log.info(yyyyMMdd);
+			List<EbayApiCall> list = ebayApiCallService.findByCallYyyymmdd(now.toString("yyyyMMdd"));
+			if (0 == list.size()) {
+				List<EbayApi> ebayApiList = ebayApiService.findAll();
+				for (EbayApi ya : ebayApiList) {
+					EbayApiCall yap = new EbayApiCall();
+					yap.setCnt(0);
+					yap.setYyyymmdd(yyyyMMdd);
+					yap.setDelFlag(0);
+					yap.setEbayApi(ya);
+					ebayApiCallService.save(yap);
+				}
+				list = ebayApiCallService.findByCallYyyymmdd(now.toString("yyyyMMdd"));
 			}
-			
+			EbayApiCall apc = list.get(0);
+			String appid = apc.getEbayApi().getAppid();
+
+			int call = 0;
 			Page<Recall> recalls = recallService.findByEbayFlag(1, new PageRequest(0, 100));
 			for (Recall recall : recalls) {
 				for (EbaySite es : ebaySiteService.findByDelFlag(0)){
@@ -100,6 +118,7 @@ public class SheduledJob {
 					System.err.println("done");
 				}
 			}
+			ebayApiCallService.update(apc.getEbayApiCallId(), call);
 		}
 		catch(Exception e){
 			e.printStackTrace();
