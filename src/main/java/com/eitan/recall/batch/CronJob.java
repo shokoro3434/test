@@ -186,7 +186,7 @@ public class CronJob {
 			yahooApiCallService.update(apc.getYahooApiCallId(), call);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Exception occurred : "+e);
 		}
 	}
 }

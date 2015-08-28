@@ -121,7 +121,7 @@ public class SheduledJob {
 			ebayApiCallService.update(apc.getEbayApiCallId(), call);
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			log.error("Exception occurred : "+e);
 		}
 	}
 
