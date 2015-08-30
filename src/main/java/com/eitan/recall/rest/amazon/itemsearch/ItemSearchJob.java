@@ -66,7 +66,7 @@ public class ItemSearchJob {
     	try{
 	        Page<Recall> recalls = recallService.findByDelFlag(0, new PageRequest(0, 100));
 	        for (Recall recall : recalls) {
-	        	String xml = invokeItemSearch(recall.getRecallName());
+	        	String xml = invokeItemSearch(recall.getRecallName(),0);
 	        	if (xml == null){
 	        		System.out.println("###########2"+xml);
 	        		return;
@@ -83,53 +83,71 @@ public class ItemSearchJob {
 				if (itemList.size() <= 0){
 					continue;
 				}
-				for (Item item : itemList){
-					Thread.sleep(1000);
-					AmazonItem ai = new AmazonItem();
-					ai.setAsin(item.getASIN());
-					ai.setDetailPageUrl(item.getDetailPageURL());
-					ai.setManufacturer(item.getItemAttributes().getManufacturer());
-					ai.setTITLE(item.getItemAttributes().getTitle());
-					ai.setIsbn(item.getItemAttributes().getISBN());
-					ai.setRecallId(recall.getRecallId());
-					AmazonItem ret = amazonItemService.save(ai);
-					if (item == null || item.getASIN() == null){
-						throw new RuntimeException("ERR");
-					}
-					else{
-					}
-					String lookupXML = this.invokeItemLookup(item.getASIN());
-					StringReader sr2 = new StringReader(lookupXML.toString());
-					ItemLookupResponse ilr = JAXB.unmarshal(sr2, ItemLookupResponse.class);
-					sr2.close();
-
-					AmazonItemDetail aid = new AmazonItemDetail ();
-					aid.setAmazonItemId(ret.getAmazonItemId());
+				for (int i = 0 ; i < isr.getItems().get(0).getTotalPages().intValue() ; i ++){
+		        	xml = invokeItemSearch(recall.getRecallName(),0);
+		        	if (xml == null){
+		        		System.out.println("###########2"+xml);
+		        		return;
+		        	}
+					sr = new StringReader(xml.toString());
+					isr = JAXB.unmarshal(sr, ItemSearchResponse.class);
+					sr.close();
 					
-					OfferSummary os = ilr.getItems().get(0).getItem().get(0).getOfferSummary();
-					if (os != null){
-						Price lnp = os.getLowestNewPrice();
-						if (lnp != null){
-							aid.setNewAmount(lnp.getAmount().intValue());
-						}
-						Price lup = os.getLowestUsedPrice();
-						if (lup != null){
-							aid.setUsedAmount(lup.getAmount().intValue());
-						}
-						aid.setTotalNew(Integer.valueOf(os.getTotalNew()));
-						aid.setTotalNew(Integer.valueOf(os.getTotalUsed()));
+					if (isr.getItems().size() <= 0){
+		        		return;
+						
 					}
-					amazonItemDetailService.save(aid);
+					itemList = isr.getItems().get(0).getItem();
+					if (itemList.size() <= 0){
+						continue;
+					}
+					for (Item item : itemList){
+						Thread.sleep(1000);
+						AmazonItem ai = new AmazonItem();
+						ai.setAsin(item.getASIN());
+						ai.setDetailPageUrl(item.getDetailPageURL());
+						ai.setManufacturer(item.getItemAttributes().getManufacturer());
+						ai.setTITLE(item.getItemAttributes().getTitle());
+						ai.setIsbn(item.getItemAttributes().getISBN());
+						ai.setRecallId(recall.getRecallId());
+						AmazonItem ret = amazonItemService.save(ai);
+						if (item == null || item.getASIN() == null){
+							throw new RuntimeException("ERR");
+						}
+						else{
+						}
+						String lookupXML = this.invokeItemLookup(item.getASIN());
+						StringReader sr2 = new StringReader(lookupXML.toString());
+						ItemLookupResponse ilr = JAXB.unmarshal(sr2, ItemLookupResponse.class);
+						sr2.close();
+	
+						AmazonItemDetail aid = new AmazonItemDetail ();
+						aid.setAmazonItemId(ret.getAmazonItemId());
+						
+						OfferSummary os = ilr.getItems().get(0).getItem().get(0).getOfferSummary();
+						if (os != null){
+							Price lnp = os.getLowestNewPrice();
+							if (lnp != null){
+								aid.setNewAmount(lnp.getAmount().intValue());
+							}
+							Price lup = os.getLowestUsedPrice();
+							if (lup != null){
+								aid.setUsedAmount(lup.getAmount().intValue());
+							}
+							aid.setTotalNew(Integer.valueOf(os.getTotalNew()));
+							aid.setTotalNew(Integer.valueOf(os.getTotalUsed()));
+						}
+						amazonItemDetailService.save(aid);
+					}
 				}
 	        }
     	}
     	catch(Exception e){
     		log.error(e.toString());
-    		e.printStackTrace();
     	}
     }
     
-    private String invokeItemSearch (String keyword) throws Exception{
+    private String invokeItemSearch (String keyword,int tagPage) throws Exception{
 		Map<String, String> parameters = new HashMap<String, String>();
 
 		parameters.put("Service", "AWSECommerceService");
@@ -140,6 +158,8 @@ public class ItemSearchJob {
 		parameters.put("Operation", "ItemSearch");
 		parameters.put("SearchIndex", "All");
 		parameters.put("Keywords", keyword);
+		parameters.put("TagPage", String.valueOf(tagPage));
+		
 		// parameters.put("AssociateTag", "xxx"); // TODO アソシエイトタグを設定ください.
 		AmazonAPICallHelper aach = new AmazonAPICallHelper(System.getProperty("AWSSecretKey"));
 		parameters.put("Timestamp", aach.getCurrentTimestamp());
@@ -251,8 +271,7 @@ public class ItemSearchJob {
 				// }
 			}
 		} catch (Exception e) {
-			System.err.println("ERR(JSON):" + json);
-			e.printStackTrace();
+			log.error("exception occurred : ",e);
 			throw e;
 		} finally {
 			if (ps != null) {
@@ -390,8 +409,7 @@ public class ItemSearchJob {
 			}
 			return null;
 		} catch (Exception e) {
-			System.err.println("ERR(JSON):" + json);
-			e.printStackTrace();
+			log.error("exception occurred : ",e);
 			throw e;
 		} finally {
 			if (ps != null) {
