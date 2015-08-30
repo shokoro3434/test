@@ -61,30 +61,41 @@ public class ItemSearchJob {
 			throw ioe;
 		}
 	}
-    @Scheduled(fixedRate = 6000000)
+    @Scheduled(fixedRate = 3600000) 
 	public void invoke() {
     	try{
+    		System.err.println("READY");
 	        Page<Recall> recalls = recallService.findByDelFlag(0, new PageRequest(0, 100));
 	        for (Recall recall : recalls) {
-	        	String xml = invokeItemSearch(recall.getRecallName(),0);
+				Thread.sleep(2000);
+	    		System.err.println("1");
+	    		int tagPage = 1;
+	        	String xml = invokeItemSearch(recall.getRecallName(),tagPage);
 	        	if (xml == null){
 	        		System.out.println("###########2"+xml);
 	        		return;
 	        	}
+	    		System.err.println("2");
 				StringReader sr = new StringReader(xml.toString());
 				ItemSearchResponse isr = JAXB.unmarshal(sr, ItemSearchResponse.class);
 				sr.close();
 				
 				if (isr.getItems().size() <= 0){
+		    		System.err.println("3");
 	        		return;
 					
 				}
 				List<Item> itemList = isr.getItems().get(0).getItem();
 				if (itemList.size() <= 0){
+		    		System.err.println("4");
 					continue;
 				}
-				for (int i = 0 ; i < isr.getItems().get(0).getTotalPages().intValue() ; i ++){
-		        	xml = invokeItemSearch(recall.getRecallName(),0);
+	    		System.err.println(isr.getItems().get(0).getTotalPages().intValue());
+				
+				for (int i = 1 ; i < isr.getItems().get(0).getTotalPages().intValue() ; i ++){
+					Thread.sleep(2000);
+	        		System.out.println("###########SLEEP");
+		        	xml = invokeItemSearch(recall.getRecallName(),i+1);
 		        	if (xml == null){
 		        		System.out.println("###########2"+xml);
 		        		return;
@@ -102,7 +113,8 @@ public class ItemSearchJob {
 						continue;
 					}
 					for (Item item : itemList){
-						Thread.sleep(1000);
+						Thread.sleep(2000);
+						
 						AmazonItem ai = new AmazonItem();
 						ai.setAsin(item.getASIN());
 						ai.setDetailPageUrl(item.getDetailPageURL());
@@ -117,6 +129,10 @@ public class ItemSearchJob {
 						else{
 						}
 						String lookupXML = this.invokeItemLookup(item.getASIN());
+			        	if (lookupXML == null){
+			        		System.out.println("###########2"+xml);
+			        		continue;
+			        	}
 						StringReader sr2 = new StringReader(lookupXML.toString());
 						ItemLookupResponse ilr = JAXB.unmarshal(sr2, ItemLookupResponse.class);
 						sr2.close();
@@ -143,7 +159,8 @@ public class ItemSearchJob {
 	        }
     	}
     	catch(Exception e){
-    		log.error(e.toString());
+    		e.printStackTrace();
+    		log.error("error : ",e);
     	}
     }
     
