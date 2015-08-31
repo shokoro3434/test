@@ -1,4 +1,4 @@
-package com.eitan.recall.model;
+package com.eitax.recall.yahoo.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

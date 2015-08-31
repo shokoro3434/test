@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import com.eitan.recall.service.YahooCategoryService;
+import com.eitax.recall.yahoo.dao.impl.YahooCategoryDAOImpl;
 
 @EnableScheduling
 @SpringBootApplication

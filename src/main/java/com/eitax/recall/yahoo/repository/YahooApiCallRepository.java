@@ -1,4 +1,4 @@
-package com.eitan.recall.repository;
+package com.eitax.recall.yahoo.repository;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.eitan.recall.model.YahooApiCall;
+import com.eitax.recall.yahoo.model.YahooApiCall;
 
 public interface YahooApiCallRepository extends JpaRepository<YahooApiCall, Integer>{
 	

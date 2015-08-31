@@ -1,6 +1,5 @@
 package com.eitax.recall.amazon.service.impl;
 
-import java.io.StringReader;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.eitan.recall.model.YahooApiCall;
 import com.eitax.recall.amazon.dao.AmazonItemDAO;
 import com.eitax.recall.amazon.dao.AmazonItemDetailDAO;
 import com.eitax.recall.amazon.dao.AwsApiCallDAO;

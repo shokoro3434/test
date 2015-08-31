@@ -1,4 +1,4 @@
-package com.eitan.recall.service;
+package com.eitax.recall.yahoo.dao.impl;
 
 import java.util.List;
 
@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.eitan.recall.model.YahooApiCall;
-import com.eitan.recall.repository.YahooApiCallRepository;
+import com.eitax.recall.yahoo.model.YahooApiCall;
+import com.eitax.recall.yahoo.repository.YahooApiCallRepository;
 
 @Transactional
 @Component
-public class YahooApiCallService {
+public class YahooApiCallDAOImpl {
 	@Autowired
 	private YahooApiCallRepository yahooApiCallRepository;
 

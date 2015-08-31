@@ -20,12 +20,12 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
-import com.eitan.recall.model.Category;
 import com.eitan.recall.rest.yahoo.auction.category.ChildCategory;
 import com.eitan.recall.rest.yahoo.auction.category.Result;
 import com.eitan.recall.rest.yahoo.auction.category.ResultSet;
 import com.eitan.recall.service.RecallService;
-import com.eitan.recall.service.YahooCategoryService;
+import com.eitax.recall.yahoo.dao.impl.YahooCategoryDAOImpl;
+import com.eitax.recall.yahoo.model.Category;
 
 @EnableScheduling
 @SpringBootApplication
@@ -34,7 +34,7 @@ import com.eitan.recall.service.YahooCategoryService;
 @EntityScan(basePackages="com.eitan.recall.model")
 public class CategoryTreeClient {
     @Autowired
-    private YahooCategoryService yahooCategoryService;
+    private YahooCategoryDAOImpl yahooCategoryService;
 
     private static final Logger log = LoggerFactory.getLogger(CategoryTreeClient.class);
 

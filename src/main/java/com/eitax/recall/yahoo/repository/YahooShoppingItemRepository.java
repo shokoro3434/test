@@ -1,11 +1,11 @@
-package com.eitan.recall.repository;
+package com.eitax.recall.yahoo.repository;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.Repository;
 
-import com.eitan.recall.model.YahooShoppingItem;
+import com.eitax.recall.yahoo.model.YahooShoppingItem;
 
 public interface YahooShoppingItemRepository extends JpaRepository<YahooShoppingItem, Long>{
 

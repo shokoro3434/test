@@ -14,18 +14,18 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.eitan.recall.model.Recall;
-import com.eitan.recall.model.YahooApi;
-import com.eitan.recall.model.YahooApiCall;
-import com.eitan.recall.model.YahooAuctionItem;
-import com.eitan.recall.model.YahooShoppingItem;
 import com.eitan.recall.rest.yahoo.auction.YahooApiItemSearchClient;
 import com.eitan.recall.rest.yahoo.auction.YahooApiSearchClient;
 import com.eitan.recall.rest.yahoo.shopping.ItemSearchApiClient;
 import com.eitan.recall.service.RecallService;
-import com.eitan.recall.service.YahooApiCallService;
-import com.eitan.recall.service.YahooApiService;
-import com.eitan.recall.service.YahooAuctionItemService;
-import com.eitan.recall.service.YahooShoppingItemService;
+import com.eitax.recall.yahoo.dao.impl.YahooApiCallDAOImpl;
+import com.eitax.recall.yahoo.dao.impl.YahooApiServiceDAOImpl;
+import com.eitax.recall.yahoo.dao.impl.YahooAuctionItemDAOImpl;
+import com.eitax.recall.yahoo.dao.impl.YahooShoppingItemDAOImpl;
+import com.eitax.recall.yahoo.model.YahooApi;
+import com.eitax.recall.yahoo.model.YahooApiCall;
+import com.eitax.recall.yahoo.model.YahooAuctionItem;
+import com.eitax.recall.yahoo.model.YahooShoppingItem;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -35,13 +35,13 @@ public class CronJob {
 	@Autowired
 	private RecallService recallService;
 	@Autowired
-	private YahooAuctionItemService yahooAuctionItemService;
+	private YahooAuctionItemDAOImpl yahooAuctionItemService;
 	@Autowired
-	private YahooShoppingItemService yahooShoppingItemService;
+	private YahooShoppingItemDAOImpl yahooShoppingItemService;
 	@Autowired
-	private YahooApiCallService yahooApiCallService;
+	private YahooApiCallDAOImpl yahooApiCallService;
 	@Autowired
-	private YahooApiService yahooApiService;
+	private YahooApiServiceDAOImpl yahooApiService;
 	private static final Logger log = LoggerFactory.getLogger(CronJob.class);
 
 	@Scheduled(fixedRate = 900000)

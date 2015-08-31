@@ -1,12 +1,12 @@
-package com.eitan.recall.repository;
+package com.eitax.recall.yahoo.repository;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.Repository;
 
-import com.eitan.recall.model.Category;
-import com.eitan.recall.model.YahooAuctionItem;
+import com.eitax.recall.yahoo.model.Category;
+import com.eitax.recall.yahoo.model.YahooAuctionItem;
 
 public interface YahooCategoryRepository extends JpaRepository<Category, Integer>{
 
