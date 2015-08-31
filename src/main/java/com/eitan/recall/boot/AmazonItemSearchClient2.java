@@ -16,8 +16,14 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 		"com.eitax.recall.amazon.service", 
 		"com.eitax.recall.amazon.dao", 
 		"com.eitan.recall.service" })
-@EnableJpaRepositories(basePackages = { "com.eitan.recall.repository" })
-@EntityScan(basePackages = { "com.eitan.recall.model" })
+@EnableJpaRepositories(basePackages = { 
+		"com.eitan.recall.repository" ,
+		"com.eitax.recall.amazon.repository"
+		})
+@EntityScan(basePackages = { 
+		"com.eitan.recall.model" ,
+		"com.eitax.recall.amazon.model" ,
+		})
 public class AmazonItemSearchClient2 {
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(AmazonItemSearchClient2.class);
