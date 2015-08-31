@@ -56,7 +56,7 @@ public class AmazonRestServiceImpl implements AmazonRestService {
 			// String resp = restTemplate.getForObject(url, String.class);
 			// System.out.println(resp);
 			StringBuffer json = new StringBuffer();
-			final int timeout = 3000;
+			final int timeout = 30000;
 			URL url = new URL(urlx);
 			con = (HttpURLConnection) url.openConnection();
 
@@ -156,7 +156,7 @@ public class AmazonRestServiceImpl implements AmazonRestService {
 			// XUserAgentInterceptor()));
 			// String resp = restTemplate.getForObject(url, String.class);
 			// System.out.println(resp);
-			final int timeout = 3000;
+			final int timeout = 30000;
 			URL url = new URL(urlx);
 			con = (HttpURLConnection) url.openConnection();
 
@@ -216,6 +216,7 @@ public class AmazonRestServiceImpl implements AmazonRestService {
 				json.append(line);
 			}
 			if (responseCode < HttpURLConnection.HTTP_BAD_REQUEST) {
+				log.info(json.toString());
 				return AmazonRestUtils2.unmarshal(json.toString(), ItemLookupResponse.class);
 			} else {
 				// if (json.indexOf("\"error\"") == -1){
