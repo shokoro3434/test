@@ -281,7 +281,8 @@ public class AmazonRestServiceImpl implements AmazonRestService {
 		if (isr.getItems().size() <= 0){
     		return 0;
 		}
-		return isr.getItems().get(0).getTotalPages().intValue();
+		final int LIMIT = 5;
+		return LIMIT <= isr.getItems().get(0).getTotalPages().intValue() ? isr.getItems().get(0).getTotalPages().intValue() : LIMIT;
 	}
 
 }

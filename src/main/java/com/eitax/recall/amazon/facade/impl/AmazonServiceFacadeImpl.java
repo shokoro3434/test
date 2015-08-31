@@ -48,9 +48,9 @@ public class AmazonServiceFacadeImpl implements AmazonServiceFacade{
 		        		break;
 					}
 					List<Item> itemList = isr.getItems().get(0).getItem();
-					if (itemList.size() <= 0){
-						break;
-					}
+//					if (itemList.size() <= 0){
+//						break;
+//					}
 					for (Item item : itemList){
 						String lookupXML = amazonRestService.invokeItemLookup(item.getASIN(),aa.getAwsAccesskeyId(),aa.getAwsSecretkey(),aa.getAssociateTag(),aa.getDelay());
 			        	if (lookupXML == null){
