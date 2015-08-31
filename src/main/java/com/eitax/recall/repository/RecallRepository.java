@@ -1,15 +1,15 @@
 package com.eitax.recall.repository;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.eitax.recall.model.Recall;
 
 public interface RecallRepository extends JpaRepository<Recall, Integer> {
 
-    public  Page<Recall> findByDelFlag(Integer delFlag,Pageable pageable);
-    public  Page<Recall> findByEbayFlag(Integer ebayFlag,Pageable pageable);
+    public List<Recall> findByDelFlag(Integer delFlag);
+    public List<Recall> findByEbayFlag(Integer ebayFlag);
 
 
 }

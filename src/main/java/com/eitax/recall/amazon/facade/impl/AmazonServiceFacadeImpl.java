@@ -6,14 +6,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import com.eitax.recall.amazon.facade.AmazonServiceFacade;
 import com.eitax.recall.amazon.model.AwsApi;
 import com.eitax.recall.amazon.model.AwsApiCall;
-import com.eitax.recall.amazon.rest.AmazonRestUtils2;
 import com.eitax.recall.amazon.rest.AmazonRestService;
 import com.eitax.recall.amazon.service.AmazonService;
 import com.eitax.recall.amazon.xsd.Item;
@@ -38,7 +35,7 @@ public class AmazonServiceFacadeImpl implements AmazonServiceFacade {
 		try {
 			AwsApiCall yac = amazonService.registerAwsApiCallAndFindAwsApi();
 			AwsApi aa = yac.getAwsApi();
-			Page<Recall> recalls = recallService.findByDelFlag(0, new PageRequest(0, 100));
+			List<Recall> recalls = recallService.findByDelFlag(0);
 			for (Recall recall : recalls) {
 				final int INITIAL_ITEM_PAGE = 1;
 				int itemCount = amazonRestService.retrieveItemCount(recall.getRecallName(), INITIAL_ITEM_PAGE,

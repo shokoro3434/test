@@ -8,8 +8,6 @@ import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -71,7 +69,7 @@ public class SheduledJob {
 			String appid = apc.getEbayApi().getAppid();
 
 			int call = 0;
-			Page<Recall> recalls = recallService.findByEbayFlag(1, new PageRequest(0, 100));
+			List<Recall> recalls = recallService.findByEbayFlag(1);
 			for (Recall recall : recalls) {
 				for (EbaySite es : ebaySiteService.findByDelFlag(0)){
 					ClientConfig config = new ClientConfig();

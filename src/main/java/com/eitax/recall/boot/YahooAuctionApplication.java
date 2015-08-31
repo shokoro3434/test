@@ -11,19 +11,28 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import com.eitax.recall.yahoo.dao.impl.YahooCategoryDAOImpl;
 
 @EnableScheduling
 @SpringBootApplication
-@ComponentScan(basePackages={"com.eitan.recall.batch","com.eitan.recall.service"})
-@EnableJpaRepositories(basePackages="com.eitan.recall.repository")
-@EntityScan(basePackages="com.eitan.recall.model")
-public class Application2 {
+@ComponentScan(basePackages={
+		"com.eitax.recall.yahoo.job",
+		"com.eitax.recall.yahoo.facade",
+		"com.eitax.recall.dao"
+})
+@EnableJpaRepositories(basePackages={
+		"com.eitan.recall.repository",
+		"com.eitan.recall.yahoo.repository"
+})
+@EntityScan(basePackages={
+		"com.eitax.recall.yahoo.model",
+		"com.eitax.recall.model",
+})
+public class YahooAuctionApplication {
 
-    private static final Logger log = LoggerFactory.getLogger(CategoryTreeClient.class);
+    private static final Logger log = LoggerFactory.getLogger(YahooAuctionApplication.class);
 
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(Application2.class);
+        SpringApplication.run(YahooAuctionApplication.class);
     }
 }

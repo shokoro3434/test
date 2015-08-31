@@ -7,45 +7,27 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.eitax.recall.yahoo.dao.YahooAuctionItemDAO;
 import com.eitax.recall.yahoo.model.Category;
 import com.eitax.recall.yahoo.model.YahooAuctionItem;
 import com.eitax.recall.yahoo.repository.YahooAuctionItemRepository;
 
 import java.util.List;
 
-//@Service
-@Transactional
 @Component
-public class YahooAuctionItemDAOImpl {
+public class YahooAuctionItemDAOImpl implements YahooAuctionItemDAO {
 	@Autowired
 	private YahooAuctionItemRepository yahooAuctionItemRepository;
 	
+	@Transactional
 	public YahooAuctionItem save (YahooAuctionItem yai){
 		return yahooAuctionItemRepository.save(yai);
 	}
 	public YahooAuctionItem findByAuctionId (String auctionId){
 		return yahooAuctionItemRepository.findByAuctionId(auctionId);
 	}
+	@Transactional
 	public void removeByAuctionId(String auctionId){
 		yahooAuctionItemRepository.deleteByAuctionId(auctionId);
 	}
-
-//	@Autowired
-//	WhiskyRepository whiskyRepository;
-//
-//	public List<Whisky> findAll() {
-//		return whiskyRepository.findAll(new Sort(Sort.Direction.ASC, "id"));
-//	}
-//
-//	public Whisky save(Whisky whisky) {
-//		return whiskyRepository.save(whisky);
-//	}
-
-//	public void delete(Long id) {
-//		whiskyRepository.delete(id);
-//	}
-//
-//	public Whisky find(Long id) {
-//		return whiskyRepository.findOne(id);
-//	}
 }
