@@ -16,6 +16,7 @@ import com.eitan.recall.model.AmazonItem;
 import com.eitan.recall.model.AmazonItemDetail;
 import com.eitan.recall.model.AwsApi;
 import com.eitan.recall.model.AwsApiCall;
+import com.eitan.recall.model.YahooApiCall;
 import com.eitan.recall.rest.amazon.xsd.Item;
 import com.eitan.recall.rest.amazon.xsd.ItemLookupResponse;
 import com.eitan.recall.rest.amazon.xsd.OfferSummary;
@@ -40,7 +41,7 @@ public class AmazonServiceImpl implements AmazonService {
 	private static final Logger log = LoggerFactory.getLogger(AmazonServiceImpl.class);
 
 	@Transactional
-    public AwsApi registerAwsApiCallAndFindAwsApi(){
+    public AwsApiCall registerAwsApiCallAndFindAwsApi(){
 		DateTime now = DateTime.now().withZone(DateTimeZone.forTimeZone(TimeZone.getTimeZone("JST")))
 				.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0);
 		String yyyyMMdd = now.toString("yyyyMMdd");
@@ -58,7 +59,7 @@ public class AmazonServiceImpl implements AmazonService {
 			list = awsApiCallDAO.findByCallYyyymmdd(now.toString("yyyyMMdd"));
 		}
 		AwsApiCall apc = list.get(0);
-		return apc.getAwsApi();
+		return apc;
     }
 	@Override
 	@Transactional
@@ -94,6 +95,10 @@ public class AmazonServiceImpl implements AmazonService {
 			aid.setTotalNew(Integer.valueOf(os.getTotalUsed()));
 		}
 		amazonItemDetailDAO.save(aid);
+	}
+	@Transactional
+	public void updateApiCallCount(Integer awsApiCallId,Integer cnt){
+		awsApiCallDAO.update(awsApiCallId,cnt);
 	}
 
 }

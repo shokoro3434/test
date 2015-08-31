@@ -27,4 +27,10 @@ public class AwsApiCallDAOImpl implements AwsApiCallDAO {
 		return awsApiCallRepository.save(aac);
 	}
 
+	@Override
+	public void update(Integer awsApiCallId, Integer cnt) {
+		// TODO Auto-generated method stub
+		awsApiCallRepository.update(awsApiCallId, cnt);
+	}
+
 }

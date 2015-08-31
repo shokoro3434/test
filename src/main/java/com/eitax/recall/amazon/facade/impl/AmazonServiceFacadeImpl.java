@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import com.eitan.recall.model.AwsApi;
+import com.eitan.recall.model.AwsApiCall;
 import com.eitan.recall.model.Recall;
 import com.eitan.recall.rest.amazon.xsd.Item;
 import com.eitan.recall.rest.amazon.xsd.ItemLookupResponse;
@@ -33,26 +34,32 @@ public class AmazonServiceFacadeImpl implements AmazonServiceFacade {
 	private static final Logger log = LoggerFactory.getLogger(AmazonServiceFacadeImpl.class);
 
 	public void registerItems() throws IOException{
+		int call = 0;
 		try {
-			AwsApi aa = amazonService.registerAwsApiCallAndFindAwsApi();
+			AwsApiCall yac = amazonService.registerAwsApiCallAndFindAwsApi();
+			AwsApi aa = yac.getAwsApi();
 			Page<Recall> recalls = recallService.findByDelFlag(0, new PageRequest(0, 100));
 			for (Recall recall : recalls) {
 				final int INITIAL_ITEM_PAGE = 1;
 				int itemCount = amazonRestService.retrieveItemCount(recall.getRecallName(), INITIAL_ITEM_PAGE,
 						aa.getAwsAccesskeyId(), aa.getAwsSecretkey(), aa.getAssociateTag(), aa.getDelay());
+				++ call;
 				for (int i = INITIAL_ITEM_PAGE; i < itemCount; i++) {
 					ItemSearchResponse isr = amazonRestService.invokeItemSearch(recall.getRecallName(), i + 1,
 							aa.getAwsAccesskeyId(), aa.getAwsSecretkey(), aa.getAssociateTag(), aa.getDelay());
+					++ call;
 					if (isr.getItems().size() <= 0) {
 						break;
 					}
 					for (Item item : isr.getItems().get(0).getItem()) {
 						ItemLookupResponse ilr = amazonRestService.invokeItemLookup(item.getASIN(), aa.getAwsAccesskeyId(),
 								aa.getAwsSecretkey(), aa.getAssociateTag(), aa.getDelay());
+						++ call;
 						amazonService.registerItems(item, ilr, recall.getRecallId());
 					}
 				}
 			}
+			amazonService.updateApiCallCount(yac.getAwsApiCallId(), call);
 		} catch (IOException e) {
 			e.printStackTrace();
 			log.error("error : ", e);
