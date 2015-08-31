@@ -24,8 +24,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 		"com.eitan.recall.model" ,
 		"com.eitax.recall.amazon.model" ,
 		})
-public class AmazonItemSearchClient2 {
+public class AmazonItemSearchApplication {
 	public static void main(String[] args) throws Exception {
-		SpringApplication.run(AmazonItemSearchClient2.class);
+		SpringApplication.run(AmazonItemSearchApplication.class);
 	}
 }
