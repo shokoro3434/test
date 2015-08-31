@@ -1,5 +1,7 @@
 package com.eitax.recall.amazon.job;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +25,15 @@ public class ItemSearchJob {
 	  private static final Logger log = LoggerFactory.getLogger(ItemSearchJob.class);
 
 	  @Scheduled(fixedRate = 3600000) 
-	  public void invoke2() {
-		  log.error("TEST");
-		  amazonServiceFacade.registerItems();
-		  System.err.println("DONE");
-    	
+	  public void invoke() throws IOException{
+		  try {
+			log.info("READY");
+			amazonServiceFacade.registerItems();
+			log.info("DONE");
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw e;
+		}
 	  }
 	
 //    @Scheduled(fixedRate = 3600000) 
