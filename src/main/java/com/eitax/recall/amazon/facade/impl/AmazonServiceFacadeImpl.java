@@ -17,7 +17,7 @@ import com.eitan.recall.rest.amazon.xsd.ItemSearchResponse;
 import com.eitan.recall.service.RecallService;
 import com.eitax.recall.amazon.facade.AmazonServiceFacade;
 import com.eitax.recall.amazon.rest.AmazonRestUtils2;
-import com.eitax.recall.amazon.rest.AmazonWebService;
+import com.eitax.recall.amazon.rest.AmazonRestService;
 import com.eitax.recall.amazon.service.AmazonService;
 
 @Component
@@ -25,7 +25,7 @@ public class AmazonServiceFacadeImpl implements AmazonServiceFacade{
     @Autowired
     private RecallService recallService;
     @Autowired
-    private AmazonWebService amazonWebService;
+    private AmazonRestService amazonRestService;
     @Autowired
     private AmazonService amazonService;
     
@@ -36,43 +36,24 @@ public class AmazonServiceFacadeImpl implements AmazonServiceFacade{
     		AwsApi aa = amazonService.registerAwsApiCallAndFindAwsApi();
 	        Page<Recall> recalls = recallService.findByDelFlag(0, new PageRequest(0, 100));
 	        for (Recall recall : recalls) {
-				Thread.sleep(2000);
-	    		System.err.println("1");
-	    		//retrieve count
-	    		int tagPage = 1;
-	        	String initialxml = amazonWebService.invokeItemSearch(recall.getRecallName(),tagPage,aa.getAwsAccesskeyId(),aa.getAwsSecretkey(),aa.getAssociateTag());
-	        	if (initialxml == null){
-	        		System.out.println("###########2"+initialxml);
-	        		continue;
-	        	}
-				ItemSearchResponse isr = AmazonRestUtils2.unmarshal(initialxml, ItemSearchResponse.class);
-				if (isr.getItems().size() <= 0){
-		    		System.err.println("3");
-	        		continue;
-				}
-				for (int i = 1 ; i < isr.getItems().get(0).getTotalPages().intValue() ; i ++){
-					Thread.sleep(2000);
-		        	String xml = amazonWebService.invokeItemSearch(recall.getRecallName(),i+1,aa.getAwsAccesskeyId(),aa.getAwsSecretkey(),aa.getAssociateTag());
+	    		final int INITIAL_ITEM_PAGE = 1;
+	    		int itemCount = amazonRestService.retrieveItemCount(recall.getRecallName(),INITIAL_ITEM_PAGE,aa.getAwsAccesskeyId(),aa.getAwsSecretkey(),aa.getAssociateTag(),aa.getDelay());
+				for (int i = INITIAL_ITEM_PAGE ; i < itemCount ; i ++){
+		        	String xml = amazonRestService.invokeItemSearch(recall.getRecallName(),i+1,aa.getAwsAccesskeyId(),aa.getAwsSecretkey(),aa.getAssociateTag(),aa.getDelay());
 		        	if (xml == null){
-		        		System.out.println("###########3"+xml);
 		        		break;
 		        	}
-					ItemSearchResponse isr2 = AmazonRestUtils2.unmarshal(xml, ItemSearchResponse.class);
-					if (isr2.getItems().size() <= 0){
-		        		System.err.println("###########0");
+					ItemSearchResponse isr = AmazonRestUtils2.unmarshal(xml, ItemSearchResponse.class);
+					if (isr.getItems().size() <= 0){
 		        		break;
-						
 					}
-					List<Item> itemList = isr2.getItems().get(0).getItem();
+					List<Item> itemList = isr.getItems().get(0).getItem();
 					if (itemList.size() <= 0){
-		        		System.err.println("###########1");
 						break;
 					}
 					for (Item item : itemList){
-						Thread.sleep(2000);
-						String lookupXML = amazonWebService.invokeItemLookup(item.getASIN(),aa.getAwsAccesskeyId(),aa.getAwsSecretkey(),aa.getAssociateTag());
+						String lookupXML = amazonRestService.invokeItemLookup(item.getASIN(),aa.getAwsAccesskeyId(),aa.getAwsSecretkey(),aa.getAssociateTag(),aa.getDelay());
 			        	if (lookupXML == null){
-			        		System.err.println("###########2"+xml);
 			        		break;
 			        	}
 						ItemLookupResponse ilr = AmazonRestUtils2.unmarshal(lookupXML, ItemLookupResponse.class);

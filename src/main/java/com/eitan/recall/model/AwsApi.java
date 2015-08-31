@@ -25,4 +25,6 @@ public class AwsApi {
 	private String awsSecretkey;
     @Column(name = "ASSOCIATE_TAG")
 	private String associateTag;
+    @Column(name = "DELAY")
+	private Integer delay;
 }

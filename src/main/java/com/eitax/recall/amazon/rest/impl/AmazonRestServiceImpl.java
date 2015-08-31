@@ -19,14 +19,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.eitan.recall.rest.amazon.util.AmazonAPICallHelper;
+import com.eitan.recall.rest.amazon.xsd.ItemSearchResponse;
 import com.eitax.recall.amazon.rest.AmazonRestUtils;
-import com.eitax.recall.amazon.rest.AmazonWebService;
+import com.eitax.recall.amazon.rest.AmazonRestUtils2;
+import com.eitax.recall.amazon.rest.AmazonRestService;
 
 @Component
-public class AmazonWebServiceImpl implements AmazonWebService {
-	private static final Logger log = LoggerFactory.getLogger(AmazonWebService.class);
+public class AmazonRestServiceImpl implements AmazonRestService {
+	private static final Logger log = LoggerFactory.getLogger(AmazonRestService.class);
 
-	public String invokeItemSearch(String keywords, int tagPage,String aWSAccessKeyId,String aWSSecretKey,String associateTag) {
+	public String invokeItemSearch(String keywords, int tagPage,String aWSAccessKeyId,String aWSSecretKey,String associateTag,int delay) {
 		HttpURLConnection con = null;
 		PrintStream ps = null;
 		BufferedReader br = null;
@@ -115,10 +117,16 @@ public class AmazonWebServiceImpl implements AmazonWebService {
 			if (con != null) {
 				con.disconnect();
 			}
+			try {
+				Thread.sleep(delay);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
-	public String invokeItemLookup(String itemId,String aWSAccessKeyId,String aWSSecretKey,String associateTag) {
+	public String invokeItemLookup(String itemId,String aWSAccessKeyId,String aWSSecretKey,String associateTag,int delay) {
 		HttpURLConnection con = null;
 		PrintStream ps = null;
 		BufferedReader br = null;
@@ -240,6 +248,12 @@ public class AmazonWebServiceImpl implements AmazonWebService {
 			if (con != null) {
 				con.disconnect();
 			}
+			try {
+				Thread.sleep(delay);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -254,6 +268,20 @@ public class AmazonWebServiceImpl implements AmazonWebService {
 			}
 			throw ioe;
 		}
+	}
+
+	@Override
+	public int retrieveItemCount(String keywords, int tagPage, String aWSAccessKeyId, String aWSSecretKey,
+			String associateTag,int delay) {
+    	String xml = invokeItemSearch(keywords,tagPage,aWSAccessKeyId,aWSSecretKey,associateTag,delay);
+    	if (xml == null){
+    		return 0;
+    	}
+		ItemSearchResponse isr = AmazonRestUtils2.unmarshal(xml, ItemSearchResponse.class);
+		if (isr.getItems().size() <= 0){
+    		return 0;
+		}
+		return isr.getItems().get(0).getTotalPages().intValue();
 	}
 
 }
