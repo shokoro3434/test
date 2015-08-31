@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.eitan.recall.model.AmazonItem;
-import com.eitan.recall.repository.AmazonItemRepository;
 import com.eitax.recall.amazon.dao.AmazonItemDAO;
+import com.eitax.recall.amazon.model.AmazonItem;
+import com.eitax.recall.amazon.repository.AmazonItemRepository;
 import com.eitax.recall.amazon.xsd.Item;
 
 @Component

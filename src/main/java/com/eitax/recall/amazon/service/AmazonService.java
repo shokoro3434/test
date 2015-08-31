@@ -1,6 +1,6 @@
 package com.eitax.recall.amazon.service;
 
-import com.eitan.recall.model.AwsApiCall;
+import com.eitax.recall.amazon.model.AwsApiCall;
 import com.eitax.recall.amazon.xsd.Item;
 import com.eitax.recall.amazon.xsd.ItemLookupResponse;
 

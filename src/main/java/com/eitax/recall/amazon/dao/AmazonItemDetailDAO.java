@@ -1,6 +1,6 @@
 package com.eitax.recall.amazon.dao;
 
-import com.eitan.recall.model.AmazonItemDetail;
+import com.eitax.recall.amazon.model.AmazonItemDetail;
 
 public interface AmazonItemDetailDAO {
 	public abstract AmazonItemDetail save (AmazonItemDetail aid);

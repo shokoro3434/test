@@ -1,4 +1,4 @@
-package com.eitan.recall.model;
+package com.eitax.recall.amazon.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

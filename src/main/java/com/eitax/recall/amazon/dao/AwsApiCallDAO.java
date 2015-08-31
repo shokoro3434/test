@@ -2,7 +2,7 @@ package com.eitax.recall.amazon.dao;
 
 import java.util.List;
 
-import com.eitan.recall.model.AwsApiCall;
+import com.eitax.recall.amazon.model.AwsApiCall;
 
 public interface AwsApiCallDAO {
 	public abstract List<AwsApiCall> findByCallYyyymmdd(String yyyymmdd);

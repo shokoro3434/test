@@ -1,4 +1,4 @@
-package com.eitan.recall.repository;
+package com.eitax.recall.amazon.repository;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.eitan.recall.model.AwsApiCall;
+import com.eitax.recall.amazon.model.AwsApiCall;
 
 public interface AwsApiCallRepository extends JpaRepository<AwsApiCall, Integer>{
 	@Query("select a from AwsApiCall a where a.yyyymmdd = :yyyymmdd and delFlag = 0 order by a.cnt asc")

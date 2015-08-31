@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.eitan.recall.model.AwsApi;
-import com.eitan.recall.repository.AwsApiCallRepository;
-import com.eitan.recall.repository.AwsApiRepository;
 import com.eitax.recall.amazon.dao.AwsApiDAO;
+import com.eitax.recall.amazon.model.AwsApi;
+import com.eitax.recall.amazon.repository.AwsApiCallRepository;
+import com.eitax.recall.amazon.repository.AwsApiRepository;
 
 
 @Component
