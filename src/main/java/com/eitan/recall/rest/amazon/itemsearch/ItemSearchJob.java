@@ -34,18 +34,18 @@ import com.eitan.recall.rest.amazon.xsd.ItemLookupResponse;
 import com.eitan.recall.rest.amazon.xsd.ItemSearchResponse;
 import com.eitan.recall.rest.amazon.xsd.OfferSummary;
 import com.eitan.recall.rest.amazon.xsd.Price;
-import com.eitan.recall.service.AmazonItemDetailService;
-import com.eitan.recall.service.AmazonItemService;
 import com.eitan.recall.service.RecallService;
+import com.eitax.recall.amazon.dao.AmazonItemDetailDAO;
+import com.eitax.recall.amazon.dao.AmazonItemDAO;
 
 @Component
 public class ItemSearchJob {
     @Autowired
     private RecallService recallService;
     @Autowired
-    private AmazonItemService amazonItemService;
+    private AmazonItemDAO amazonItemService;
     @Autowired
-    private AmazonItemDetailService amazonItemDetailService;
+    private AmazonItemDetailDAO amazonItemDetailService;
 
     private static final Logger log = LoggerFactory.getLogger(ItemSearchJob.class);
 

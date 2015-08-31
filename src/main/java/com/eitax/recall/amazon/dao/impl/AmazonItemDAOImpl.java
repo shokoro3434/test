@@ -1,22 +1,28 @@
-package com.eitax.recall.amazon.dao;
+package com.eitax.recall.amazon.dao.impl;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.eitan.recall.model.AmazonItem;
 import com.eitan.recall.repository.AmazonItemRepository;
+import com.eitan.recall.rest.amazon.xsd.Item;
+import com.eitax.recall.amazon.dao.AmazonItemDAO;
 
 @Component
-public class AmazonItemService {
+public class AmazonItemDAOImpl implements AmazonItemDAO{
     @Autowired
     private AmazonItemRepository amazonItemRepository;
     
 	public AmazonItem save (AmazonItem ai){
 		return amazonItemRepository.save(ai);
+	}
+
+	@Override
+	public List<AmazonItem> deleteByAsin(String asin) {
+		// TODO Auto-generated method stub
+		return amazonItemRepository.deleteByAsin(asin);
 	}
   
 }
