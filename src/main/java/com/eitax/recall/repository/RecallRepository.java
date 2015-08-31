@@ -1,10 +1,10 @@
-package com.eitan.recall.repository;
+package com.eitax.recall.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.eitan.recall.model.Recall;
+import com.eitax.recall.model.Recall;
 
 public interface RecallRepository extends JpaRepository<Recall, Integer> {
 

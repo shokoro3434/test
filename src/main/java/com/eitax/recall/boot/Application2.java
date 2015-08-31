@@ -1,4 +1,4 @@
-package com.eitan.recall.boot;
+package com.eitax.recall.boot;
 
 
 import org.slf4j.Logger;

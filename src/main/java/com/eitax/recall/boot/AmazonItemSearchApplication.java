@@ -1,4 +1,4 @@
-package com.eitan.recall.boot;
+package com.eitax.recall.boot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

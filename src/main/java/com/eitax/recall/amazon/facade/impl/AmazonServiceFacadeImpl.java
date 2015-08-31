@@ -10,8 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
-import com.eitan.recall.model.Recall;
-import com.eitan.recall.service.RecallService;
 import com.eitax.recall.amazon.facade.AmazonServiceFacade;
 import com.eitax.recall.amazon.model.AwsApi;
 import com.eitax.recall.amazon.model.AwsApiCall;
@@ -21,11 +19,13 @@ import com.eitax.recall.amazon.service.AmazonService;
 import com.eitax.recall.amazon.xsd.Item;
 import com.eitax.recall.amazon.xsd.ItemLookupResponse;
 import com.eitax.recall.amazon.xsd.ItemSearchResponse;
+import com.eitax.recall.dao.impl.RecallDAOImpl;
+import com.eitax.recall.model.Recall;
 
 @Component
 public class AmazonServiceFacadeImpl implements AmazonServiceFacade {
 	@Autowired
-	private RecallService recallService;
+	private RecallDAOImpl recallService;
 	@Autowired
 	private AmazonRestService amazonRestService;
 	@Autowired

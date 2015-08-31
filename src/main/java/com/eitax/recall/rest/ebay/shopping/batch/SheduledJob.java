@@ -19,9 +19,7 @@ import com.ebay.services.finding.FindItemsByKeywordsRequest;
 import com.ebay.services.finding.FindItemsByKeywordsResponse;
 import com.ebay.services.finding.FindingServicePortType;
 import com.ebay.services.finding.SearchItem;
-import com.eitan.recall.batch.CronJob;
-import com.eitan.recall.model.Recall;
-import com.eitan.recall.service.RecallService;
+import com.eitax.recall.dao.impl.RecallDAOImpl;
 import com.eitax.recall.ebay.model.EbayApi;
 import com.eitax.recall.ebay.model.EbayApiCall;
 import com.eitax.recall.ebay.model.EbayItem;
@@ -30,6 +28,8 @@ import com.eitax.recall.ebay.shopping.service.EbayApiCallService;
 import com.eitax.recall.ebay.shopping.service.EbayApiService;
 import com.eitax.recall.ebay.shopping.service.EbayItemService;
 import com.eitax.recall.ebay.shopping.service.EbaySiteService;
+import com.eitax.recall.model.Recall;
+import com.eitax.recall.yahoo.job.CronJob;
 
 @Component
 public class SheduledJob {
@@ -45,7 +45,7 @@ public class SheduledJob {
 	@Autowired
 	private EbayApiCallService ebayApiCallService;
 	@Autowired
-	private RecallService recallService;
+	private RecallDAOImpl recallService;
 
 	@Scheduled(fixedRate = 900000)
 	public void invoke() {

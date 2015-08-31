@@ -1,4 +1,4 @@
-package com.eitan.recall.batch;
+package com.eitax.recall.yahoo.job;
 
 import java.util.List;
 import java.util.TimeZone;
@@ -13,11 +13,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.eitan.recall.model.Recall;
 import com.eitan.recall.rest.yahoo.auction.YahooApiItemSearchClient;
 import com.eitan.recall.rest.yahoo.auction.YahooApiSearchClient;
 import com.eitan.recall.rest.yahoo.shopping.ItemSearchApiClient;
-import com.eitan.recall.service.RecallService;
+import com.eitax.recall.dao.impl.RecallDAOImpl;
+import com.eitax.recall.model.Recall;
 import com.eitax.recall.yahoo.dao.impl.YahooApiCallDAOImpl;
 import com.eitax.recall.yahoo.dao.impl.YahooApiServiceDAOImpl;
 import com.eitax.recall.yahoo.dao.impl.YahooAuctionItemDAOImpl;
@@ -33,7 +33,7 @@ import net.sf.json.JSONObject;
 @Component
 public class CronJob {
 	@Autowired
-	private RecallService recallService;
+	private RecallDAOImpl recallService;
 	@Autowired
 	private YahooAuctionItemDAOImpl yahooAuctionItemService;
 	@Autowired

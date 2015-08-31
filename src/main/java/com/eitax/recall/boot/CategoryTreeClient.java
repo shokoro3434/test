@@ -1,4 +1,4 @@
-package com.eitan.recall.boot;
+package com.eitax.recall.boot;
 
 import java.io.IOException;
 
@@ -23,7 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import com.eitan.recall.rest.yahoo.auction.category.ChildCategory;
 import com.eitan.recall.rest.yahoo.auction.category.Result;
 import com.eitan.recall.rest.yahoo.auction.category.ResultSet;
-import com.eitan.recall.service.RecallService;
+import com.eitax.recall.dao.impl.RecallDAOImpl;
 import com.eitax.recall.yahoo.dao.impl.YahooCategoryDAOImpl;
 import com.eitax.recall.yahoo.model.Category;
 

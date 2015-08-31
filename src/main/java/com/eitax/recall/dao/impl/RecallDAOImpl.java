@@ -1,4 +1,4 @@
-package com.eitan.recall.service;
+package com.eitax.recall.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -7,12 +7,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.eitan.recall.model.Recall;
-import com.eitan.recall.repository.RecallRepository;
+import com.eitax.recall.model.Recall;
+import com.eitax.recall.repository.RecallRepository;
 
 @Component
 @Transactional
-public class RecallService {
+public class RecallDAOImpl {
     @Autowired
     private RecallRepository recallRepository;
     

@@ -1,4 +1,4 @@
-package com.eitan.recall.model;
+package com.eitax.recall.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
