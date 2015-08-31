@@ -10,12 +10,14 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @SpringBootApplication
 @ComponentScan(basePackages = { 
+		"com.eitax.recall.service",
+		"com.eitax.recall.dao",
 		"com.eitax.recall.amazon.job", 
 		"com.eitax.recall.amazon.facade",
 		"com.eitax.recall.amazon.rest",
 		"com.eitax.recall.amazon.service", 
-		"com.eitax.recall.amazon.dao", 
-		"com.eitan.recall.service" })
+		"com.eitax.recall.amazon.dao"
+		})
 @EnableJpaRepositories(basePackages = { 
 		"com.eitax.recall.repository" ,
 		"com.eitax.recall.amazon.repository"

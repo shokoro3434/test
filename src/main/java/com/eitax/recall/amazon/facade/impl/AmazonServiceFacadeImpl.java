@@ -16,13 +16,13 @@ import com.eitax.recall.amazon.service.AmazonService;
 import com.eitax.recall.amazon.xsd.Item;
 import com.eitax.recall.amazon.xsd.ItemLookupResponse;
 import com.eitax.recall.amazon.xsd.ItemSearchResponse;
-import com.eitax.recall.dao.impl.RecallDAOImpl;
 import com.eitax.recall.model.Recall;
+import com.eitax.recall.service.SharedService;
 
 @Component
 public class AmazonServiceFacadeImpl implements AmazonServiceFacade {
 	@Autowired
-	private RecallDAOImpl recallService;
+	private SharedService sharedService;
 	@Autowired
 	private AmazonRestService amazonRestService;
 	@Autowired
@@ -35,7 +35,7 @@ public class AmazonServiceFacadeImpl implements AmazonServiceFacade {
 		try {
 			AwsApiCall yac = amazonService.registerAwsApiCallAndFindAwsApi();
 			AwsApi aa = yac.getAwsApi();
-			List<Recall> recalls = recallService.findByDelFlag(0);
+			List<Recall> recalls = sharedService.findRecallByDelFlag(0);
 			for (Recall recall : recalls) {
 				final int INITIAL_ITEM_PAGE = 1;
 				int itemCount = amazonRestService.retrieveItemCount(recall.getRecallName(), INITIAL_ITEM_PAGE,
