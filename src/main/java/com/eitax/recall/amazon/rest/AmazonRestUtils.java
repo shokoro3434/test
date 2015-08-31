@@ -39,11 +39,23 @@ public class AmazonRestUtils {
          * @throws NoSuchAlgorithmException
          * @throws InvalidKeyException
          */
-        public AmazonRestUtils(String dAWSSecretKey) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
-                byte[] secretyKeyBytes = dAWSSecretKey.getBytes(CHARSET);
-                secretKeySpec = new SecretKeySpec(secretyKeyBytes, HMAC_SHA256_ALGORITHM);
-                mac = Mac.getInstance(HMAC_SHA256_ALGORITHM);
-                mac.init(secretKeySpec);
+        public AmazonRestUtils(String dAWSSecretKey) {
+                byte[] secretyKeyBytes;
+				try {
+					secretyKeyBytes = dAWSSecretKey.getBytes(CHARSET);
+	                secretKeySpec = new SecretKeySpec(secretyKeyBytes, HMAC_SHA256_ALGORITHM);
+					mac = Mac.getInstance(HMAC_SHA256_ALGORITHM);
+					mac.init(secretKeySpec);
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchAlgorithmException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvalidKeyException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
         }
  
         /**

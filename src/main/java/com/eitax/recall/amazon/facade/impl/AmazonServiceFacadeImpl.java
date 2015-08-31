@@ -21,52 +21,41 @@ import com.eitax.recall.amazon.rest.AmazonRestService;
 import com.eitax.recall.amazon.service.AmazonService;
 
 @Component
-public class AmazonServiceFacadeImpl implements AmazonServiceFacade{
-    @Autowired
-    private RecallService recallService;
-    @Autowired
-    private AmazonRestService amazonRestService;
-    @Autowired
-    private AmazonService amazonService;
-    
-    private static final Logger log = LoggerFactory.getLogger(AmazonServiceFacadeImpl.class);
+public class AmazonServiceFacadeImpl implements AmazonServiceFacade {
+	@Autowired
+	private RecallService recallService;
+	@Autowired
+	private AmazonRestService amazonRestService;
+	@Autowired
+	private AmazonService amazonService;
 
-	public void registerItems(){
-    	try{
-    		AwsApi aa = amazonService.registerAwsApiCallAndFindAwsApi();
-	        Page<Recall> recalls = recallService.findByDelFlag(0, new PageRequest(0, 100));
-	        for (Recall recall : recalls) {
-	    		final int INITIAL_ITEM_PAGE = 1;
-	    		int itemCount = amazonRestService.retrieveItemCount(recall.getRecallName(),INITIAL_ITEM_PAGE,aa.getAwsAccesskeyId(),aa.getAwsSecretkey(),aa.getAssociateTag(),aa.getDelay());
-				for (int i = INITIAL_ITEM_PAGE ; i < itemCount ; i ++){
-		        	String xml = amazonRestService.invokeItemSearch(recall.getRecallName(),i+1,aa.getAwsAccesskeyId(),aa.getAwsSecretkey(),aa.getAssociateTag(),aa.getDelay());
-		        	if (xml == null){
-		        		break;
-		        	}
-					ItemSearchResponse isr = AmazonRestUtils2.unmarshal(xml, ItemSearchResponse.class);
-					if (isr.getItems().size() <= 0){
-		        		break;
+	private static final Logger log = LoggerFactory.getLogger(AmazonServiceFacadeImpl.class);
+
+	public void registerItems() {
+		try {
+			AwsApi aa = amazonService.registerAwsApiCallAndFindAwsApi();
+			Page<Recall> recalls = recallService.findByDelFlag(0, new PageRequest(0, 100));
+			for (Recall recall : recalls) {
+				final int INITIAL_ITEM_PAGE = 1;
+				int itemCount = amazonRestService.retrieveItemCount(recall.getRecallName(), INITIAL_ITEM_PAGE,
+						aa.getAwsAccesskeyId(), aa.getAwsSecretkey(), aa.getAssociateTag(), aa.getDelay());
+				for (int i = INITIAL_ITEM_PAGE; i < itemCount; i++) {
+					ItemSearchResponse isr = amazonRestService.invokeItemSearch(recall.getRecallName(), i + 1,
+							aa.getAwsAccesskeyId(), aa.getAwsSecretkey(), aa.getAssociateTag(), aa.getDelay());
+					if (isr.getItems().size() <= 0) {
+						break;
 					}
-					List<Item> itemList = isr.getItems().get(0).getItem();
-//					if (itemList.size() <= 0){
-//						break;
-//					}
-					for (Item item : itemList){
-						String lookupXML = amazonRestService.invokeItemLookup(item.getASIN(),aa.getAwsAccesskeyId(),aa.getAwsSecretkey(),aa.getAssociateTag(),aa.getDelay());
-			        	if (lookupXML == null){
-			        		break;
-			        	}
-						ItemLookupResponse ilr = AmazonRestUtils2.unmarshal(lookupXML, ItemLookupResponse.class);
+					for (Item item : isr.getItems().get(0).getItem()) {
+						ItemLookupResponse ilr = amazonRestService.invokeItemLookup(item.getASIN(), aa.getAwsAccesskeyId(),
+								aa.getAwsSecretkey(), aa.getAssociateTag(), aa.getDelay());
 						amazonService.registerItems(item, ilr, recall.getRecallId());
-						
 					}
 				}
-	        }
-    	}
-    	catch(Exception e){
-    		e.printStackTrace();
-    		log.error("error : ",e);
-    	}
-	
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("error : ", e);
+		}
+
 	}
 }

@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.eitan.recall.rest.amazon.util.AmazonAPICallHelper;
+import com.eitan.recall.rest.amazon.xsd.ItemLookupResponse;
 import com.eitan.recall.rest.amazon.xsd.ItemSearchResponse;
 import com.eitax.recall.amazon.rest.AmazonRestUtils;
 import com.eitax.recall.amazon.rest.AmazonRestUtils2;
@@ -28,7 +28,7 @@ import com.eitax.recall.amazon.rest.AmazonRestService;
 public class AmazonRestServiceImpl implements AmazonRestService {
 	private static final Logger log = LoggerFactory.getLogger(AmazonRestService.class);
 
-	public String invokeItemSearch(String keywords, int tagPage,String aWSAccessKeyId,String aWSSecretKey,String associateTag,int delay) {
+	public ItemSearchResponse invokeItemSearch(String keywords, int tagPage,String aWSAccessKeyId,String aWSSecretKey,String associateTag,int delay) throws IOException{
 		HttpURLConnection con = null;
 		PrintStream ps = null;
 		BufferedReader br = null;
@@ -93,14 +93,15 @@ public class AmazonRestServiceImpl implements AmazonRestService {
 				json.append(line);
 			}
 			if (responseCode < HttpURLConnection.HTTP_BAD_REQUEST) {
-				System.out.println(json.toString());
-				return json.toString();
+				log.info(json.toString());
+				return AmazonRestUtils2.unmarshal(json.toString(), ItemSearchResponse.class);
 			} else {
-				return json.toString();
+				log.error(json.toString());
+				throw new IOException (json.toString());
 			}
-		} catch (Exception e) {
+		} catch (IOException e) {
 			log.error("exception occurred : ", e);
-			return null;
+			throw e;
 		} finally {
 			if (ps != null) {
 				ps.close();
@@ -111,6 +112,7 @@ public class AmazonRestServiceImpl implements AmazonRestService {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					throw e;
 				}
 
 			}
@@ -126,7 +128,7 @@ public class AmazonRestServiceImpl implements AmazonRestService {
 		}
 	}
 
-	public String invokeItemLookup(String itemId,String aWSAccessKeyId,String aWSSecretKey,String associateTag,int delay) {
+	public ItemLookupResponse invokeItemLookup(String itemId,String aWSAccessKeyId,String aWSSecretKey,String associateTag,int delay)  throws IOException{
 		HttpURLConnection con = null;
 		PrintStream ps = null;
 		BufferedReader br = null;
@@ -202,7 +204,7 @@ public class AmazonRestServiceImpl implements AmazonRestService {
 				// (CISECashUtil.createECUnsentErrorJson(ioe.getMessage()));
 				// System.out.flush();
 				ioe.printStackTrace();
-				return null;
+				throw ioe;
 			}
 			// httppost is done
 			final int responseCode = con.getResponseCode();
@@ -214,8 +216,7 @@ public class AmazonRestServiceImpl implements AmazonRestService {
 				json.append(line);
 			}
 			if (responseCode < HttpURLConnection.HTTP_BAD_REQUEST) {
-				System.out.println(json.toString());
-				return json.toString();
+				return AmazonRestUtils2.unmarshal(json.toString(), ItemLookupResponse.class);
 			} else {
 				// if (json.indexOf("\"error\"") == -1){
 				// //todo refactor
@@ -228,11 +229,11 @@ public class AmazonRestServiceImpl implements AmazonRestService {
 				// System.out.println(json.toString());
 				// System.out.flush();
 				// }
+				throw new IOException (json.toString());
 			}
-			return null;
-		} catch (Exception e) {
+		} catch (IOException e) {
 			log.error("exception occurred : ", e);
-			return null;
+			throw e;
 		} finally {
 			if (ps != null) {
 				ps.close();
@@ -243,6 +244,7 @@ public class AmazonRestServiceImpl implements AmazonRestService {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					throw e;
 				}
 			}
 			if (con != null) {
@@ -272,17 +274,13 @@ public class AmazonRestServiceImpl implements AmazonRestService {
 
 	@Override
 	public int retrieveItemCount(String keywords, int tagPage, String aWSAccessKeyId, String aWSSecretKey,
-			String associateTag,int delay) {
-    	String xml = invokeItemSearch(keywords,tagPage,aWSAccessKeyId,aWSSecretKey,associateTag,delay);
-    	if (xml == null){
-    		return 0;
-    	}
-		ItemSearchResponse isr = AmazonRestUtils2.unmarshal(xml, ItemSearchResponse.class);
+			String associateTag,int delay) throws IOException{
+		ItemSearchResponse isr = invokeItemSearch(keywords,tagPage,aWSAccessKeyId,aWSSecretKey,associateTag,delay);
 		if (isr.getItems().size() <= 0){
     		return 0;
 		}
 		final int LIMIT = 5;
-		return LIMIT <= isr.getItems().get(0).getTotalPages().intValue() ? isr.getItems().get(0).getTotalPages().intValue() : LIMIT;
+		return LIMIT <= isr.getItems().get(0).getTotalPages().intValue() ? LIMIT : isr.getItems().get(0).getTotalPages().intValue();
 	}
 
 }
