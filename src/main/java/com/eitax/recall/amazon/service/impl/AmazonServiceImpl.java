@@ -2,19 +2,28 @@ package com.eitax.recall.amazon.service.impl;
 
 import java.io.StringReader;
 import java.util.List;
+import java.util.TimeZone;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.eitan.recall.model.AmazonItem;
 import com.eitan.recall.model.AmazonItemDetail;
+import com.eitan.recall.model.AwsApi;
+import com.eitan.recall.model.AwsApiCall;
 import com.eitan.recall.rest.amazon.xsd.Item;
 import com.eitan.recall.rest.amazon.xsd.ItemLookupResponse;
 import com.eitan.recall.rest.amazon.xsd.OfferSummary;
 import com.eitan.recall.rest.amazon.xsd.Price;
 import com.eitax.recall.amazon.dao.AmazonItemDAO;
 import com.eitax.recall.amazon.dao.AmazonItemDetailDAO;
+import com.eitax.recall.amazon.dao.AwsApiCallDAO;
+import com.eitax.recall.amazon.dao.AwsApiDAO;
 import com.eitax.recall.amazon.service.AmazonService;
 
 @Component
@@ -23,7 +32,34 @@ public class AmazonServiceImpl implements AmazonService {
     private AmazonItemDAO amazonItemDAO;
     @Autowired
     private AmazonItemDetailDAO amazonItemDetailDAO;
+    @Autowired
+    private AwsApiCallDAO awsApiCallDAO;
+    @Autowired
+    private AwsApiDAO awsApiDAO;
+    
+	private static final Logger log = LoggerFactory.getLogger(AmazonServiceImpl.class);
 
+	@Transactional
+    public AwsApi registerAwsApiCallAndFindAwsApi(){
+		DateTime now = DateTime.now().withZone(DateTimeZone.forTimeZone(TimeZone.getTimeZone("JST")))
+				.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0);
+		String yyyyMMdd = now.toString("yyyyMMdd");
+		List<AwsApiCall> list = awsApiCallDAO.findByCallYyyymmdd(now.toString("yyyyMMdd"));
+		if (0 == list.size()) {
+			List<AwsApi> awsApiList = awsApiDAO.findAll();
+			for (AwsApi ya : awsApiList) {
+				AwsApiCall yap = new AwsApiCall();
+				yap.setCnt(0);
+				yap.setYyyymmdd(yyyyMMdd);
+				yap.setDelFlag(0);
+				yap.setAwsApi(ya);
+				awsApiCallDAO.save(yap);
+			}
+			list = awsApiCallDAO.findByCallYyyymmdd(now.toString("yyyyMMdd"));
+		}
+		AwsApiCall apc = list.get(0);
+		return apc.getAwsApi();
+    }
 	@Override
 	@Transactional
 	public void registerItems(Item item, ItemLookupResponse ilr, Integer recallId) {

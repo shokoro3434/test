@@ -1,10 +1,6 @@
 package com.eitax.recall.amazon.facade.impl;
 
-import java.io.StringReader;
 import java.util.List;
-
-import javax.transaction.Transactional;
-import javax.xml.bind.JAXB;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,20 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import com.eitan.recall.model.AmazonItem;
-import com.eitan.recall.model.AmazonItemDetail;
+import com.eitan.recall.model.AwsApi;
 import com.eitan.recall.model.Recall;
 import com.eitan.recall.rest.amazon.xsd.Item;
 import com.eitan.recall.rest.amazon.xsd.ItemLookupResponse;
 import com.eitan.recall.rest.amazon.xsd.ItemSearchResponse;
-import com.eitan.recall.rest.amazon.xsd.OfferSummary;
-import com.eitan.recall.rest.amazon.xsd.Price;
 import com.eitan.recall.service.RecallService;
-import com.eitax.recall.amazon.dao.AmazonItemDetailDAO;
 import com.eitax.recall.amazon.facade.AmazonServiceFacade;
-import com.eitax.recall.amazon.dao.AmazonItemDAO;
 import com.eitax.recall.amazon.rest.AmazonRestUtils2;
 import com.eitax.recall.amazon.rest.AmazonWebService;
 import com.eitax.recall.amazon.service.AmazonService;
@@ -34,7 +24,6 @@ import com.eitax.recall.amazon.service.AmazonService;
 public class AmazonServiceFacadeImpl implements AmazonServiceFacade{
     @Autowired
     private RecallService recallService;
-
     @Autowired
     private AmazonWebService amazonWebService;
     @Autowired
@@ -44,13 +33,14 @@ public class AmazonServiceFacadeImpl implements AmazonServiceFacade{
 
 	public void registerItems(){
     	try{
+    		AwsApi aa = amazonService.registerAwsApiCallAndFindAwsApi();
 	        Page<Recall> recalls = recallService.findByDelFlag(0, new PageRequest(0, 100));
 	        for (Recall recall : recalls) {
 				Thread.sleep(2000);
 	    		System.err.println("1");
 	    		//retrieve count
 	    		int tagPage = 1;
-	        	String initialxml = amazonWebService.invokeItemSearch(recall.getRecallName(),tagPage);
+	        	String initialxml = amazonWebService.invokeItemSearch(recall.getRecallName(),tagPage,aa.getAwsAccesskeyId(),aa.getAwsSecretkey(),aa.getAssociateTag());
 	        	if (initialxml == null){
 	        		System.out.println("###########2"+initialxml);
 	        		continue;
@@ -62,7 +52,7 @@ public class AmazonServiceFacadeImpl implements AmazonServiceFacade{
 				}
 				for (int i = 1 ; i < isr.getItems().get(0).getTotalPages().intValue() ; i ++){
 					Thread.sleep(2000);
-		        	String xml = amazonWebService.invokeItemSearch(recall.getRecallName(),i+1);
+		        	String xml = amazonWebService.invokeItemSearch(recall.getRecallName(),i+1,aa.getAwsAccesskeyId(),aa.getAwsSecretkey(),aa.getAssociateTag());
 		        	if (xml == null){
 		        		System.out.println("###########3"+xml);
 		        		break;
@@ -80,7 +70,7 @@ public class AmazonServiceFacadeImpl implements AmazonServiceFacade{
 					}
 					for (Item item : itemList){
 						Thread.sleep(2000);
-						String lookupXML = amazonWebService.invokeItemLookup(item.getASIN());
+						String lookupXML = amazonWebService.invokeItemLookup(item.getASIN(),aa.getAwsAccesskeyId(),aa.getAwsSecretkey(),aa.getAssociateTag());
 			        	if (lookupXML == null){
 			        		System.err.println("###########2"+xml);
 			        		break;

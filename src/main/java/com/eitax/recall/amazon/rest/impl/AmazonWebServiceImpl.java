@@ -26,7 +26,7 @@ import com.eitax.recall.amazon.rest.AmazonWebService;
 public class AmazonWebServiceImpl implements AmazonWebService {
 	private static final Logger log = LoggerFactory.getLogger(AmazonWebService.class);
 
-	public String invokeItemSearch(String keywords, int tagPage) {
+	public String invokeItemSearch(String keywords, int tagPage,String aWSAccessKeyId,String aWSSecretKey,String associateTag) {
 		HttpURLConnection con = null;
 		PrintStream ps = null;
 		BufferedReader br = null;
@@ -35,8 +35,8 @@ public class AmazonWebServiceImpl implements AmazonWebService {
 			Map<String, String> parameters = new HashMap<String, String>();
 
 			parameters.put("Service", "AWSECommerceService");
-			parameters.put("AWSAccessKeyId", System.getProperty("AWSAccessKeyId"));
-			parameters.put("AssociateTag", System.getProperty("AssociateTag"));
+			parameters.put("AWSAccessKeyId", aWSAccessKeyId);
+			parameters.put("AssociateTag", associateTag);
 			parameters.put("Version", "2009-11-01");
 
 			parameters.put("Operation", "ItemSearch");
@@ -44,7 +44,7 @@ public class AmazonWebServiceImpl implements AmazonWebService {
 			parameters.put("Keywords", keywords);
 			parameters.put("ItemPage", String.valueOf(tagPage));
 
-			AmazonRestUtils aach = new AmazonRestUtils(System.getProperty("AWSSecretKey"));
+			AmazonRestUtils aach = new AmazonRestUtils(aWSSecretKey);
 			parameters.put("Timestamp", aach.getCurrentTimestamp());
 			String urlx = aach.buildRequestWithSignature(parameters);
 
@@ -118,7 +118,7 @@ public class AmazonWebServiceImpl implements AmazonWebService {
 		}
 	}
 
-	public String invokeItemLookup(String itemId) {
+	public String invokeItemLookup(String itemId,String aWSAccessKeyId,String aWSSecretKey,String associateTag) {
 		HttpURLConnection con = null;
 		PrintStream ps = null;
 		BufferedReader br = null;
@@ -127,8 +127,8 @@ public class AmazonWebServiceImpl implements AmazonWebService {
 			Map<String, String> parameters = new HashMap<String, String>();
 
 			parameters.put("Service", "AWSECommerceService");
-			parameters.put("AWSAccessKeyId", System.getProperty("AWSAccessKeyId"));
-			parameters.put("AssociateTag", System.getProperty("AssociateTag"));
+			parameters.put("AWSAccessKeyId", aWSAccessKeyId);
+			parameters.put("AssociateTag", associateTag);
 
 			parameters.put("Version", "2009-11-01");
 			parameters.put("Operation", "ItemLookup");
@@ -137,7 +137,7 @@ public class AmazonWebServiceImpl implements AmazonWebService {
 			parameters.put("ItemId", itemId);
 			parameters.put("ResponseGroup", "OfferSummary");
 
-			AmazonAPICallHelper aach = new AmazonAPICallHelper(System.getProperty("AWSSecretKey"));
+			AmazonRestUtils aach = new AmazonRestUtils(aWSSecretKey);
 			parameters.put("Timestamp", aach.getCurrentTimestamp());
 			String urlx = aach.buildRequestWithSignature(parameters);
 
