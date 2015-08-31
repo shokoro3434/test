@@ -42,18 +42,18 @@ public class AmazonServiceFacadeImpl implements AmazonServiceFacade {
 			for (Recall recall : recalls) {
 				final int INITIAL_ITEM_PAGE = 1;
 				int itemCount = amazonRestService.retrieveItemCount(recall.getRecallName(), INITIAL_ITEM_PAGE,
-						aa.getAwsAccesskeyId(), aa.getAwsSecretkey(), aa.getAssociateTag(), aa.getDelay());
+						aa.getAwsAccesskeyId(), aa.getAwsSecretkey(), aa.getAssociateTag(), aa.getDelay(),aa.getUserAgent());
 				++ call;
 				for (int i = INITIAL_ITEM_PAGE; i < itemCount; i++) {
 					ItemSearchResponse isr = amazonRestService.invokeItemSearch(recall.getRecallName(), i + 1,
-							aa.getAwsAccesskeyId(), aa.getAwsSecretkey(), aa.getAssociateTag(), aa.getDelay());
+							aa.getAwsAccesskeyId(), aa.getAwsSecretkey(), aa.getAssociateTag(), aa.getDelay(),aa.getUserAgent());
 					++ call;
 					if (isr.getItems().size() <= 0) {
 						break;
 					}
 					for (Item item : isr.getItems().get(0).getItem()) {
 						ItemLookupResponse ilr = amazonRestService.invokeItemLookup(item.getASIN(), aa.getAwsAccesskeyId(),
-								aa.getAwsSecretkey(), aa.getAssociateTag(), aa.getDelay());
+								aa.getAwsSecretkey(), aa.getAssociateTag(), aa.getDelay(),aa.getUserAgent());
 						++ call;
 						amazonService.registerItems(item, ilr, recall.getRecallId());
 					}

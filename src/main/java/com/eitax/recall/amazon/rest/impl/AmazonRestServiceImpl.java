@@ -28,7 +28,7 @@ import com.eitax.recall.amazon.rest.AmazonRestService;
 public class AmazonRestServiceImpl implements AmazonRestService {
 	private static final Logger log = LoggerFactory.getLogger(AmazonRestService.class);
 
-	public ItemSearchResponse invokeItemSearch(String keywords, int tagPage,String aWSAccessKeyId,String aWSSecretKey,String associateTag,int delay) throws IOException{
+	public ItemSearchResponse invokeItemSearch(String keywords, int tagPage,String aWSAccessKeyId,String aWSSecretKey,String associateTag,int delay,String userAgent) throws IOException{
 		HttpURLConnection con = null;
 		PrintStream ps = null;
 		BufferedReader br = null;
@@ -77,6 +77,7 @@ public class AmazonRestServiceImpl implements AmazonRestService {
 			con.setRequestProperty("Accept", "application/xml");
 			con.setRequestProperty("Accept-Language", "ja");
 			con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+			con.setRequestProperty("User-Agent", userAgent);
 			try {
 				br = new BufferedReader(new InputStreamReader(this.retrieveInputStream(con)));
 			} catch (IOException ioe) {
@@ -128,7 +129,7 @@ public class AmazonRestServiceImpl implements AmazonRestService {
 		}
 	}
 
-	public ItemLookupResponse invokeItemLookup(String itemId,String aWSAccessKeyId,String aWSSecretKey,String associateTag,int delay)  throws IOException{
+	public ItemLookupResponse invokeItemLookup(String itemId,String aWSAccessKeyId,String aWSSecretKey,String associateTag,int delay,String userAgent)  throws IOException{
 		HttpURLConnection con = null;
 		PrintStream ps = null;
 		BufferedReader br = null;
@@ -177,6 +178,7 @@ public class AmazonRestServiceImpl implements AmazonRestService {
 			con.setRequestProperty("Accept", "application/xml");
 			con.setRequestProperty("Accept-Language", "ja");
 			con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+			con.setRequestProperty("User-Agent", userAgent);
 			// con.setRequestProperty("Content-Length",
 			// String.valueOf(postData.getBytes().length));
 			// con.setFixedLengthStreamingMode(postData.getBytes().length);
@@ -275,8 +277,8 @@ public class AmazonRestServiceImpl implements AmazonRestService {
 
 	@Override
 	public int retrieveItemCount(String keywords, int tagPage, String aWSAccessKeyId, String aWSSecretKey,
-			String associateTag,int delay) throws IOException{
-		ItemSearchResponse isr = invokeItemSearch(keywords,tagPage,aWSAccessKeyId,aWSSecretKey,associateTag,delay);
+			String associateTag,int delay,String userAgent) throws IOException{
+		ItemSearchResponse isr = invokeItemSearch(keywords,tagPage,aWSAccessKeyId,aWSSecretKey,associateTag,delay,userAgent);
 		if (isr.getItems().size() <= 0){
     		return 0;
 		}
