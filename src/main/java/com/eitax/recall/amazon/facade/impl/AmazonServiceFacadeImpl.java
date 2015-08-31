@@ -1,5 +1,6 @@
 package com.eitax.recall.amazon.facade.impl;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -31,7 +32,7 @@ public class AmazonServiceFacadeImpl implements AmazonServiceFacade {
 
 	private static final Logger log = LoggerFactory.getLogger(AmazonServiceFacadeImpl.class);
 
-	public void registerItems() {
+	public void registerItems() throws IOException{
 		try {
 			AwsApi aa = amazonService.registerAwsApiCallAndFindAwsApi();
 			Page<Recall> recalls = recallService.findByDelFlag(0, new PageRequest(0, 100));
@@ -52,9 +53,10 @@ public class AmazonServiceFacadeImpl implements AmazonServiceFacade {
 					}
 				}
 			}
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 			log.error("error : ", e);
+			throw e;
 		}
 
 	}
