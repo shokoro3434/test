@@ -18,10 +18,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.eitan.recall.rest.amazon.xsd.ItemLookupResponse;
-import com.eitan.recall.rest.amazon.xsd.ItemSearchResponse;
 import com.eitax.recall.amazon.rest.AmazonRestUtils;
 import com.eitax.recall.amazon.rest.AmazonRestUtils2;
+import com.eitax.recall.amazon.xsd.ItemLookupResponse;
+import com.eitax.recall.amazon.xsd.ItemSearchResponse;
 import com.eitax.recall.amazon.rest.AmazonRestService;
 
 @Component

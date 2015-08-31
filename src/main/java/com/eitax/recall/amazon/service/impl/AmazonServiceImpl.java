@@ -17,15 +17,15 @@ import com.eitan.recall.model.AmazonItemDetail;
 import com.eitan.recall.model.AwsApi;
 import com.eitan.recall.model.AwsApiCall;
 import com.eitan.recall.model.YahooApiCall;
-import com.eitan.recall.rest.amazon.xsd.Item;
-import com.eitan.recall.rest.amazon.xsd.ItemLookupResponse;
-import com.eitan.recall.rest.amazon.xsd.OfferSummary;
-import com.eitan.recall.rest.amazon.xsd.Price;
 import com.eitax.recall.amazon.dao.AmazonItemDAO;
 import com.eitax.recall.amazon.dao.AmazonItemDetailDAO;
 import com.eitax.recall.amazon.dao.AwsApiCallDAO;
 import com.eitax.recall.amazon.dao.AwsApiDAO;
 import com.eitax.recall.amazon.service.AmazonService;
+import com.eitax.recall.amazon.xsd.Item;
+import com.eitax.recall.amazon.xsd.ItemLookupResponse;
+import com.eitax.recall.amazon.xsd.OfferSummary;
+import com.eitax.recall.amazon.xsd.Price;
 
 @Component
 public class AmazonServiceImpl implements AmazonService {

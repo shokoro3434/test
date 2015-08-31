@@ -13,14 +13,14 @@ import org.springframework.stereotype.Component;
 import com.eitan.recall.model.AwsApi;
 import com.eitan.recall.model.AwsApiCall;
 import com.eitan.recall.model.Recall;
-import com.eitan.recall.rest.amazon.xsd.Item;
-import com.eitan.recall.rest.amazon.xsd.ItemLookupResponse;
-import com.eitan.recall.rest.amazon.xsd.ItemSearchResponse;
 import com.eitan.recall.service.RecallService;
 import com.eitax.recall.amazon.facade.AmazonServiceFacade;
 import com.eitax.recall.amazon.rest.AmazonRestUtils2;
 import com.eitax.recall.amazon.rest.AmazonRestService;
 import com.eitax.recall.amazon.service.AmazonService;
+import com.eitax.recall.amazon.xsd.Item;
+import com.eitax.recall.amazon.xsd.ItemLookupResponse;
+import com.eitax.recall.amazon.xsd.ItemSearchResponse;
 
 @Component
 public class AmazonServiceFacadeImpl implements AmazonServiceFacade {

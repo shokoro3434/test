@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 import com.eitan.recall.model.AmazonItem;
 import com.eitan.recall.repository.AmazonItemRepository;
-import com.eitan.recall.rest.amazon.xsd.Item;
 import com.eitax.recall.amazon.dao.AmazonItemDAO;
+import com.eitax.recall.amazon.xsd.Item;
 
 @Component
 public class AmazonItemDAOImpl implements AmazonItemDAO{
