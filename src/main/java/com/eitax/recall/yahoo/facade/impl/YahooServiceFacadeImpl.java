@@ -50,11 +50,11 @@ public class YahooServiceFacadeImpl implements YahooServiceFacade {
 			for (Recall recall : recalls) {
 				log.info(recall.getRecallName());
 				final int INITIAL_ITEM_PAGE = 1;
-				int pageCount = yahooRestService.retrieveAuctionSearchCount(aa.getAppid(), recall.getRecallName(), INITIAL_ITEM_PAGE, aa.getDelay(), aa.getUserAgent(), aa.getTimeout());
+				int pageCount = yahooRestService.retrieveAuctionSearchCount(aa.getAppid(), recall.getRecallName() , INITIAL_ITEM_PAGE, aa.getDelay(), aa.getUserAgent(), aa.getTimeout());
 				++ call;
 				for (int i = INITIAL_ITEM_PAGE; i < pageCount ; i++) {
 					if (6 <= i) {
-						break;
+	 					break;
 					}
 
 					String json = yahooRestService.invokeAuctionSearch(aa.getAppid(), recall.getRecallName(), i, aa.getDelay(), aa.getUserAgent(), aa.getTimeout());

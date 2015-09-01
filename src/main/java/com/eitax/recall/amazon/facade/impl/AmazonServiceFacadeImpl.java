@@ -32,7 +32,7 @@ public class AmazonServiceFacadeImpl implements AmazonServiceFacade {
 
 	public void registerItems() throws IOException{
 		int call = 0;
-		try {
+		try { 
 			AwsApiCall yac = amazonService.registerAwsApiCallAndFindAwsApi();
 			AwsApi aa = yac.getAwsApi();
 			List<Recall> recalls = sharedService.findRecallByDelFlag(0);

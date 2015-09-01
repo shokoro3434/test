@@ -27,6 +27,6 @@ public class AwsApi {
 	private String associateTag;
     @Column(name = "DELAY")
 	private Integer delay;
-    @Column(name = "USER_AGENT")
+    @Column(name = "USER_AGENT") 
 	private String userAgent;
 }
