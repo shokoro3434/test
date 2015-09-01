@@ -26,7 +26,7 @@ import com.eitax.recall.amazon.rest.AmazonRestService;
 
 @Component
 public class AmazonRestServiceImpl implements AmazonRestService {
-	private static final Logger log = LoggerFactory.getLogger(AmazonRestService.class);
+	private static final Logger log = LoggerFactory.getLogger(AmazonRestServiceImpl.class);
 
 	public ItemSearchResponse invokeItemSearch(String keywords, int tagPage,String aWSAccessKeyId,String aWSSecretKey,String associateTag,int delay,String userAgent) throws IOException{
 		HttpURLConnection con = null;

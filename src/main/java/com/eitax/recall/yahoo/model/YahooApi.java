@@ -25,5 +25,11 @@ public class YahooApi {
 	private String email;
     @Column(name = "del_flag")
 	private Integer delFlag;
+    @Column(name = "delay")
+	private Integer delay;
+    @Column(name = "user_agent")
+	private String userAgent;
+    @Column(name = "timeout")
+	private Integer timeout;
 
 }

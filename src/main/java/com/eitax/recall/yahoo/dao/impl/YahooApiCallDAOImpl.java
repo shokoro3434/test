@@ -15,15 +15,13 @@ public class YahooApiCallDAOImpl implements YahooApiCallDAO {
 	@Autowired
 	private YahooApiCallRepository yahooApiCallRepository;
 	
-	@Transactional
 	public YahooApiCall save (YahooApiCall yac){
 		return yahooApiCallRepository.save(yac);
 	}
 	public List<YahooApiCall> findByCallYyyymmdd(String callYyyymmdd){
 		return yahooApiCallRepository.findByCallYyyymmdd(callYyyymmdd);
 	}
-	@Transactional
-	public void update(Integer yahooApiCallId,Integer cnt){
+	public void updateCallCount(Integer yahooApiCallId,Integer cnt){
 		yahooApiCallRepository.update(yahooApiCallId, cnt);
 	}
 }	
