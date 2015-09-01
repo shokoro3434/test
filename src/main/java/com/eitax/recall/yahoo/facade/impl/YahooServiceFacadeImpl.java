@@ -48,6 +48,7 @@ public class YahooServiceFacadeImpl implements YahooServiceFacade {
 			YahooApi aa = yac.getYahooApi();
 			List<Recall> recalls = sharedService.findRecallByDelFlag(0);
 			for (Recall recall : recalls) {
+				System.err.println(recall.getRecallName());
 				final int INITIAL_ITEM_PAGE = 1;
 				int pageCount = yahooRestService.retrieveAuctionSearchCount(aa.getAppid(), recall.getRecallName(), INITIAL_ITEM_PAGE, aa.getDelay(), aa.getUserAgent(), aa.getTimeout());
 				++ call;
@@ -56,7 +57,7 @@ public class YahooServiceFacadeImpl implements YahooServiceFacade {
 						break;
 					}
 
-					String json = yahooRestService.invokeAuctionSearch(aa.getAppid(), recall.getRecallName(), INITIAL_ITEM_PAGE, aa.getDelay(), aa.getUserAgent(), aa.getTimeout());
+					String json = yahooRestService.invokeAuctionSearch(aa.getAppid(), recall.getRecallName(), i, aa.getDelay(), aa.getUserAgent(), aa.getTimeout());
 					++ call;
 					JSONObject root = JSONObject.fromObject(json);
 					JSONObject resultSet = root.getJSONObject("ResultSet");
@@ -65,7 +66,6 @@ public class YahooServiceFacadeImpl implements YahooServiceFacade {
 					for (int j = 0; j < itemArray.size(); j++) {
 						JSONObject item = itemArray.getJSONObject(j);
 						String auctionId = item.getString("AuctionID");
-						System.err.println(auctionId);
 						String itemJson = yahooRestService.invokeAuctionItemSearch(aa.getAppid(), auctionId,aa.getDelay(),aa.getUserAgent(),aa.getTimeout());
 						++ call;
 						yahooService.registerItems(item, recall.getRecallId(),itemJson);
