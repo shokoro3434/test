@@ -49,6 +49,7 @@ public class YahooServiceImpl implements YahooService {
 		YahooAuctionItem yai = new YahooAuctionItem();
 		yai.setTitle(item.getString("Title"));
 		yai.setEndTime(item.getString("EndTime"));
+		yai.setEndTime(item.getString("StartTime"));
 		yai.setCurrentPrice(item.getInt("CurrentPrice"));
 		yai.setAuctionId(item.getString("AuctionID"));
 		yai.setCategoryId(item.getString("CategoryId"));
