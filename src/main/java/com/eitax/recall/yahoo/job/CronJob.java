@@ -1,37 +1,15 @@
 package com.eitax.recall.yahoo.job;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.TimeZone;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.eitan.recall.rest.yahoo.auction.YahooApiItemSearchClient;
-import com.eitan.recall.rest.yahoo.auction.YahooApiSearchClient;
-import com.eitan.recall.rest.yahoo.shopping.ItemSearchApiClient;
-import com.eitax.recall.amazon.facade.AmazonServiceFacade;
-import com.eitax.recall.dao.impl.RecallDAOImpl;
-import com.eitax.recall.model.Recall;
-import com.eitax.recall.yahoo.dao.impl.YahooApiCallDAOImpl;
-import com.eitax.recall.yahoo.dao.impl.YahooApiDAOImpl;
-import com.eitax.recall.yahoo.dao.impl.YahooAuctionItemDAOImpl;
-import com.eitax.recall.yahoo.dao.impl.YahooShoppingItemDAOImpl;
 import com.eitax.recall.yahoo.facade.YahooServiceFacade;
-import com.eitax.recall.yahoo.model.YahooApi;
-import com.eitax.recall.yahoo.model.YahooApiCall;
-import com.eitax.recall.yahoo.model.YahooAuctionItem;
-import com.eitax.recall.yahoo.model.YahooShoppingItem;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 @Component
 public class CronJob {
