@@ -78,7 +78,6 @@ public class YahooRestServiceImpl implements YahooRestService {
 		sb.append("&");
 		sb.append("auctionID=");
 		sb.append(auctionId);
-		System.out.println(sb.toString());
 		String jsonp = this.perform(sb.toString(),delay,userAgent,timeout);
 		return RecallUtils.toJson(jsonp);
 	}
@@ -140,7 +139,7 @@ public class YahooRestServiceImpl implements YahooRestService {
 				// no error found
 //				String nextPartitionKeyToken = con.getHeaderField("x-ms-continuation-NextPartitionKey");
 //				String nextRowKeyToken = con.getHeaderField("x-ms-continuation-NextRowKey");
-				System.out.println(json.toString());
+				log.info(json.toString());
 //				LogMF.info(logger, "json: {0}",json.toString());
 //				return createAzureStorageResponse(nextPartitionKeyToken, nextRowKeyToken, json.toString());
 				return json.toString();
