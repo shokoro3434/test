@@ -15,13 +15,17 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @SpringBootApplication
 @ComponentScan(basePackages={
+		"com.eitax.recall.service",
+		"com.eitax.recall.dao",
 		"com.eitax.recall.yahoo.job",
 		"com.eitax.recall.yahoo.facade",
-		"com.eitax.recall.dao"
+		"com.eitax.recall.yahoo.service",
+		"com.eitax.recall.yahoo.rest",
+		"com.eitax.recall.yahoo.dao"
 })
 @EnableJpaRepositories(basePackages={
-		"com.eitan.recall.repository",
-		"com.eitan.recall.yahoo.repository"
+		"com.eitax.recall.repository",
+		"com.eitax.recall.yahoo.repository"
 })
 @EntityScan(basePackages={
 		"com.eitax.recall.yahoo.model",

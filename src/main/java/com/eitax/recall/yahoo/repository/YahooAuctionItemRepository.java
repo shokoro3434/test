@@ -8,7 +8,6 @@ import com.eitax.recall.yahoo.model.YahooAuctionItem;
 
 public interface YahooAuctionItemRepository extends JpaRepository<YahooAuctionItem, Integer>{
 
-	public abstract YahooAuctionItem save(YahooAuctionItem yai);
 	public abstract YahooAuctionItem findByAuctionId(String auctionId);
 	public abstract List<YahooAuctionItem> deleteByAuctionId(String auctionId);
 	

@@ -19,7 +19,6 @@ public class YahooApiDAOImpl implements YahooApiDAO {
 		return yahooApiRepository.findAll();
 	}
 
-	@Transactional
 	public YahooApi save(YahooApi ya){
 		return yahooApiRepository.save(ya);
 	}

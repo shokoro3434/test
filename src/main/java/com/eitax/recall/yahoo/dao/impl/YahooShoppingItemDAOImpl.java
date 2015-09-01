@@ -13,7 +13,6 @@ public class YahooShoppingItemDAOImpl implements YahooShoppingItemDAO {
 	@Autowired
 	private YahooShoppingItemRepository yahooShoppingItemRepository;
 	
-	@Transactional
 	public YahooShoppingItem save (YahooShoppingItem yai){
 		return yahooShoppingItemRepository.save(yai);
 	}

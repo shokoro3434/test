@@ -19,15 +19,13 @@ public class YahooAuctionItemDAOImpl implements YahooAuctionItemDAO {
 	@Autowired
 	private YahooAuctionItemRepository yahooAuctionItemRepository;
 	
-	@Transactional
 	public YahooAuctionItem save (YahooAuctionItem yai){
 		return yahooAuctionItemRepository.save(yai);
 	}
 	public YahooAuctionItem findByAuctionId (String auctionId){
 		return yahooAuctionItemRepository.findByAuctionId(auctionId);
 	}
-	@Transactional
-	public void removeByAuctionId(String auctionId){
-		yahooAuctionItemRepository.deleteByAuctionId(auctionId);
+	public List<YahooAuctionItem> deleteByAuctionId(String auctionId){
+		return yahooAuctionItemRepository.deleteByAuctionId(auctionId);
 	}
 }

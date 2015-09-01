@@ -1,18 +1,12 @@
 package com.eitax.recall.yahoo.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.eitax.recall.yahoo.model.Category;
 import com.eitax.recall.yahoo.repository.YahooCategoryRepository;
 
-import java.util.List;
-
-//@Service
-@Transactional
 @Component
 public class YahooCategoryDAOImpl {
 	@Autowired

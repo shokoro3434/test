@@ -61,9 +61,10 @@ public class YahooServiceFacadeImpl implements YahooServiceFacade {
 					for (int j = 0; j < itemArray.size(); j++) {
 						JSONObject item = itemArray.getJSONObject(j);
 						String auctionId = item.getString("AuctionID");
+						System.err.println(auctionId);
 						String itemJson = yahooRestService.invokeAuctionItemSearch(aa.getAppid(), auctionId,aa.getDelay(),aa.getUserAgent(),aa.getTimeout());
 						++ call;
-						yahooService.registerItems(json, recall.getRecallId(),itemJson);
+						yahooService.registerItems(item, recall.getRecallId(),itemJson);
 					}
 				}
 			}

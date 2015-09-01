@@ -32,19 +32,19 @@ public class YahooServiceImpl implements YahooService {
 
 	@Override
 	@Transactional
-	public void registerItems(String json, Integer recallId,String itemJson) {
+	public void registerItems(JSONObject item, Integer recallId,String itemJson) {
 
-		JSONObject root = JSONObject.fromObject(json);
-		JSONObject resultSet = root.getJSONObject("ResultSet");
-		JSONObject item = resultSet.getJSONObject("Result").getJSONObject("Item");
 		String auctionId = item.getString("AuctionID");
+		yahooAuctionItemDAO.deleteByAuctionId(auctionId);
 
+		System.err.println("###############"+auctionId);
 		JSONObject itemRoot = JSONObject.fromObject(itemJson);
 		int storeFlag = itemRoot.getJSONObject("ResultSet").getJSONObject("Result")
 				.getJSONObject("Option").has("StoreIcon") ? 1 : 0;
 
 		YahooAuctionItem tmp = yahooAuctionItemDAO.findByAuctionId(auctionId);
-		yahooAuctionItemDAO.removeByAuctionId(auctionId);
+		System.err.println("FIND");
+		System.err.println("DELETE");
 
 		YahooAuctionItem yai = new YahooAuctionItem();
 		yai.setTitle(item.getString("Title"));

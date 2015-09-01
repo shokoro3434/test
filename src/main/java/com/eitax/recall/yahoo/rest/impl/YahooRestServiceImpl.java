@@ -10,12 +10,14 @@ import java.net.URLEncoder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.eitan.recall.util.RecallUtils;
 import com.eitax.recall.yahoo.rest.YahooRestService;
 
 import net.sf.json.JSONObject;
 
+@Component
 public class YahooRestServiceImpl implements YahooRestService {
 
 	private static final Logger log = LoggerFactory.getLogger(YahooRestServiceImpl.class);
